@@ -1,404 +1,55 @@
-# SentinelCall AI -- Agentic AI Voice Scam Detection System
+# EchoGuard-AI
 
-> **AI Arena 3.0 Hackathon Project**\
-> **Theme:** AI Voice • Agentic AI • Multimodal Sensing
+**Agentic AI Voice Scam Detection System**
+*AI Arena 3.0 Hackathon Project — AI Voice • Agentic AI • Multimodal Sensing*
 
-------------------------------------------------------------------------
+Built by [Akshay Gupta](https://github.com/AkshayGupta3106) & Chirag Bhutra
 
-# Problem Statement
+---
 
-Voice cloning technology has made scam calls significantly more
-dangerous. Attackers can impersonate banks, police officers, government
-officials, customer support executives, or even family members using
-AI-generated voices.
+## What is EchoGuard-AI
 
-Traditional spam detection applications primarily rely on caller
-identity and phone number databases. They cannot determine:
+EchoGuard-AI listens to an ongoing phone call and continuously judges whether it's a scam, combining two independent signals — whether the caller's voice is AI-generated, and whether the conversation itself sounds like a fraud script. It explains its reasoning at every step and recommends an action (warn, hang up, block) before sensitive information like an OTP gets shared.
 
--   Whether the caller's voice is AI-generated.
--   Whether the conversation itself is a scam.
--   Whether the user should continue the conversation.
+It runs in two modes:
 
-**SentinelCall AI** continuously analyzes an ongoing phone call,
-combining **voice characteristics** and **conversation semantics** to
-detect fraudulent behavior in real time. It explains every decision and
-recommends protective actions before sensitive information is disclosed.
+- **Offline mode** — everything runs on-device. Audio never leaves the phone.
+- **Online mode** — same on-device signal extraction, with an optional cloud step for richer explanations and threat-intel lookups. Only fused signals and transcript text are ever sent out, never raw audio. If connectivity drops mid-call, it falls back to offline mode automatically.
 
-------------------------------------------------------------------------
+## Why
 
-# Objective
+Traditional spam blockers work off caller-ID and phone number databases. They can't tell you if the voice on the line is cloned, or if the conversation itself is a manipulation script. EchoGuard-AI looks at both, fuses the evidence, and reasons about it like an agent instead of just returning a number.
 
-Build an **Agentic AI Voice Security Assistant** capable of:
+## How It Works
 
--   Detecting AI-generated voices.
--   Detecting scam intent from conversations.
--   Combining evidence from multiple AI models.
--   Explaining the reasoning behind every decision.
--   Taking autonomous actions to protect the user.
+| Stage | What it does | Model / Tool |
+|---|---|---|
+| Speech-to-text | Streams live speech to text on-device, low latency | sherpa-onnx (streaming Zipformer) |
+| Voice authenticity | Scores whether the caller's voice is AI-generated | CNN over Mel-spectrograms (librosa + PyTorch) |
+| Scam intent | Scores conversational scam intent, with memory across turns (OTP requests, urgency, impersonation claims) | MiniLM (all-MiniLM-L6-v2) + Logistic Regression |
+| Fusion | Calibrates and combines both scores into one fraud-risk number | Calibrated fusion model |
+| Supervisor Agent | Reasons over the fused signal and decides what to do | Offline rule engine (on-device) / LLM reasoning agent (online) |
 
-------------------------------------------------------------------------
+The Supervisor Agent follows a five-step loop on every update: **Observe → Reason → Explain → Recommend → Act.**
 
-# AI Arena Themes
+## Tech Stack
 
--   ✅ AI Voice
--   ✅ Agentic AI
--   ✅ Multimodal Sensing
--   ✅ Edge AI
--   ✅ Explainable AI
+- **Mobile:** Kotlin, Jetpack Compose
+- **Speech Recognition:** sherpa-onnx (streaming Zipformer), ONNX Runtime
+- **Voice Analysis:** librosa, PyTorch, CNN
+- **NLP:** sentence-transformers (all-MiniLM-L6-v2), scikit-learn
+- **Backend (online mode only):** FastAPI
+- **ML:** PyTorch, scikit-learn
 
-------------------------------------------------------------------------
+## Project Structure
 
-# Key Features
-
-## Real-Time Voice Analysis
-
-Continuously monitors incoming audio during an active phone call.
-
-## AI Voice Detection
-
-Detects whether the caller's voice has been synthetically generated
-using modern voice cloning techniques.
-
-## Speech-to-Text
-
-Uses **whisper.cpp** to convert live speech into text locally.
-
-## Scam Intent Detection
-
-Analyzes transcripts for:
-
--   Bank impersonation
--   OTP requests
--   Urgency tactics
--   Financial fraud
--   Social engineering
--   Credential theft
-
-## Multimodal Fusion
-
-Combines:
-
--   Acoustic Analysis
--   Semantic Analysis
-
-into a unified fraud risk score.
-
-## Agentic Decision Making
-
-Instead of producing only a prediction, the system:
-
-1.  Observe
-2.  Reason
-3.  Explain
-4.  Recommend
-5.  Act
-
-------------------------------------------------------------------------
-
-# System Architecture
-
-``` text
-                         Incoming Phone Call
-                                 │
-                ┌────────────────┴────────────────┐
-                │                                 │
-                ▼                                 ▼
-
-        Audio Authenticity Agent          Language Understanding Agent
-
-                │                                 │
-
-         Audio CNN Model                  whisper.cpp
-
-                │                                 │
-
-      Voice Authenticity Score           Transcript
-
-                                                  │
-
-                                                  ▼
-
-                                      MiniLM + Logistic Regression
-
-                                                  │
-
-                                           Scam Intent Score
-
-                └────────────────┬────────────────┘
-
-                                 ▼
-
-                         Fusion Decision Engine
-
-                                 ▼
-
-                        Overall Fraud Risk Score
-
-                                 ▼
-
-                       Supervisor Agent (Agentic AI)
-
-                                 ▼
-
-              Observe → Reason → Explain → Recommend → Act
-
-                                 ▼
-
-         Warn User • Block Caller • Report • Save Evidence
 ```
-
-------------------------------------------------------------------------
-
-# Agent Workflow
-
-``` text
-Incoming Call
-      │
-      ▼
-Capture Audio
-      │
-      ▼
-Analyze Voice
-      │
-      ▼
-Speech-to-Text (whisper.cpp)
-      │
-      ▼
-Analyze Conversation
-      │
-      ▼
-Fuse Evidence
-      │
-      ▼
-Reason About Risk
-      │
-      ▼
-Generate Explanation
-      │
-      ▼
-Recommend Action
-      │
-      ▼
-Warn User
-```
-
-------------------------------------------------------------------------
-
-# AI Components
-
-## 1. Audio Authenticity Agent
-
-### Pipeline
-
-``` text
-Audio
-  │
-  ▼
-librosa
-  │
-  ▼
-Mel Spectrogram
-  │
-  ▼
-Convolutional Neural Network
-  │
-  ▼
-Voice Authenticity Score
-```
-
-**Example Output**
-
-``` text
-Voice Authenticity Score = 0.91
-
-Meaning:
-91% probability the voice is AI-generated.
-```
-
-------------------------------------------------------------------------
-
-## 2. Speech Recognition Agent
-
-**Model:** whisper.cpp
-
-### Advantages
-
--   Offline
--   CPU Compatible
--   Android Compatible
--   Privacy Preserving
-
-**Example**
-
-``` text
-Input:
-Hello sir.
-I am calling from SBI.
-
-↓
-
-Transcript Generated
-```
-
-------------------------------------------------------------------------
-
-## 3. Scam Intent Agent
-
-``` text
-Transcript
-    │
-    ▼
-MiniLM Embedding
-    │
-    ▼
-Logistic Regression
-    │
-    ▼
-Scam Intent Score
-```
-
-Example:
-
-``` text
-Transcript:
-Please share your OTP.
-
-↓
-
-Scam Intent Score = 0.96
-```
-
-------------------------------------------------------------------------
-
-## 4. Fusion Engine
-
-Inputs:
-
--   Voice Authenticity Score
--   Scam Intent Score
-
-Example:
-
-``` text
-Voice Score = 0.91
-Scam Score  = 0.95
-
-↓
-
-Overall Fraud Risk = 0.94
-```
-
-------------------------------------------------------------------------
-
-## 5. Supervisor Agent
-
-The Supervisor Agent combines outputs from all AI models and determines
-the appropriate action.
-
-Example:
-
-``` text
-High Risk
-
-Reason
-✓ AI-generated voice detected
-✓ Caller claims to represent SBI
-✓ OTP requested
-
-Recommendation
-Do not share your OTP.
-End the call immediately.
-```
-
-------------------------------------------------------------------------
-
-# User Interface
-
-``` text
-──────────────────────────────
-
-SentinelCall AI
-
-Voice Authenticity : 91%
-
-Scam Intent        : 96%
-
-Overall Risk       : 94%
-
-Reason
-✓ AI Voice
-✓ Bank Impersonation
-✓ OTP Requested
-
-Recommendation
-Hang Up Immediately
-
-──────────────────────────────
-```
-
-------------------------------------------------------------------------
-
-# Conversation Timeline
-
-``` text
-00:04  Caller claims to be SBI.
-
-00:13  Synthetic voice detected.
-
-00:18  OTP requested.
-
-00:24  Urgency language detected.
-
-Fraud Risk
-█████████████ 96%
-```
-
-------------------------------------------------------------------------
-
-# Technology Stack
-
-## Mobile
-
--   Kotlin
--   Jetpack Compose
-
-## Speech Recognition
-
--   whisper.cpp
-
-## Voice Analysis
-
--   librosa
--   PyTorch
--   Convolutional Neural Network
-
-## Natural Language Processing
-
--   sentence-transformers
--   all-MiniLM-L6-v2
--   Logistic Regression
-
-## Backend
-
--   FastAPI
-
-## Machine Learning
-
--   PyTorch
--   Scikit-learn
-
-------------------------------------------------------------------------
-
-# Project Structure
-
-``` text
-SentinelCall/
-│
+EchoGuard-AI/
 ├── android-app/
 ├── backend/
-│   ├── whisper/
+│   ├── asr/          # sherpa-onnx streaming integration
 │   ├── audio_cnn/
-│   ├── minilm/
+│   ├── scam_intent/
 │   ├── fusion/
 │   ├── agent/
 │   └── api/
@@ -408,86 +59,37 @@ SentinelCall/
 └── README.md
 ```
 
-------------------------------------------------------------------------
+## Datasets
 
-# Datasets
+- **Voice deepfake detection:** ASVspoof 2019, ASVspoof 2021 (codec-augmented for real call audio)
+- **Scam detection:** SMS Spam Collection, scam call transcripts, banking scam dialogues, synthetic scam conversations
 
-## Voice Deepfake Detection
+## Demo Flow
 
--   ASVspoof 2019
--   ASVspoof 2021
+1. A call comes in.
+2. EchoGuard-AI captures the audio locally.
+3. sherpa-onnx transcribes it in real time.
+4. The CNN scores voice authenticity.
+5. MiniLM + the conversation-state tracker score scam intent.
+6. The fusion engine computes an overall fraud-risk score.
+7. The Supervisor Agent explains its reasoning.
+8. The user gets a real-time warning and a recommended action.
 
-## Scam Detection
+## Future Scope
 
--   SMS Spam Collection
--   Scam Call Transcripts
--   Banking Scam Dialogues
--   Synthetic Scam Conversations
+- WhatsApp call monitoring
+- Video call deepfake detection
+- Multilingual scam detection
+- Enterprise fraud monitoring
+- Elderly protection mode
+- Federated learning across devices
+- Integration with caller-ID / threat-intel services
 
-------------------------------------------------------------------------
+## Team
 
-# Development Timeline
+- **Akshay Gupta** — [@AkshayGupta3106](https://github.com/AkshayGupta3106) — ML pipeline: ASR, voice authenticity, scam intent, fusion, Supervisor Agent
+- **Chirag Bhutra** — Android app, on-device model integration, backend, UI, demo
 
-  ------------------------------------------------------------------------
-  Day               Task              Deliverable
-  ----------------- ----------------- ------------------------------------
-  **Day 1**         Audio capture,    Audio → Transcript
-                    whisper.cpp       
-                    integration, live 
-                    transcription     
+## License
 
-  **Day 2**         MiniLM            Transcript → Scam Score
-                    embeddings,       
-                    Logistic          
-                    Regression        
-
-  **Day 3**         Mel Spectrogram   Voice Authenticity Score
-                    generation, Audio 
-                    CNN inference     
-
-  **Day 4**         Fusion Engine,    Overall Fraud Risk
-                    Decision Engine,  
-                    User Interface    
-  ------------------------------------------------------------------------
-
-------------------------------------------------------------------------
-
-# Demonstration Flow
-
-1.  Judge initiates a phone call.
-2.  SentinelCall AI captures the conversation.
-3.  whisper.cpp transcribes the speech.
-4.  Audio CNN evaluates voice authenticity.
-5.  MiniLM detects scam intent.
-6.  Fusion Engine computes fraud risk.
-7.  Supervisor Agent explains the reasoning.
-8.  User receives a real-time warning.
-
-------------------------------------------------------------------------
-
-# Future Scope
-
--   WhatsApp call monitoring
--   Video call deepfake detection
--   Multilingual scam detection
--   Enterprise fraud monitoring
--   Elderly protection mode
--   Federated learning
--   Integration with caller identification services
-
-------------------------------------------------------------------------
-
-# Why SentinelCall AI?
-
-Unlike traditional spam detection systems, **SentinelCall AI** is an
-**Agentic AI security assistant** that:
-
--   Observes live conversations.
--   Understands both voice and language.
--   Reasons across multiple AI models.
--   Explains every decision transparently.
--   Recommends protective actions in real time.
-
-By combining **AI Voice**, **Multimodal Sensing**, **Explainable AI**,
-and **Agentic AI**, SentinelCall AI transforms passive spam detection
-into an intelligent real-time digital security assistant.
+Not yet decided — add a `LICENSE` file before making this public if you want reuse terms to be explicit.
