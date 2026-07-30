@@ -1,0 +1,31 @@
+# Android & Gradle
+.gradle
+local.properties
+.idea/
+.DS_Store
+build/
+app/build/
+captures/
+.externalNativeBuild
+.cxx
+*.iml
+
+# Android Studio Crash/Dump files
+*.hprof
+hs_err_pid*
+replay_pid*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+
+# Ignore heavy ML models from GitHub
+*.onnx
+*.onnx.data
+*.tar.bz2
+*.bin
+*.pt
