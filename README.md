@@ -1,95 +1,84 @@
 # EchoGuard-AI
 
-**Agentic AI Voice Scam Detection System**
+**Agentic AI Voice Scam Detection System**  
 *AI Arena 3.0 Hackathon Project — AI Voice • Agentic AI • Multimodal Sensing*
 
-Built by [Akshay Gupta](https://github.com/AkshayGupta3106) & Chirag Bhutra
+Built by [Chirag Bhutra](https://github.com/Chirag514) & [Akshay Gupta](https://github.com/AkshayGupta3106) 
 
 ---
 
-## What is EchoGuard-AI
+## 🛡️ What is EchoGuard-AI?
 
-EchoGuard-AI listens to an ongoing phone call and continuously judges whether it's a scam, combining two independent signals — whether the caller's voice is AI-generated, and whether the conversation itself sounds like a fraud script. It explains its reasoning at every step and recommends an action (warn, hang up, block) before sensitive information like an OTP gets shared.
+EchoGuard-AI is an intelligent, privacy-first agent that listens to ongoing phone calls and continuously judges whether it is a scam. It goes beyond simple caller-ID checks by combining two independent, state-of-the-art signals:
+1. **Acoustic Authenticity:** Is the caller's voice AI-generated or spoofed?
+2. **Semantic Intent:** Does the conversation script match known fraud tactics (e.g., OTP phishing, forced urgency)?
 
-It runs in two modes:
+It explains its reasoning at every step and recommends immediate action (Warn, Hang Up, Block) before sensitive information can be compromised.
 
-- **Offline mode** — everything runs on-device. Audio never leaves the phone.
-- **Online mode** — same on-device signal extraction, with an optional cloud step for richer explanations and threat-intel lookups. Only fused signals and transcript text are ever sent out, never raw audio. If connectivity drops mid-call, it falls back to offline mode automatically.
+---
 
-## Why
+## 💡 New Insights & Justifications
 
-Traditional spam blockers work off caller-ID and phone number databases. They can't tell you if the voice on the line is cloned, or if the conversation itself is a manipulation script. EchoGuard-AI looks at both, fuses the evidence, and reasons about it like an agent instead of just returning a number.
+To achieve the 25-mark standard for **Innovation & Novelty**, we rejected traditional Truecaller-style databases. Caller-IDs are easily spoofed, and databases cannot protect users from novel zero-day AI voice clones. 
 
-## How It Works
+**Our Core Insights & Architectural Justifications:**
+- **Why dual-modal fusion?** A human scammer has a real voice but a malicious script. An AI voice clone has a synthetic voice but might be reading a benign script. Relying on just acoustic or just semantic models creates massive blind spots. Fusing both creates a mathematically robust fraud-risk score.
+- **Why ONNX Runtime on Edge?** Sending live phone call audio to a cloud server violates user privacy and introduces latency. We justified compressing our acoustic (`AASIST-L`) and transcription (`Kroko-128L`) models into 8-bit quantized ONNX formats so the entire pipeline can run **100% offline** on a mid-range Android device.
+- **Agentic Decision Making:** Instead of just flashing a red warning, our **Supervisor Agent** holds conversational memory. It knows if the caller previously asked for money and is *now* asking for an OTP, dynamically escalating the threat level.
 
-| Stage | What it does | Model / Tool |
+---
+
+## 🧠 Process & Architecture
+
+| Stage | Action | Underlying Technology |
 |---|---|---|
-| Speech-to-text | Streams live speech to text on-device, low latency | sherpa-onnx (streaming Zipformer) |
-| Voice authenticity | Scores whether the caller's voice is AI-generated | CNN over Mel-spectrograms (librosa + PyTorch) |
-| Scam intent | Scores conversational scam intent, with memory across turns (OTP requests, urgency, impersonation claims) | MiniLM (all-MiniLM-L6-v2) + Logistic Regression |
-| Fusion | Calibrates and combines both scores into one fraud-risk number | Calibrated fusion model |
-| Supervisor Agent | Reasons over the fused signal and decides what to do | Offline rule engine (on-device) / LLM reasoning agent (online) |
+| **Speech-to-Text** | Streams live speech to text on-device (English & Hindi) | `Kroko-128L` (English) & `IndicConformer` (Hindi) via ONNX Runtime |
+| **Voice Authenticity** | Scores whether the caller's voice is AI-generated | `AASIST-L` (ONNX) Acoustic Spoof Detection |
+| **Scam Intent** | Scores conversational intent, tracking context across turns | `all-MiniLM-L6-v2` + Semantic Embedding Search |
+| **Context Overrides** | Catches edge cases (e.g., detecting "मज़ाक कर रहा" / "just kidding") | Custom Cross-Lingual (Hindi/English) Regex Engine |
+| **Fusion Engine** | Calibrates both Acoustic and Semantic scores into one fraud-risk metric | Custom Python Fusion Engine & `FusionEngine.kt` |
+| **Supervisor Agent** | Reasons over the fused signal and decides what to do | Local Pipeline State Manager & Reasoner |
 
-The Supervisor Agent follows a five-step loop on every update: **Observe → Reason → Explain → Recommend → Act.**
+The **Supervisor Agent** acts as the core "brain", following a continuous loop on every audio chunk:  
+**Observe → Reason → Explain → Recommend → Act.**
 
-## Tech Stack
+---
 
-- **Mobile:** Kotlin, Jetpack Compose
-- **Speech Recognition:** sherpa-onnx (streaming Zipformer), ONNX Runtime
-- **Voice Analysis:** librosa, PyTorch, CNN
-- **NLP:** sentence-transformers (all-MiniLM-L6-v2), scikit-learn
-- **Backend (online mode only):** FastAPI
-- **ML:** PyTorch, scikit-learn
+## 💻 Tech Stack & Developer Details
 
-## Project Structure
+- **Mobile App:** Native Android, Kotlin, Jetpack Compose, Kotlin Coroutines
+- **Speech Recognition:** ONNX Runtime, `sherpa-onnx` local JNI bindings
+- **Acoustic AI:** `AASIST-L` (Spoof Detection), `Silero VAD` (Voice Activity Detection)
+- **Semantic AI:** `all-MiniLM-L6-v2`
+- **Backend (Online mode):** Python, FastAPI
 
-```
+### 📂 Project Structure for Developers
+
+```text
 EchoGuard-AI/
-├── android-app/
-├── backend/
-│   ├── asr/          # sherpa-onnx streaming integration
-│   ├── audio_cnn/
-│   ├── scam_intent/
-│   ├── fusion/
-│   ├── agent/
-│   └── api/
-├── datasets/
-├── models/
-├── documentation/
-└── README.md
+├── app/               # Full Android Studio Project (Jetpack Compose UI)
+├── acoustic/          # Python acoustic models, VAD gating & AASIST-L scripts
+├── backend/           # FastAPI backend for Online Mode API
+├── fusion/            # Fusion Engine logic (merging Acoustic + Semantic scores)
+├── semantic/          # MiniLM embeddings, hotword generation, and Scam Classifier
+├── download_indicconformer.py
+└── requirements.txt
 ```
+*(Note: To comply with GitHub's LFS limits, heavy `.onnx` models are excluded from this repository and are packaged directly within our final `.zip` build artifact).*
 
-## Datasets
+---
 
-- **Voice deepfake detection:** ASVspoof 2019, ASVspoof 2021 (codec-augmented for real call audio)
-- **Scam detection:** SMS Spam Collection, scam call transcripts, banking scam dialogues, synthetic scam conversations
+## 🚀 Future Scope (Scale & Real-World Problem Solving)
 
-## Demo Flow
+Our vision for EchoGuard-AI extends far beyond standard cellular calls to solve real-world problems at scale:
 
-1. A call comes in.
-2. EchoGuard-AI captures the audio locally.
-3. sherpa-onnx transcribes it in real time.
-4. The CNN scores voice authenticity.
-5. MiniLM + the conversation-state tracker score scam intent.
-6. The fusion engine computes an overall fraud-risk score.
-7. The Supervisor Agent explains its reasoning.
-8. The user gets a real-time warning and a recommended action.
+1. **VoIP & WhatsApp Integration:** Utilizing Android Accessibility Services to monitor encrypted internet calls (WhatsApp, Telegram) in real-time.
+2. **Pan-India Multilingual Expansion:** Extending our Devanagari regex and semantic embedding models to natively support all 22 official Indian languages.
+3. **Federated Learning on the Edge:** Allowing edge devices to share newly discovered scam phonetic signatures with a central server *without* ever uploading raw audio, continuously improving the global model while perfectly preserving privacy.
+4. **Elderly Protection Mode:** A high-sensitivity UI mode designed for vulnerable demographics that can automatically intercept calls or silently alert trusted family members when high fraud risk is detected.
 
-## Future Scope
+---
 
-- WhatsApp call monitoring
-- Video call deepfake detection
-- Multilingual scam detection
-- Enterprise fraud monitoring
-- Elderly protection mode
-- Federated learning across devices
-- Integration with caller-ID / threat-intel services
+## 📄 License
 
-## Team
-
-- **Akshay Gupta** — [@AkshayGupta3106](https://github.com/AkshayGupta3106) — ML pipeline: ASR, voice authenticity, scam intent, fusion, Supervisor Agent
-- **Chirag Bhutra** — Android app, on-device model integration, backend, UI, demo
-
-## License
-
-Not yet decided — add a `LICENSE` file before making this public if you want reuse terms to be explicit.
+This project was built for the **AI Arena 3.0 Hackathon**. All rights reserved by the authors.
