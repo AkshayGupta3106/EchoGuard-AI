@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Standard microphone permission - this is ALL that's needed for the
+         speakerphone+mic audio-access approach documented in app/README.md.
+         No special call-audio permission exists to request or needs one. -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <!-- Used only to detect call state (idle/ringing/active) via
+         TelephonyCallback - NOT used to access call audio. -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <!-- The monitoring service needs to keep running while a call is
+         active, even if the app isn't in the foreground. -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
+
+    <!-- Required for the foreground-service notification on API 33+ -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <application
+        android:allowBackup="false"
+        android:extractNativeLibs="true"
+        android:largeHeap="true"
+        android:label="EchoGuard AI"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher"
+        android:theme="@style/Theme.EchoGuardAI">
+        <!--
+          allowBackup is explicitly false - see the privacy discussion:
+          Android's auto-backup defaults to true and would otherwise sweep
+          any locally-saved call recordings/transcripts into the user's
+          Google Drive backup without anyone writing code that does that
+          on purpose. If you need backup for OTHER app data later, use
+          dataExtractionRules to exclude just the recordings directory
+          instead of turning this back on wholesale.
+        -->
+
+        <activity
+            android:name=".ui.MainActivity"
+            android:exported="true"
+            android:label="EchoGuard-AI">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name=".service.CallMonitorService"
+            android:foregroundServiceType="microphone"
+            android:exported="false" />
+
+    </application>
+</manifest>
