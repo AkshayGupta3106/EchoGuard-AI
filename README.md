@@ -1,9 +1,6 @@
 # EchoGuard-AI
 
 **Agentic AI Voice Scam Detection System**  
-*AI Arena 3.0 Hackathon Project — AI Voice • Agentic AI • Multimodal Sensing*
-
-Built by [Akshay Gupta](https://github.com/AkshayGupta3106) & [Chirag Bhutra](https://github.com/Chirag514)
 
 ---
 
@@ -76,9 +73,3 @@ Our vision for EchoGuard-AI extends far beyond standard cellular calls to solve 
 2. **Pan-India Multilingual Expansion:** Extending our Devanagari regex and semantic embedding models to natively support all 22 official Indian languages.
 3. **Federated Learning on the Edge:** Allowing edge devices to share newly discovered scam phonetic signatures with a central server *without* ever uploading raw audio, continuously improving the global model while perfectly preserving privacy.
 4. **Elderly Protection Mode:** A high-sensitivity UI mode designed for vulnerable demographics that can automatically intercept calls or silently alert trusted family members when high fraud risk is detected.
-
----
-
-## 📄 License
-
-This project was built for the **AI Arena 3.0 Hackathon**. All rights reserved by the authors.
