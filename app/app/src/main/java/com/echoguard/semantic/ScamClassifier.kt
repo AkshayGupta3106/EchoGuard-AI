@@ -581,23 +581,23 @@ class ScamClassifier(
             }
         }
 
-        val englishJokeRegex = Regex("\\b(just kidding|was kidding|i'm kidding|im kidding|i am kidding|only joking|it's a prank|its a prank|mazaak tha|mazak tha)\\b", RegexOption.IGNORE_CASE)
-        val hindiJokeRegex = Regex("(मज़ाक कर रहा|मजाक कर रहा|मज़ाक था|मजाक था|मजाक कर रही|मज़ाक कर रही)")
+        val englishJokeRegex = Regex("\\b(kidding|joking|joke|prank|pranking|mazaak|mazak)\\b", RegexOption.IGNORE_CASE)
+        val hindiJokeRegex = Regex("(मज़ाक|मजाक|शरारत)")
         
-        val englishSeriousRegex = Regex("\\b(not kidding|i am serious|seriously|not a joke)\\b", RegexOption.IGNORE_CASE)
-        val hindiSeriousRegex = Regex("(मज़ाक नहीं|मजाक नहीं|सच बोल रहा|गंभीर हूँ)")
+        val englishSeriousRegex = Regex("\\b(not kidding|not joking|not a joke|no joke|serious|seriously)\\b", RegexOption.IGNORE_CASE)
+        val hindiSeriousRegex = Regex("(मज़ाक नहीं|मजाक नहीं|सच बोल रहा|गंभीर हूँ|गंभीर)")
 
         // Find the LAST index of any joke phrase and any serious phrase
-        val engJokeIdx = englishJokeRegex.findAll(transcript).lastOrNull()?.range?.first ?: -1
-        val hinJokeIdx = hindiJokeRegex.findAll(transcript).lastOrNull()?.range?.first ?: -1
-        val lastJokeIndex = maxOf(engJokeIdx, hinJokeIdx)
+        val engJokeEnd = englishJokeRegex.findAll(transcript).lastOrNull()?.range?.last ?: -1
+        val hinJokeEnd = hindiJokeRegex.findAll(transcript).lastOrNull()?.range?.last ?: -1
+        val lastJokeEnd = maxOf(engJokeEnd, hinJokeEnd)
 
-        val engSeriousIdx = englishSeriousRegex.findAll(transcript).lastOrNull()?.range?.first ?: -1
-        val hinSeriousIdx = hindiSeriousRegex.findAll(transcript).lastOrNull()?.range?.first ?: -1
-        val lastSeriousIndex = maxOf(engSeriousIdx, hinSeriousIdx)
+        val engSeriousEnd = englishSeriousRegex.findAll(transcript).lastOrNull()?.range?.last ?: -1
+        val hinSeriousEnd = hindiSeriousRegex.findAll(transcript).lastOrNull()?.range?.last ?: -1
+        val lastSeriousEnd = maxOf(engSeriousEnd, hinSeriousEnd)
 
-        // It is a joke IF a joke phrase exists, AND it appears AFTER the most recent serious phrase
-        val isJoke = lastJokeIndex > -1 && lastJokeIndex > lastSeriousIndex
+        // It is a joke IF a joke phrase exists, AND it ends AFTER the most recent serious phrase ends
+        val isJoke = lastJokeEnd > -1 && lastJokeEnd > lastSeriousEnd
 
         if (isJoke) {
             combined = 0.0

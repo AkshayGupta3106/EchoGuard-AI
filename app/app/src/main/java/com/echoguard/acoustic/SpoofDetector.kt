@@ -138,15 +138,22 @@ class SpoofDetector(
         }
 
         return try {
+            val directBuffer = java.nio.ByteBuffer.allocateDirect(windowed.size * 4)
+                .order(java.nio.ByteOrder.nativeOrder())
+                .asFloatBuffer()
+            directBuffer.put(windowed)
+            directBuffer.rewind()
+
             val inputTensor = OnnxTensor.createTensor(
                 currentEnv,
-                FloatBuffer.wrap(windowed),
+                directBuffer,
                 longArrayOf(1, WINDOW_SAMPLES.toLong()),
             )
             val startTime = System.currentTimeMillis()
-            currentSession.run(mapOf("waveform" to inputTensor)).use { results ->
-                val logitsValue = results["logits"]
-                if (!logitsValue.isPresent) return Result(0f, 1f, 0)
+            inputTensor.use { tensor ->
+                currentSession.run(mapOf("waveform" to tensor)).use { results ->
+                    val logitsValue = results["logits"]
+                    if (!logitsValue.isPresent) return Result(0f, 1f, 0)
                 val logits = (logitsValue.get().value as Array<*>)[0] as FloatArray
                 val elapsed = System.currentTimeMillis() - startTime
 
@@ -156,11 +163,12 @@ class SpoofDetector(
                 val expBona  = exp((logits[1] - maxLogit).toDouble())
                 val sum = expSpoof + expBona
 
-                Result(
-                    spoofScore    = (expSpoof / sum).toFloat(),
-                    bonafideScore = (expBona  / sum).toFloat(),
-                    inferenceMs   = elapsed,
-                )
+                    Result(
+                        spoofScore    = (expSpoof / sum).toFloat(),
+                        bonafideScore = (expBona  / sum).toFloat(),
+                        inferenceMs   = elapsed,
+                    )
+                }
             }
         } catch (e: Throwable) {
             android.util.Log.e("SpoofDetector", "ONNX inference failed", e)

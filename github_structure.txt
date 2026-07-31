@@ -1,0 +1,53 @@
+EchoGuard-AI/
+├── .gitignore
+├── download_indicconformer.py
+├── requirements.txt
+├── acoustic/
+│   ├── export_onnx.py
+│   ├── README.md
+│   ├── spoof_detector.py
+│   ├── test_wav.py
+│   ├── vad_gate.py
+│   └── android/
+│       ├── SpoofDetector.kt
+│       └── VadGate.kt
+├── app/
+│   ├── build.gradle.kts
+│   ├── gradle.properties
+│   ├── gradlew
+│   ├── gradlew.bat
+│   ├── README.md
+│   ├── settings.gradle.kts
+│   ├── gradle/
+│   │   └── wrapper/
+│   │       ├── gradle-wrapper.jar
+│   │       └── gradle-wrapper.properties
+│   └── app/
+│       ├── build.gradle.kts
+│       └── src/main/
+│           ├── AndroidManifest.xml
+│           ├── java/com/echoguard/...       
+│           ├── res/...                      
+│           └── assets/                      
+├── backend/
+│   └── online_mode_api.py
+├── fusion/
+│   ├── custom_demo.py
+│   ├── demo_pipeline.py
+│   ├── full_audio_demo.py
+│   ├── fusion_engine.py
+│   ├── README.md
+│   ├── supervisor_agent.py
+│   └── android/
+│       ├── FusionEngine.kt
+│       └── SupervisorAgent.kt
+└── semantic/
+    ├── exemplars.py
+    ├── export_exemplar_embeddings.py
+    ├── export_minilm_onnx.py
+    ├── README.md
+    ├── scam_classifier.py
+    ├── exemplar_embeddings.json
+    └── android/
+        ├── IndicConformerLiveTranscriber.kt
+        └── WhisperOfflinePass.kt

@@ -8,18 +8,39 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.echoguard.pipeline.PipelineRunner
 import com.echoguard.pipeline.PipelineUiState
+import com.echoguard.pipeline.CallLog
+import com.echoguard.pipeline.CallHistoryManager
+import com.echoguard.fusion.Action
 import com.echoguard.acoustic.VadGate.Companion.CHUNK_SAMPLES
 import com.echoguard.acoustic.VadGate.Companion.SAMPLE_RATE
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
+enum class ThemeMode { SYSTEM, LIGHT, DARK }
+
 class PipelineViewModel(application: Application) : AndroidViewModel(application) {
+
+    private val prefs = application.getSharedPreferences("echoguard_prefs", android.content.Context.MODE_PRIVATE)
+    
+    private val _themeMode = MutableStateFlow(
+        ThemeMode.valueOf(prefs.getString("theme", ThemeMode.SYSTEM.name) ?: ThemeMode.SYSTEM.name)
+    )
+    val themeMode: StateFlow<ThemeMode> = _themeMode
+
+    fun setThemeMode(mode: ThemeMode) {
+        prefs.edit().putString("theme", mode.name).apply()
+        _themeMode.value = mode
+    }
 
     private val pipelineRunner = PipelineRunner(application)
     val uiState: StateFlow<PipelineUiState> = pipelineRunner.uiState
+
+    val callHistoryManager = CallHistoryManager(application)
+    val history: StateFlow<List<CallLog>> = callHistoryManager.history
 
     private var audioRecord: AudioRecord? = null
     private var captureJob: Job? = null
@@ -52,13 +73,15 @@ class PipelineViewModel(application: Application) : AndroidViewModel(application
                 // 1 second buffer (16000 samples * 2 bytes) to prevent data loss when processing blocks
                 val recordingBufferBytes = SAMPLE_RATE.toInt() * 2
                 
-                audioRecord = AudioRecord(
+                @android.annotation.SuppressLint("MissingPermission")
+                val record = AudioRecord(
                     MediaRecorder.AudioSource.VOICE_RECOGNITION,
                     SAMPLE_RATE.toInt(),
                     AudioFormat.CHANNEL_IN_MONO,
                     AudioFormat.ENCODING_PCM_16BIT,
                     maxOf(minBufferSize, recordingBufferBytes)
                 )
+                audioRecord = record
 
                 if (audioRecord?.state != AudioRecord.STATE_INITIALIZED) {
                     android.util.Log.e("PipelineViewModel", "AudioRecord failed to initialize (state=${audioRecord?.state}) — check mic permissions")
@@ -101,6 +124,27 @@ class PipelineViewModel(application: Application) : AndroidViewModel(application
 
     private fun stopDemoInternal() {
         try {
+            // Save to history if we did any work
+            if (uiState.value.timeline.isNotEmpty() || uiState.value.liveTranscript.isNotBlank()) {
+                val isOnline = uiState.value.status == com.echoguard.pipeline.MonitorStatus.Monitoring
+                
+                // Name sequentially based on history size
+                val demoNumber = callHistoryManager.history.value.size + 1
+                val callTitle = "Demo Call $demoNumber"
+                
+                callHistoryManager.addLog(
+                    CallLog(
+                        id = java.util.UUID.randomUUID().toString(),
+                        timestamp = System.currentTimeMillis(),
+                        title = callTitle,
+                        riskScorePercent = uiState.value.currentRiskPercent,
+                        action = uiState.value.currentAction,
+                        transcriptSnippet = uiState.value.liveTranscript.take(100),
+                        bytesSent = 0L // True offline mode: 0 bytes
+                    )
+                )
+            }
+
             if (audioRecord?.state == AudioRecord.STATE_INITIALIZED) {
                 audioRecord?.stop()
             }
