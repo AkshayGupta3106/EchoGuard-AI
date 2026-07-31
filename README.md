@@ -1,7 +1,6 @@
 # EchoGuard-AI
 
 **Agentic AI Voice Scam Detection System**  
-*AI Arena 3.0 Hackathon Project — AI Voice • Agentic AI • Multimodal Sensing*
 
 Built by [Chirag Bhutra](https://github.com/Chirag514) & [Akshay Gupta](https://github.com/AkshayGupta3106) 
 
