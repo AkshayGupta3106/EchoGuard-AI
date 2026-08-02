@@ -13,11 +13,19 @@ Requirements:
     pip install huggingface_hub
 
 Repository structure (hudaiapa88/sherpa-stt-onnx):
+<<<<<<< HEAD
+    en/kroko_128l/encoder.int8.onnx
+    en/kroko_128l/decoder.int8.onnx
+    en/kroko_128l/joiner.int8.onnx
+    en/kroko_128l/tokens.txt
+    <lang>/kroko_128l/...   <- other languages available in the
+=======
     models/en/kroko_128l/encoder.int8.onnx
     models/en/kroko_128l/decoder.int8.onnx
     models/en/kroko_128l/joiner.int8.onnx
     models/en/kroko_128l/tokens.txt
     models/<lang>/kroko_128l/...   <- other languages available in the
+>>>>>>> fd33d839c821243160000dcbe815a739bdfbdc33
                                        same repo if needed later (de, es,
                                        fr, tr, it, pt, ...)
 
@@ -62,10 +70,17 @@ REPO_ID = "hudaiapa88/sherpa-stt-onnx"
 #   kroko-128l/joiner.int8.onnx
 #   kroko-128l/tokens.txt
 FILES = [
+<<<<<<< HEAD
+    ("en/kroko_128l/encoder.int8.onnx", "encoder.int8.onnx"),
+    ("en/kroko_128l/decoder.int8.onnx", "decoder.int8.onnx"),
+    ("en/kroko_128l/joiner.int8.onnx",  "joiner.int8.onnx"),
+    ("en/kroko_128l/tokens.txt",        "tokens.txt"),
+=======
     ("models/en/kroko_128l/encoder.int8.onnx", "encoder.int8.onnx"),
     ("models/en/kroko_128l/decoder.int8.onnx", "decoder.int8.onnx"),
     ("models/en/kroko_128l/joiner.int8.onnx",  "joiner.int8.onnx"),
     ("models/en/kroko_128l/tokens.txt",        "tokens.txt"),
+>>>>>>> fd33d839c821243160000dcbe815a739bdfbdc33
 ]
 
 print(f"Downloading Kroko-128L English model from {REPO_ID} ...")
@@ -100,4 +115,8 @@ Next:
   3. Click "Sync Project with Gradle Files"
   4. Build & run on your device
   5. English live transcription should now work via Kroko-128L.
+<<<<<<< HEAD
 """)
+=======
+""")
+>>>>>>> fd33d839c821243160000dcbe815a739bdfbdc33
