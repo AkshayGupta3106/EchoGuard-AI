@@ -16,7 +16,7 @@ It explains its reasoning at every step and recommends immediate action (Warn, H
 
 ## 💡 New Insights & Justifications
 
-To achieve the 25-mark standard for **Innovation & Novelty**, we rejected traditional Truecaller-style databases. Caller-IDs are easily spoofed, and databases cannot protect users from novel zero-day AI voice clones. 
+To achieve the **Innovation & Novelty**, we rejected traditional Truecaller-style databases. Caller-IDs are easily spoofed, and databases cannot protect users from novel zero-day AI voice clones. 
 
 **Our Core Insights & Architectural Justifications:**
 - **Why dual-modal fusion?** A human scammer has a real voice but a malicious script. An AI voice clone has a synthetic voice but might be reading a benign script. Relying on just acoustic or just semantic models creates massive blind spots. Fusing both creates a mathematically robust fraud-risk score.
