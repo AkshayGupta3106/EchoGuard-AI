@@ -1,3 +1,7 @@
+import java.net.URL
+import java.io.FileOutputStream
+import java.nio.channels.Channels
+
 // Module-level build.gradle.kts (app/)
 plugins {
     id("com.android.application")
@@ -80,4 +84,31 @@ dependencies {
 
     // whisper.cpp is temporarily disabled for the hackathon demo
     // to avoid the complex NDK compilation step.
+}
+
+tasks.register("downloadSherpaOnnx") {
+    val libsDir = file("libs")
+    val aarFile = file("libs/sherpa-onnx-1.13.4.aar")
+    val aarUrl = "https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.13.4/sherpa-onnx-1.13.4.aar"
+
+    onlyIf {
+        !aarFile.exists() || aarFile.length() < 1000
+    }
+
+    doLast {
+        if (!libsDir.exists()) {
+            libsDir.mkdirs()
+        }
+        println("Downloading sherpa-onnx AAR from $aarUrl...")
+        URL(aarUrl).openStream().use { input ->
+            FileOutputStream(aarFile).use { output ->
+                output.channel.transferFrom(Channels.newChannel(input), 0, Long.MAX_VALUE)
+            }
+        }
+        println("Download complete.")
+    }
+}
+
+tasks.named("preBuild") {
+    dependsOn("downloadSherpaOnnx")
 }
