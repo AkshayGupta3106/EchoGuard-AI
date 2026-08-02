@@ -77,7 +77,7 @@ shutil.rmtree(CACHE_DIR, ignore_errors=True)
 # ---------------------------------------------------------------------------
 # Download sherpa-onnx AAR (since it's ignored in .gitignore)
 # ---------------------------------------------------------------------------
-AAR_URL = "https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.13.4/sherpa-onnx-1.13.4-android.aar"
+AAR_URL = "https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.13.4/sherpa-onnx-1.13.4.aar"
 LIBS_DIR = SCRIPT_DIR / "app" / "app" / "libs"
 AAR_DEST = LIBS_DIR / "sherpa-onnx-1.13.4.aar"
 
