@@ -30,3 +30,8 @@ env/
 *.bin
 *.pt
 *.aar
+
+# Local Documentation and Metadata
+AI_ARENA_DOCUMENTATION.md
+PRESENTATION_DECK.md
+events.json
