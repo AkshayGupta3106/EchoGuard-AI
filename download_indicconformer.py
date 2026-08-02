@@ -19,12 +19,13 @@ Repository structure (parismitaglobalsolutions/indicconformer-sherpa-onnx):
     ... (one folder per language code)
 
 After running:
-    Build the Android app in Android Studio — the model will be bundled
-    automatically as an asset.
+    Build the Android app in Android Studio — the model and the required 
+    sherpa-onnx AAR library will be bundled automatically.
 """
 
 import sys
 import shutil
+import urllib.request
 from pathlib import Path
 
 try:
@@ -73,15 +74,30 @@ for repo_path, local_name in FILES:
 # Clean up HF cache to save disk space
 shutil.rmtree(CACHE_DIR, ignore_errors=True)
 
+# ---------------------------------------------------------------------------
+# Download sherpa-onnx AAR (since it's ignored in .gitignore)
+# ---------------------------------------------------------------------------
+AAR_URL = "https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.13.4/sherpa-onnx-1.13.4-android.aar"
+LIBS_DIR = SCRIPT_DIR / "app" / "app" / "libs"
+AAR_DEST = LIBS_DIR / "sherpa-onnx-1.13.4.aar"
+
+print(f"\nChecking for sherpa-onnx AAR library in {LIBS_DIR} ...")
+if not AAR_DEST.exists() or AAR_DEST.stat().st_size < 1000:
+    print(f"  [download] {AAR_URL} ...", end="", flush=True)
+    LIBS_DIR.mkdir(parents=True, exist_ok=True)
+    urllib.request.urlretrieve(AAR_URL, AAR_DEST)
+    size_mb = AAR_DEST.stat().st_size // 1_000_000
+    print(f" done ({size_mb} MB)")
+else:
+    print(f"  [skip] sherpa-onnx-1.13.4.aar already present")
+
 print(f"""
-Done. Model assets placed at:
-  {DEST_DIR}/model.int8.onnx
-  {DEST_DIR}/tokens.txt
+Done. Assets and libraries successfully prepared.
 
 Next:
   1. Open the Android project in Android Studio (app/)
-  2. Build & run on your device
-  3. Tap "Start Live Protection Demo" — IndicConformer will transcribe
+  2. Click "Sync Project with Gradle Files"
+  3. Build & run on your device
+  4. Tap "Start Live Protection Demo" — IndicConformer will transcribe
      Hindi/English/Hinglish live from the microphone.
-  4. Watch logcat for 'IndicConformerDebug' to confirm it's running.
 """)

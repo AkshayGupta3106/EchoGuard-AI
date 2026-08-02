@@ -61,7 +61,16 @@ EchoGuard-AI/
 ├── download_indicconformer.py
 └── requirements.txt
 ```
-*(Note: To comply with GitHub's LFS limits, heavy `.onnx` models are excluded from this repository and are packaged directly within our final `.zip` build artifact).*
+### 🛠️ Getting Started for Developers
+
+Because this project relies on heavy ML models and binary libraries (`.onnx`, `.aar`) that exceed GitHub's file size limits, they are excluded from this repository via `.gitignore`. 
+
+To set up the repository after cloning, **you must run the setup script:**
+```bash
+pip install -r requirements.txt
+python download_indicconformer.py
+```
+This script will automatically download the required `sherpa-onnx` AAR library and the IndicConformer models, placing them in the correct Android directories. After that, you can open the `app/` folder in Android Studio, sync, and run!
 
 ---
 
