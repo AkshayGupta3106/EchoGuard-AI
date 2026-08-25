@@ -131,9 +131,6 @@
           <button class="lang-btn active" data-lang="en-US">English</button>
           <button class="lang-btn" data-lang="hi-IN">हिन्दी (Hindi)</button>
         </div>
-        <div class="lang-note" id="langNote">English rule coverage: OTP phishing, urgency, legal threats, courier/customs, and more.</div>
-        <div class="note" style="margin-top:6px;">Transcription here uses your browser's built-in speech recognition (sent to your browser vendor's servers) — not the project's actual on-device STT models, which only run inside the Android app. The scam-intent and voice-spoof scoring below <em>is</em> the real pipeline, running server-side.</div>
-
         <div class="row" style="margin-top:16px;">
           <button class="btn" id="startBtn">Start live call</button>
           <button class="btn stop" id="stopBtn" style="display:none;">Stop</button>
@@ -279,10 +276,6 @@ document.getElementById('analyzeBtn').addEventListener('click', async ()=>{
 });
 
 /* ================= LIVE CALL TAB ================= */
-const LANG_NOTES = {
-  'en-US': 'English rule coverage: OTP phishing, urgency, legal threats, courier/customs, and more.',
-  'hi-IN': 'Hindi rule coverage today: lottery, electricity/utility, cashback, tech-support and kidnapping-style scams. Legal-threat ("digital arrest") and courier/customs scripts are not yet covered by the Hindi ruleset — a known gap found during evaluation, not a bug in this demo.'
-};
 let currentLang = 'en-US';
 document.querySelectorAll('.lang-btn').forEach(b=>{
   b.addEventListener('click', ()=>{
@@ -290,7 +283,6 @@ document.querySelectorAll('.lang-btn').forEach(b=>{
     document.querySelectorAll('.lang-btn').forEach(x=>x.classList.remove('active'));
     b.classList.add('active');
     currentLang = b.dataset.lang;
-    document.getElementById('langNote').textContent = LANG_NOTES[currentLang];
   });
 });
 
@@ -303,8 +295,40 @@ let recognition = null;
 let audioCtx = null, micStream = null, sourceNode = null, processorNode = null;
 let chunkBuffer = [];
 let chunkSampleRate = 16000;
-const CHUNK_SECONDS = 4;
+// 4s was too aggressive for the free-tier instance (0.1 CPU) - AASIST-L
+// inference on a chunk can take longer than that to run, so chunks piled
+// up faster than the server could process them and crashed it (502/503/429
+// cycling). 8s gives each chunk enough wall-clock time to finish.
+const CHUNK_SECONDS = 8;
 let logCounter = 0;
+
+// --- backend health tracking -------------------------------------------
+// If the server starts failing repeatedly (crash-looping under load), keep
+// hammering it with more requests only makes recovery slower. Back off for
+// a cooldown window instead, and skip sending chunks/turns during it.
+let consecutiveFailures = 0;
+let cooldownUntil = 0;
+let audioChunkInFlight = false;
+const FAILURE_THRESHOLD = 3;
+const COOLDOWN_MS = 15000;
+
+function inCooldown(){ return Date.now() < cooldownUntil; }
+
+function recordFailure(){
+  consecutiveFailures++;
+  if(consecutiveFailures >= FAILURE_THRESHOLD){
+    cooldownUntil = Date.now() + COOLDOWN_MS;
+    consecutiveFailures = 0;
+    if(liveActive) setMic(true, 'server is busy — pausing briefly…');
+  }
+}
+
+function recordSuccess(){
+  const wasCoolingDown = cooldownUntil > 0;
+  consecutiveFailures = 0;
+  cooldownUntil = 0;
+  if(wasCoolingDown && liveActive) setMic(true, 'listening…');
+}
 
 function setMic(on, statusText){
   document.getElementById('micIndicator').classList.toggle('live', on);
@@ -330,6 +354,11 @@ function floatTo16WavBlob(samples, sampleRate){
 }
 
 async function sendAudioChunk(samples, sampleRate){
+  // Drop this chunk rather than queue it: if the previous chunk is still
+  // being processed or the backend is cooling down, sending more just adds
+  // to the pile-up that caused the crash loop in the first place.
+  if(audioChunkInFlight || inCooldown()) return;
+  audioChunkInFlight = true;
   const blob = floatTo16WavBlob(samples, sampleRate);
   const form = new FormData();
   form.append('session_id', sessionId);
@@ -337,11 +366,13 @@ async function sendAudioChunk(samples, sampleRate){
   try{
     const res = await fetch('/api/live/audio-chunk', {method:'POST', body:form});
     const data = await res.json();
-    if(!res.ok) return;
+    if(!res.ok){ console.error('[audio-chunk] backend error', res.status, data); recordFailure(); return; }
+    recordSuccess();
     document.getElementById('spoofScoreLive').textContent = data.spoof_score.toFixed(2);
     updateMeter('Live', data.risk_score, data.new_entry ? data.new_entry.action : (document.getElementById('verdictBadgeLive').textContent));
     if(data.new_entry) appendLogEntry(document.getElementById('logLive'), data.new_entry, logCounter++);
-  }catch(e){ /* transient network hiccup - just skip this chunk */ }
+  }catch(e){ console.error('[audio-chunk] request failed', e); recordFailure(); }
+  finally{ audioChunkInFlight = false; }
 }
 
 async function sendTurn(text){
@@ -351,22 +382,32 @@ async function sendTurn(text){
   const p = document.createElement('div'); p.textContent = text; transcriptEl.appendChild(p);
   transcriptEl.scrollTop = transcriptEl.scrollHeight;
 
+  // Still show the text locally even during a cooldown - just don't send
+  // it to an already-struggling backend. It'll be part of running_transcript
+  // context server-side once things recover and a later turn comes through
+  // (the server accumulates from session state, not from this one call).
+  if(inCooldown()) return;
+
   const form = new FormData();
   form.append('session_id', sessionId);
   form.append('text', text);
   try{
     const res = await fetch('/api/live/turn', {method:'POST', body:form});
     const data = await res.json();
-    if(!res.ok) return;
+    if(!res.ok){ console.error('[live/turn] backend error', res.status, data); recordFailure(); return; }
+    recordSuccess();
     document.getElementById('scamScoreLive').textContent = data.scam_score.toFixed(2);
     updateMeter('Live', data.risk_score, data.new_entry ? data.new_entry.action : (document.getElementById('verdictBadgeLive').textContent));
     if(data.new_entry) appendLogEntry(document.getElementById('logLive'), data.new_entry, logCounter++);
-  }catch(e){ /* skip */ }
+  }catch(e){ console.error('[live/turn] request failed', e); recordFailure(); }
 }
 
 async function startLiveCall(){
   if(!SpeechRecognitionImpl){ return; }
   logCounter = 0;
+  consecutiveFailures = 0;
+  cooldownUntil = 0;
+  audioChunkInFlight = false;
   document.getElementById('liveTranscript').innerHTML = '<span class="empty">Listening…</span>';
   document.getElementById('logLive').innerHTML = '<div class="empty">Listening for signals…</div>';
   updateMeter('Live', 0, 'monitor');
