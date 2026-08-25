@@ -50,6 +50,15 @@ RULE_CATEGORIES: Dict[str, Dict] = {
             r"share (the )?code",
             r"verification code",
             r"cvv\b",
+            # Hindi/Devanagari - this category had ZERO Hindi coverage
+            # before, despite being the single highest-weight rule. A
+            # transcript like "ओटीपी दो, ओटीपी" (give me the OTP) matched
+            # nothing at all.
+            r"ओटीपी",
+            r"वन[\s-]?टाइम[\s-]?पासवर्ड",
+            r"कोड (बताओ|बताइए|भेजो|भेजिए)",
+            r"वेरिफिकेशन कोड",
+            r"सीवीवी",
         ],
     },
     "urgency": {
@@ -66,6 +75,10 @@ RULE_CATEGORIES: Dict[str, Dict] = {
             # demand like "give me money immediately" hit nothing.
             r"\bimmediately\b",
             r"\burgent(ly)?\b",
+            # Hindi/Devanagari
+            r"अभी (करो|करिए|करें)",
+            r"तुरंत",
+            r"जल्दी करो",
         ],
     },
     "claimed_authority": {
@@ -80,6 +93,11 @@ RULE_CATEGORIES: Dict[str, Dict] = {
             r"this is (the )?(cbi|enforcement directorate|\bed\b|narcotics|customs)",
             r"security (team|department)",
             r"government (department|office)",
+            # Hindi/Devanagari
+            r"बैंक से बोल रहा",
+            r"पुलिस से बोल रहा",
+            r"साइबर क्राइम से बोल रहा",
+            r"आयकर विभाग से",
         ],
     },
     "account_threat": {
@@ -88,6 +106,10 @@ RULE_CATEGORIES: Dict[str, Dict] = {
             r"account (will be|has been) (blocked|suspended|frozen)",
             r"legal action",
             r"your card (will be|has been) blocked",
+            # Hindi/Devanagari
+            r"खाता (ब्लॉक|बंद) (हो जाएगा|कर दिया जाएगा)",
+            r"कार्ड ब्लॉक हो जाएगा",
+            r"कानूनी कार्रवाई",
         ],
     },
     "secrecy_pressure": {
@@ -96,6 +118,10 @@ RULE_CATEGORIES: Dict[str, Dict] = {
             r"(don'?t|do not) tell (anyone|anybody)",
             r"keep this (confidential|between us)",
             r"do not (hang up|disconnect)",
+            # Hindi/Devanagari
+            r"किसी को मत बताना",
+            r"यह बात गुप्त रखो",
+            r"फोन मत काटो",
         ],
     },
     "remote_access": {
@@ -105,6 +131,11 @@ RULE_CATEGORIES: Dict[str, Dict] = {
             r"teamviewer",
             r"install (this )?app",
             r"screen[\s-]?share",
+            # Hindi/Devanagari
+            r"एनीडेस्क",
+            r"टीमव्यूअर",
+            r"ऐप इंस्टॉल कर",
+            r"स्क्रीन शेयर कर",
         ],
     },
     # Direct requests for money/payment - previously had NO coverage at
@@ -126,6 +157,11 @@ RULE_CATEGORIES: Dict[str, Dict] = {
             r"refundable (fee|deposit)",
             r"give (me|us) (the )?money",
             r"hand over (the )?money",
+            # Hindi/Devanagari
+            r"पैसे (दो|दीजिए|भेजो|भेजिए)",
+            r"रकम (भेजो|भेजिए|ट्रांसफर कर)",
+            r"पैसे ट्रांसफर कर",
+            r"फीस जमा कर",
         ],
     },
     # New: requests for identity-document numbers/personal data - the
@@ -141,6 +177,10 @@ RULE_CATEGORIES: Dict[str, Dict] = {
             r"date of birth and",
             r"mother'?s maiden name",
             r"share your bank details",
+            # Hindi/Devanagari
+            r"आधार (नंबर|कार्ड) (दो|दीजिए|बताओ|बताइए)",
+            r"पैन कार्ड नंबर",
+            r"जन्म तारीख बताओ",
         ],
     },
     # New: the specific "digital arrest" / fake-warrant escalation script.
@@ -156,6 +196,11 @@ RULE_CATEGORIES: Dict[str, Dict] = {
             r"digital arrest",
             r"court notice",
             r"you will be arrested",
+            # Hindi/Devanagari
+            r"गिरफ्तार (किया जाएगा|कर लिया जाएगा)",
+            r"डिजिटल अरेस्ट",
+            r"गैर[\s-]?जमानती वारंट",
+            r"अदालत का नोटिस",
         ],
     },
     "lottery_scam": {
@@ -216,10 +261,18 @@ RULE_CATEGORIES: Dict[str, Dict] = {
             r"want your son back",
             r"want your daughter back",
             r"want your child back",
+            r"i will kill (you|your child|your family)",
             r"अपहरण",
             r"kidnap kar liya",
             r"accident ho gaya",
             r"hospital (me|mein) (hai|admit)",
+            # Hindi/Devanagari - generic death-threat coercion ("give me
+            # the OTP or I'll kill you") previously matched nothing at all,
+            # even though it's the exact phrasing that showed up in real
+            # testing paired with an OTP demand.
+            r"मार दूंगा",
+            r"जान से मार",
+            r"तुम्हें मार",
         ],
     },
 }
@@ -466,8 +519,25 @@ class ScamClassifier:
         else:
             combined = r["score"]
 
-        joke_rx = re.compile(r"\b(just kidding|was kidding|i'm kidding|im kidding|i am kidding|only joking|it's a prank|its a prank|mazaak tha|mazak tha|मज़ाक कर रहा|मजाक कर रहा|मज़ाक था|मजाक था|मजाक कर रही|मज़ाक कर रही)\b", re.IGNORECASE)
-        serious_rx = re.compile(r"\b(not kidding|i am serious|seriously|not a joke|मज़ाक नहीं|मजाक नहीं|सच बोल रहा|गंभीर हूँ)\b", re.IGNORECASE)
+        # \b does not work reliably around the Hindi phrases here: Python's
+        # \w (and therefore \b) does not count Devanagari dependent vowel
+        # signs (matras - ा ि ी ु ू े ै ो ौ) as word characters, even though
+        # they're a normal part of the word. Every one of the Hindi phrases
+        # below ends in a matra, so wrapping the whole alternation in one
+        # \b...\b (as a previous version of this code did) silently never
+        # matched any of them - the joke/prank override was completely
+        # inert for Hindi. \b is kept around the English phrases only,
+        # where it's safe and still useful; the Hindi phrases are specific
+        # enough as bare substrings (matching the style already used for
+        # every other Hindi pattern in this file) not to need it.
+        joke_rx = re.compile(
+            r"\b(just kidding|was kidding|i'm kidding|im kidding|i am kidding|only joking|it's a prank|its a prank|mazaak tha|mazak tha)\b"
+            r"|(?:मज़ाक कर रहा|मजाक कर रहा|मज़ाक था|मजाक था|मजाक कर रही|मज़ाक कर रही)",
+            re.IGNORECASE)
+        serious_rx = re.compile(
+            r"\b(not kidding|i am serious|seriously|not a joke)\b"
+            r"|(?:मज़ाक नहीं|मजाक नहीं|सच बोल रहा|गंभीर हूँ)",
+            re.IGNORECASE)
 
         last_joke_match = list(joke_rx.finditer(transcript))
         last_serious_match = list(serious_rx.finditer(transcript))
