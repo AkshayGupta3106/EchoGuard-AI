@@ -37,7 +37,13 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 for sub in ("acoustic", "semantic", "fusion"):
     sys.path.insert(0, str(REPO_ROOT / sub))
 
-from spoof_detector import SpoofDetector, RollingSpoofScorer  # noqa: E402
+# Web-service-specific: use the ONNX Runtime spoof detector, not the torch
+# one. `import torch` alone uses ~490MB RSS - nearly the whole 512MB
+# free-tier RAM budget before FastAPI/uvicorn/a single request even runs.
+# `import onnxruntime` uses ~40MB for numerically identical output (see
+# acoustic/spoof_detector_onnx.py for the verification). That memory gap was
+# causing OOM crash-restart loops under normal use.
+from spoof_detector_onnx import SpoofDetector, RollingSpoofScorer  # noqa: E402
 from scam_classifier import ScamClassifier                     # noqa: E402
 from fusion_engine import FusionEngine, StreamSignal            # noqa: E402
 from supervisor_agent import SupervisorAgent                    # noqa: E402
@@ -47,7 +53,7 @@ SESSION_TTL_SECONDS = 20 * 60  # abandoned live-call sessions get pruned after 2
 
 app = FastAPI(title="EchoGuard-AI live demo")
 
-print("[startup] loading AASIST-L (this happens once, shared across all sessions)...")
+print("[startup] loading AASIST-L via ONNX Runtime (this happens once, shared across all sessions)...")
 _spoof_detector = SpoofDetector()
 print("[startup] ready.")
 
