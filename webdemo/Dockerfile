@@ -15,9 +15,15 @@ COPY semantic ./semantic
 COPY fusion ./fusion
 COPY webdemo ./webdemo
 
-# CPU-only torch from the official PyTorch index (the default PyPI wheel pulls in a
-# multi-GB CUDA dependency stack that's wasted on a CPU-only web dyno).
-RUN pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu
+# NOTE: this image intentionally never installs torch. The web service uses
+# acoustic/spoof_detector_onnx.py (ONNX Runtime) instead of spoof_detector.py
+# (PyTorch): `import torch` alone uses ~490MB RSS - nearly the entire 512MB
+# free-tier RAM budget on its own - while `import onnxruntime` uses ~40MB,
+# for numerically identical output from the same AASIST-L weights (verified
+# to ~1e-7). That gap was causing OOM crash-restart loops under normal use.
+# This needs acoustic/aasist_model/aasist_l.onnx to be committed to the repo
+# (~600KB - generate it once with `python3 acoustic/export_onnx.py` in an
+# environment that has torch, then `git add` the resulting .onnx file).
 RUN pip install --no-cache-dir -r webdemo/requirements.txt
 
 # sentence-transformers is intentionally omitted from the free-tier image.
