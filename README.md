@@ -54,6 +54,8 @@ Combining both signals helps detect both **human scammers with genuine voices** 
 | Signal Fusion | Custom `FusionEngine` |
 | Decision Layer | `SupervisorAgent` |
 
+All four ML models (`Kroko-128L`, `IndicConformer`, `AASIST-L`, `all-MiniLM-L6-v2`) run on-device as **INT8-quantized ONNX** models, keeping the full pipeline lightweight enough for offline mobile inference.
+
 ## 📱 Android
 
 The main application is built with **Kotlin, Jetpack Compose, Coroutines, ONNX Runtime, and sherpa-onnx**.
@@ -81,12 +83,14 @@ The deployed web demo runs inference server-side; the Android application target
 EchoGuard-AI/
 ├── app/                         # Android application
 ├── acoustic/                    # VAD + AASIST-L spoof detection
-├── semantic/                    # Scam intent detection
+├── semantic/                    # Scam intent detection (MiniLM + rules)
 ├── fusion/                      # Fusion engine + supervisor
 ├── backend/                     # FastAPI online mode
 ├── webdemo/                     # Browser-based demonstration
-├── download_indicconformer.py   # Hindi STT setup
-├── download_kroko.py            # English STT setup
+├── download_indicconformer.py   # Hindi STT setup (pre-quantized, downloaded)
+├── download_kroko.py            # English STT setup (pre-quantized, downloaded)
+├── acoustic/export_onnx.py      # AASIST-L export + INT8 quantization
+├── semantic/export_minilm_onnx.py  # MiniLM export + INT8 quantization
 └── requirements.txt
 ```
 
@@ -99,9 +103,17 @@ git clone https://github.com/Chirag514/EchoGuard-AI.git
 cd EchoGuard-AI
 
 pip install -r requirements.txt
-python download_indicconformer.py
-python download_kroko.py
+python download_indicconformer.py   # Hindi STT (pre-quantized, downloaded from HF)
+python download_kroko.py            # English STT (pre-quantized, downloaded from HF)
+python acoustic/export_onnx.py           # AASIST-L: exports + INT8-quantizes locally
+python semantic/export_minilm_onnx.py    # MiniLM: exports + INT8-quantizes locally
 ```
+
+The last two scripts need `torch` + `transformers` (already in `requirements.txt`)
+and, for MiniLM, internet access on first run to pull `all-MiniLM-L6-v2` from
+Hugging Face. Both write their quantized `.onnx` output directly into
+`app/app/src/main/assets/models/` under the exact filename the app expects —
+no manual copying or renaming needed, same as the two download scripts above.
 
 Open `app/` in Android Studio, sync Gradle, and run on an Android device.
 

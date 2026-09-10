@@ -50,6 +50,8 @@ private val RULE_CATEGORIES: List<RuleCategory> = listOf(
         Regex("verification code", RegexOption.IGNORE_CASE),
         Regex("cvv\\b", RegexOption.IGNORE_CASE),
         Regex("ओटीपी", RegexOption.IGNORE_CASE),
+        Regex("ओ टी पी", RegexOption.IGNORE_CASE),
+        Regex("ओटप", RegexOption.IGNORE_CASE),
         Regex("otp (batao|share|do|bhejo)", RegexOption.IGNORE_CASE),
         Regex("code (batao|share)", RegexOption.IGNORE_CASE),
     )),
@@ -82,7 +84,7 @@ private val RULE_CATEGORIES: List<RuleCategory> = listOf(
         Regex("account (will be|has been) (blocked|suspended|frozen)", RegexOption.IGNORE_CASE),
         Regex("legal action", RegexOption.IGNORE_CASE),
         Regex("your card (will be|has been) blocked", RegexOption.IGNORE_CASE),
-        Regex("खाता (बंद|ब्लॉक)", RegexOption.IGNORE_CASE),
+        Regex("(खाता|अकाउंट|एकाउन्ट|एकाउंट).{0,15}(बंद|ब्लॉक)", RegexOption.IGNORE_CASE),
         Regex("khata (block|band)", RegexOption.IGNORE_CASE),
         Regex("account (block|band)", RegexOption.IGNORE_CASE),
     )),
@@ -366,7 +368,6 @@ class SemanticScorer(
         fun clearCache(context: android.content.Context) {
             try {
                 java.io.File(context.cacheDir, "minilm.onnx").delete()
-                java.io.File(context.cacheDir, "minilm.onnx.data").delete()
             } catch (_: Throwable) {}
         }
     }
@@ -381,7 +382,6 @@ class SemanticScorer(
 
     init {
         val modelFile = java.io.File(context.cacheDir, "minilm.onnx")
-        val dataFile = java.io.File(context.cacheDir, "minilm.onnx.data")
         try {
             val runtime = Runtime.getRuntime()
             val availMb = (runtime.maxMemory() - (runtime.totalMemory() - runtime.freeMemory())) / 1024 / 1024
@@ -397,14 +397,12 @@ class SemanticScorer(
                     setExecutionMode(OrtSession.SessionOptions.ExecutionMode.SEQUENTIAL)
                 }
 
-                if (!modelFile.exists() || !dataFile.exists() || modelFile.length() == 0L || dataFile.length() == 0L) {
+                // Quantized model is a single self-contained file - no
+                // external .onnx.data companion to fetch or check.
+                if (!modelFile.exists() || modelFile.length() == 0L) {
                     modelFile.delete()
-                    dataFile.delete()
                     context.assets.open(modelAssetPath).use { input ->
                         java.io.FileOutputStream(modelFile).use { output -> input.copyTo(output) }
-                    }
-                    context.assets.open("$modelAssetPath.data").use { input ->
-                        java.io.FileOutputStream(dataFile).use { output -> input.copyTo(output) }
                     }
                 }
                 session = env?.createSession(modelFile.absolutePath, opts)
@@ -420,7 +418,6 @@ class SemanticScorer(
             android.util.Log.e("SemanticScorer", "MiniLM failed to load, falling back to rules-only", e)
             try {
                 modelFile.delete()
-                dataFile.delete()
             } catch (_: Throwable) {}
             session = null
             tokenizer = null
@@ -581,23 +578,23 @@ class ScamClassifier(
             }
         }
 
-        val englishJokeRegex = Regex("\\b(just kidding|was kidding|i'm kidding|im kidding|i am kidding|only joking|it's a prank|its a prank|mazaak tha|mazak tha)\\b", RegexOption.IGNORE_CASE)
-        val hindiJokeRegex = Regex("(मज़ाक कर रहा|मजाक कर रहा|मज़ाक था|मजाक था|मजाक कर रही|मज़ाक कर रही)")
+        val englishJokeRegex = Regex("\\b(kidding|joking|joke|prank|pranking|mazaak|mazak)\\b", RegexOption.IGNORE_CASE)
+        val hindiJokeRegex = Regex("(मज़ाक|मजाक|शरारत)")
         
-        val englishSeriousRegex = Regex("\\b(not kidding|i am serious|seriously|not a joke)\\b", RegexOption.IGNORE_CASE)
-        val hindiSeriousRegex = Regex("(मज़ाक नहीं|मजाक नहीं|सच बोल रहा|गंभीर हूँ)")
+        val englishSeriousRegex = Regex("\\b(not kidding|not joking|not a joke|no joke|serious|seriously)\\b", RegexOption.IGNORE_CASE)
+        val hindiSeriousRegex = Regex("(मज़ाक नहीं|मजाक नहीं|सच बोल रहा|गंभीर हूँ|गंभीर)")
 
         // Find the LAST index of any joke phrase and any serious phrase
-        val engJokeIdx = englishJokeRegex.findAll(transcript).lastOrNull()?.range?.first ?: -1
-        val hinJokeIdx = hindiJokeRegex.findAll(transcript).lastOrNull()?.range?.first ?: -1
-        val lastJokeIndex = maxOf(engJokeIdx, hinJokeIdx)
+        val engJokeEnd = englishJokeRegex.findAll(transcript).lastOrNull()?.range?.last ?: -1
+        val hinJokeEnd = hindiJokeRegex.findAll(transcript).lastOrNull()?.range?.last ?: -1
+        val lastJokeEnd = maxOf(engJokeEnd, hinJokeEnd)
 
-        val engSeriousIdx = englishSeriousRegex.findAll(transcript).lastOrNull()?.range?.first ?: -1
-        val hinSeriousIdx = hindiSeriousRegex.findAll(transcript).lastOrNull()?.range?.first ?: -1
-        val lastSeriousIndex = maxOf(engSeriousIdx, hinSeriousIdx)
+        val engSeriousEnd = englishSeriousRegex.findAll(transcript).lastOrNull()?.range?.last ?: -1
+        val hinSeriousEnd = hindiSeriousRegex.findAll(transcript).lastOrNull()?.range?.last ?: -1
+        val lastSeriousEnd = maxOf(engSeriousEnd, hinSeriousEnd)
 
-        // It is a joke IF a joke phrase exists, AND it appears AFTER the most recent serious phrase
-        val isJoke = lastJokeIndex > -1 && lastJokeIndex > lastSeriousIndex
+        // It is a joke IF a joke phrase exists, AND it ends AFTER the most recent serious phrase ends
+        val isJoke = lastJokeEnd > -1 && lastJokeEnd > lastSeriousEnd
 
         if (isJoke) {
             combined = 0.0

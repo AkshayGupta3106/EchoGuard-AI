@@ -6,8 +6,8 @@
 |---|---|---|
 | `vad_gate.py` | **Tested, working** — real Silero VAD ONNX model | Speech/silence gate |
 | `spoof_detector.py` | **Tested, working** — real pretrained AASIST-L checkpoint | `predict_file()` / `RollingSpoofScorer` |
-| `export_onnx.py` | **Tested, working** | Exports AASIST-L to ONNX for Android (already run once — see `aasist_model/aasist_l.onnx`) |
-| `aasist_model/` | Real files, not placeholders | Vendored `AASIST.py`, `AASIST-L.pth` (original checkpoint), `AASIST-L.conf`, `aasist_l.onnx` (exported), `silero_vad.onnx`, both licenses |
+| `export_onnx.py` | **Tested, working** | Exports AASIST-L to ONNX, then quantizes to INT8, writing directly into the Android app's assets folder (`app/app/src/main/assets/models/aasist_l.onnx`) — no manual copy/rename needed |
+| `aasist_model/` | Real files, not placeholders | Vendored `AASIST.py`, `AASIST-L.pth` (original checkpoint), `AASIST-L.conf`, `aasist_l.onnx` (fp32 intermediate export, kept locally for debugging only — not bundled), `silero_vad.onnx`, both licenses |
 | `android/VadGate.kt` | Integration skeleton | ONNX Runtime Mobile port of `vad_gate.py` |
 | `android/SpoofDetector.kt` | Integration skeleton | ONNX Runtime Mobile port of `spoof_detector.py` |
 
@@ -28,7 +28,7 @@ What's *not* verified here: real speech (vs. synthetic noise/silence), real Andr
    print(d.predict_file("your_demo_clip.wav"))  # must be 16kHz mono
    ```
    If `spoof_score` isn't clearly high on your actual demo clip, you need to know that now, not on stage.
-3. On Android: bundle `aasist_model/aasist_l.onnx` and `aasist_model/silero_vad.onnx` as assets, wire up `VadGate.kt` and `SpoofDetector.kt`, and time `SpoofDetector.score()` on a real phone. On this dev sandbox's CPU, PyTorch inference took ~750-1000ms per 4-second window — that's your rough ballpark to beat or match on-device; profile for real rather than assuming.
+3. On Android: `python acoustic/export_onnx.py` (produces the quantized `aasist_l.onnx` asset automatically), wire up `VadGate.kt` and `SpoofDetector.kt`, and time `SpoofDetector.score()` on a real phone. On this dev sandbox's CPU, PyTorch inference took ~750-1000ms per 4-second window — that's your rough ballpark to beat or match on-device; profile for real rather than assuming.
 
 ## Contract with the fusion engine
 
@@ -42,7 +42,23 @@ AASIST-L takes **raw 16kHz waveform directly**, not a mel-spectrogram — it has
 
 ## Note on the ONNX export
 
-`aasist_l.onnx` came out as two files: `aasist_l.onnx` and `aasist_l.onnx.data` (the newer PyTorch exporter splits large weight tensors into an external data file). Keep both together — the `.onnx` file won't load without its `.data` companion sitting next to it, including when you bundle it into Android assets.
+`export_onnx.py` produces two files: a full-precision fp32 export
+(`aasist_model/aasist_l.onnx`, kept locally as an intermediate/debugging
+artifact only) and an INT8-quantized version written directly to
+`app/app/src/main/assets/models/aasist_l.onnx` — the one the Android app
+actually loads. The quantized model is a single self-contained file with
+**no external `.onnx.data` companion** (unlike some large fp32 exports)
+- `SpoofDetector.kt` was updated to only expect the one file.
+
+The fp32→int8 quantization step needs `onnxruntime.quantization`'s
+`quant_pre_process` shape-inference preprocessing before quantizing, and
+the export itself must use the legacy TorchScript-based exporter
+(`torch.onnx.export(..., dynamo=False)`) rather than PyTorch's newer
+default dynamo exporter — the newer exporter writes conflicting shape
+metadata for this model's two differently-shaped outputs (`embedding`
+[1,160] vs `logits` [1,2]) that crashes the quantizer. Both are handled
+already inside `export_onnx.py`; mentioned here in case you ever need to
+debug a similar issue when re-exporting.
 
 ## Licensing
 
