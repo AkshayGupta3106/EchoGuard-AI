@@ -305,4 +305,8 @@ def main() -> int:
 
 
 if __name__ == "__main__":
+<<<<<<< HEAD
     raise SystemExit(main())
+=======
+    raise SystemExit(main())
+>>>>>>> upstream/main

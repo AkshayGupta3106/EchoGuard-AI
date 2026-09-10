@@ -61,6 +61,12 @@ re-copy — don't let the two drift silently out of sync.
   root to fetch `indicconformer-hi/model.int8.onnx` + `tokens.txt` (~150 MB) from
   Hugging Face (`parismitaglobalsolutions/indicconformer-sherpa-onnx`). The app will
   show a clear error message in the transcript card if these files are missing.
+- **AASIST-L and MiniLM model assets** — run `python acoustic/export_onnx.py` and
+  `python semantic/export_minilm_onnx.py` from the repo root. Both export their
+  PyTorch checkpoints to ONNX, quantize to INT8, and write directly into
+  `app/app/src/main/assets/models/` under their final names — same pattern as
+  the download scripts above, no manual copy/rename needed. `export_minilm_onnx.py`
+  needs internet access on first run to pull `all-MiniLM-L6-v2` from Hugging Face.
 - A real on-device test of the speakerphone+mic approach — confirm actual captured audio
   quality is good enough for AASIST-L and IndicConformer before trusting this design
   end to end. Check logcat for `IndicConformerDebug` tag to see per-frame latency.

@@ -12,44 +12,89 @@
  *   output: "embedding" [1, 160], "logits" [1, 2]
  *           logits index 0 = spoof, index 1 = bonafide
  *
- * Setup: bundle aasist_l.onnx as an Android asset,
+ * Setup: bundle aasist_l.onnx as an Android asset (the INT8-quantized
+ *   export from export_onnx.py - see its docstring; quantized models are
+ *   self-contained, no external .onnx.data companion file needed),
  *   implementation("com.microsoft.onnxruntime:onnxruntime-android:latest.release")
  */
 
 package com.echoguard.acoustic
 
+import android.content.Context
 import ai.onnxruntime.OnnxTensor
 import ai.onnxruntime.OrtEnvironment
 import ai.onnxruntime.OrtSession
+import java.io.File
+import java.io.FileOutputStream
 import java.nio.FloatBuffer
 import kotlin.math.exp
 
 class SpoofDetector(
-    assetManager: android.content.res.AssetManager,
+    context: Context,
     modelAssetPath: String = "models/aasist_l.onnx",
 ) {
     companion object {
-        const val SAMPLE_RATE = 16000
         const val WINDOW_SAMPLES = 64600  // ~4.04s - fixed by the model architecture
+
+        fun clearCache(context: Context) {
+            try {
+                File(context.cacheDir, "aasist_l.onnx").delete()
+            } catch (_: Throwable) {}
+        }
     }
 
-    private val env = OrtEnvironment.getEnvironment()
-    private val session: OrtSession
-    // Rolling buffer of the most recent audio - a ring buffer would be more
-    // efficient than this simple approach for a long-running call, but this
-    // is the easiest correct version to start from.
-    private val buffer = ArrayDeque<Float>()
+    private var env: OrtEnvironment? = null
+    private var session: OrtSession? = null
+    // Memory-efficient ring buffer of raw audio samples
+    private val buffer = FloatArray(WINDOW_SAMPLES)
+    private var bufferPos = 0
+    private var bufferFilled = 0
+    private val lock = Any()
 
     init {
-        val modelBytes = assetManager.open(modelAssetPath).readBytes()
-        session = env.createSession(modelBytes)
+        val modelFile = File(context.cacheDir, "aasist_l.onnx")
+
+        try {
+            val runtime = Runtime.getRuntime()
+            val availMb = (runtime.maxMemory() - (runtime.totalMemory() - runtime.freeMemory())) / 1024 / 1024
+            if (availMb < 80) {
+                android.util.Log.w("SpoofDetector", "Low available memory (${availMb}MB). Skipping AASIST-L load to prevent LMK crash.")
+                env = null
+                session = null
+            } else {
+                env = OrtEnvironment.getEnvironment()
+                val opts = OrtSession.SessionOptions().apply {
+                    setIntraOpNumThreads(1)
+                    setInterOpNumThreads(1)
+                    setExecutionMode(OrtSession.SessionOptions.ExecutionMode.SEQUENTIAL)
+                }
+                // Quantized model is a single self-contained file - no
+                // external .onnx.data companion to fetch or check.
+                if (!modelFile.exists() || modelFile.length() == 0L) {
+                    modelFile.delete()
+                    context.assets.open(modelAssetPath).use { input ->
+                        FileOutputStream(modelFile).use { output -> input.copyTo(output) }
+                    }
+                }
+
+                session = env?.createSession(modelFile.absolutePath, opts)
+            }
+        } catch (e: Throwable) {
+            android.util.Log.e("SpoofDetector", "Failed to load ONNX session", e)
+            try {
+                modelFile.delete()
+            } catch (_: Throwable) {}
+            env = null
+            session = null
+        }
     }
 
     /** Feed small chunks continuously (post-VAD) from your audio capture loop. */
-    fun push(samples: FloatArray) {
+    fun push(samples: FloatArray) = synchronized(lock) {
         for (s in samples) {
-            if (buffer.size >= WINDOW_SAMPLES) buffer.removeFirst()
-            buffer.addLast(s)
+            buffer[bufferPos] = s
+            bufferPos = (bufferPos + 1) % WINDOW_SAMPLES
+            if (bufferFilled < WINDOW_SAMPLES) bufferFilled++
         }
     }
 
@@ -59,39 +104,81 @@ class SpoofDetector(
      * buffer is tiled to fill the window - same behavior as the Python
      * reference implementation (matches the original AASIST eval recipe). */
     fun score(): Result {
-        if (buffer.isEmpty()) return Result(0f, 1f, 0)
+        val currentEnv = env ?: return Result(0f, 1f, 0)
+        val currentSession = session ?: return Result(0f, 1f, 0)
 
-        val raw = buffer.toFloatArray()
-        val windowed = if (raw.size >= WINDOW_SAMPLES) {
-            raw.copyOfRange(0, WINDOW_SAMPLES)
-        } else {
-            FloatArray(WINDOW_SAMPLES) { i -> raw[i % raw.size] }  // tile to fill
+        // Take a snapshot of the buffer under the lock, then release immediately
+        // so the audio capture loop's push() calls aren't blocked for the
+        // entire ~750ms ONNX inference window.
+        val raw: FloatArray = synchronized(lock) {
+            if (bufferFilled == 0) return Result(0f, 1f, 0)
+            
+            val snapshot = FloatArray(bufferFilled)
+            if (bufferFilled < WINDOW_SAMPLES) {
+                // Buffer not yet full, copy from start to current position
+                System.arraycopy(buffer, 0, snapshot, 0, bufferFilled)
+            } else {
+                // Buffer full and wrapped, copy from current position to end, then start to current position
+                System.arraycopy(buffer, bufferPos, snapshot, 0, WINDOW_SAMPLES - bufferPos)
+                System.arraycopy(buffer, 0, snapshot, WINDOW_SAMPLES - bufferPos, bufferPos)
+            }
+            snapshot
         }
 
-        val startTime = System.currentTimeMillis()
-        val inputTensor = OnnxTensor.createTensor(
-            env, FloatBuffer.wrap(windowed), longArrayOf(1, WINDOW_SAMPLES.toLong())
-        )
-        session.run(mapOf("waveform" to inputTensor)).use { results ->
-            val logits = (results.get("logits").get().value as Array<FloatArray>)[0]
-            val elapsed = System.currentTimeMillis() - startTime
+        val windowed = when {
+            raw.size >= WINDOW_SAMPLES -> raw // Should be exactly WINDOW_SAMPLES if filled
+            raw.isEmpty() -> return Result(0f, 1f, 0)
+            else -> {
+                // Tile the short buffer to fill WINDOW_SAMPLES.
+                FloatArray(WINDOW_SAMPLES) { i -> raw[i % raw.size] }
+            }
+        }
 
-            // softmax over the 2 logits
-            val maxLogit = maxOf(logits[0], logits[1])
-            val expSpoof = exp((logits[0] - maxLogit).toDouble())
-            val expBona = exp((logits[1] - maxLogit).toDouble())
-            val sum = expSpoof + expBona
+        return try {
+            val directBuffer = java.nio.ByteBuffer.allocateDirect(windowed.size * 4)
+                .order(java.nio.ByteOrder.nativeOrder())
+                .asFloatBuffer()
+            directBuffer.put(windowed)
+            directBuffer.rewind()
 
-            return Result(
-                spoofScore = (expSpoof / sum).toFloat(),
-                bonafideScore = (expBona / sum).toFloat(),
-                inferenceMs = elapsed,
+            val inputTensor = OnnxTensor.createTensor(
+                currentEnv,
+                directBuffer,
+                longArrayOf(1, WINDOW_SAMPLES.toLong()),
             )
+            val startTime = System.currentTimeMillis()
+            inputTensor.use { tensor ->
+                currentSession.run(mapOf("waveform" to tensor)).use { results ->
+                    val logitsValue = results["logits"]
+                    if (!logitsValue.isPresent) return Result(0f, 1f, 0)
+                val logits = (logitsValue.get().value as Array<*>)[0] as FloatArray
+                val elapsed = System.currentTimeMillis() - startTime
+
+                // softmax over the 2 logits
+                val maxLogit = maxOf(logits[0], logits[1])
+                val expSpoof = exp((logits[0] - maxLogit).toDouble())
+                val expBona  = exp((logits[1] - maxLogit).toDouble())
+                val sum = expSpoof + expBona
+
+                    Result(
+                        spoofScore    = (expSpoof / sum).toFloat(),
+                        bonafideScore = (expBona  / sum).toFloat(),
+                        inferenceMs   = elapsed,
+                    )
+                }
+            }
+        } catch (e: Throwable) {
+            android.util.Log.e("SpoofDetector", "ONNX inference failed", e)
+            Result(0f, 1f, 0)
         }
     }
 
     fun release() {
-        session.close()
+        try {
+            session?.close()
+        } catch (_: Throwable) {}
+        session = null
+        env = null
     }
 }
 
