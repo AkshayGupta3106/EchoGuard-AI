@@ -1,4 +1,12 @@
 // Module-level build.gradle.kts (app/)
+import java.io.FileOutputStream
+import java.io.InputStream
+import java.net.URI
+
+plugins {
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+}
 
 // ---------------------------------------------------------------------------
 // Auto-download sherpa-onnx AAR if missing (e.g. fresh clone on a new machine)
@@ -8,19 +16,18 @@ val sherpaAarFile = file("libs/sherpa-onnx-1.13.4.aar")
 if (!sherpaAarFile.exists()) {
     println("sherpa-onnx AAR not found. Downloading (~37 MB)...")
     sherpaAarFile.parentFile.mkdirs()
-    val url = java.net.URL(
+
+    val sherpaUrl = URI(
         "https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.13.4/sherpa-onnx-1.13.4.aar"
-    )
-    url.openStream().use { input ->
-        sherpaAarFile.outputStream().use { output ->
+    ).toURL()
+
+    sherpaUrl.openStream().use { input: InputStream ->
+        sherpaAarFile.outputStream().use { output: FileOutputStream ->
             input.copyTo(output)
         }
     }
+
     println("sherpa-onnx AAR downloaded successfully.")
-}
-plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
 }
 
 android {
