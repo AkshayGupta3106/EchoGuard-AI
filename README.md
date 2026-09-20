@@ -56,6 +56,16 @@ Combining both signals helps detect both **human scammers with genuine voices** 
 
 All four ML models (`Kroko-128L`, `IndicConformer`, `AASIST-L`, `all-MiniLM-L6-v2`) run on-device as **INT8-quantized ONNX** models, keeping the full pipeline lightweight enough for offline mobile inference.
 
+**On-device footprint (verified):**
+
+| Model | Size (INT8) | Quantization |
+|---|---|---|
+| MiniLM (`all-MiniLM-L6-v2`) | 22.3 MB | Quantized locally (FP32 87.3 MB → INT8 22.3 MB, **–74.5%**) |
+| AASIST-L | 0.54 MB | Quantized locally (INT8; size stayed near the original 0.59 MB — the model is small and convolution-dominated, so INT8 conversion mainly reduces compute/latency here rather than file size) |
+| Kroko-128L (encoder+decoder+joiner) | 147.0 MB | Pre-quantized, downloaded from Hugging Face |
+| IndicConformer | 188.4 MB | Pre-quantized, downloaded from Hugging Face |
+| **Total** | **~358 MB** | |
+
 ## 📱 Android
 
 The main application is built with **Kotlin, Jetpack Compose, Coroutines, ONNX Runtime, and sherpa-onnx**.

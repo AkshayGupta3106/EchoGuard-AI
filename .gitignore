@@ -35,3 +35,6 @@ env/
 AI_ARENA_DOCUMENTATION.md
 PRESENTATION_DECK.md
 events.json
+
+# Quantization
+inspect_onnx.py
