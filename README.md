@@ -4,145 +4,84 @@
 
 > **Detect the voice. Understand the intent. Stop the scam.**
 
-[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-Render-46E3B7)](https://echoguard-ai-dmaj.onrender.com/)
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Render-46E3B7?style=for-the-badge)](https://echoguard-ai-dmaj.onrender.com/)
 
-EchoGuard-AI is a **privacy-first voice scam detection system** that combines **acoustic spoof detection** and **semantic scam-intent analysis**, using an agentic supervisor to continuously assess conversations and escalate fraud risk.
+[Setup & usage](docs/guide.md) · [Evaluation & limitations](docs/evaluation.md)
 
-## 🧠 How It Works
+EchoGuard-AI combines **voice-spoof detection** and **scam-intent analysis** with
+an agentic supervisor that tracks conversation risk and explains **MONITOR**,
+**WARN**, and **BLOCK** recommendations. Android inference runs on-device;
+the web demo sends audio/text to the server for analysis.
+
+**Stack:** Python · Kotlin/Jetpack Compose · PyTorch · ONNX Runtime · sherpa-onnx · FastAPI · Docker
+
+## 🧠 How it works
 
 ```text
-                    Phone Conversation
-                           │
-             ┌─────────────┴─────────────┐
-             ▼                           ▼
-        Speech-to-Text             Voice Authenticity
-     Kroko-128L / IndicConformer        AASIST-L
-             │                           │
-             ▼                           ▼
-      Semantic Intent              Acoustic Score
-       MiniLM + Rules                    │
-             │                           │
-             └─────────────┬─────────────┘
-                           ▼
-                    Fusion Engine
-                           │
-                           ▼
-                  Supervisor Agent
-                           │
-                           ▼
-                     Risk / Action
+                      Microphone audio
+                             │
+               ┌─────────────┴─────────────┐
+               ▼                           ▼
+         Speech-to-Text              Voice Authenticity
+    Kroko-128L / IndicConformer           AASIST-L
+               │                           │
+               ▼                           │
+       Scam Intent Analysis                │
+          MiniLM + Rules                    │
+               │                           │
+               └─────────────┬─────────────┘
+                             ▼
+                       Fusion Engine
+                             ▼
+                      Supervisor Agent
+                             ▼
+                   Risk + Recommendation
 ```
 
 **Decision loop:** `Observe → Reason → Explain → Recommend → Act`
 
-### Dual-Modal Detection
+- **Acoustic authenticity:** scores possible AI-generated or spoofed voices.
+- **Semantic intent:** identifies OTP phishing, impersonation, financial requests,
+  secrecy, and urgency—even when the speaker uses a genuine voice.
 
-- 🎙️ **Acoustic Authenticity** — detects AI-generated / spoofed voices with `AASIST-L`
-- 🧠 **Semantic Intent** — detects scam tactics such as OTP phishing, impersonation, financial requests, and forced urgency
+The diagram shows the Android pipeline. The web demo uses browser speech
+recognition; its lightweight deployment uses rules-only text scoring, while
+the full local Python environment can also use MiniLM.
 
-Combining both signals helps detect both **human scammers with genuine voices** and **AI-generated voice scams**.
+## 📱 Android & 🌐 web demo
 
-## 🔬 Detection Pipeline
-
-| Component | Technology |
-|---|---|
-| Speech-to-Text | `Kroko-128L` · `IndicConformer` · ONNX Runtime |
-| Voice Activity Detection | `Silero VAD` |
-| Voice Spoof Detection | `AASIST-L` |
-| Scam Intent | `all-MiniLM-L6-v2` + semantic search |
-| Context Detection | Hindi/English rule engine |
-| Signal Fusion | Custom `FusionEngine` |
-| Decision Layer | `SupervisorAgent` |
-
-All four ML models (`Kroko-128L`, `IndicConformer`, `AASIST-L`, `all-MiniLM-L6-v2`) run on-device as **INT8-quantized ONNX** models, keeping the full pipeline lightweight enough for offline mobile inference.
-
-**On-device footprint (verified):**
-
-| Model | Size (INT8) | Quantization |
+| Feature | Android | Web demo |
 |---|---|---|
-| MiniLM (`all-MiniLM-L6-v2`) | 22.3 MB | Quantized locally (FP32 87.3 MB → INT8 22.3 MB, **–74.5%**) |
-| AASIST-L | 0.54 MB | Quantized locally (INT8; size stayed near the original 0.59 MB — the model is small and convolution-dominated, so INT8 conversion mainly reduces compute/latency here rather than file size) |
-| Kroko-128L (encoder+decoder+joiner) | 147.0 MB | Pre-quantized, downloaded from Hugging Face |
-| IndicConformer | 188.4 MB | Pre-quantized, downloaded from Hugging Face |
-| **Total** | **~358 MB** | |
+| English/Hindi speech analysis | Kroko-128L / IndicConformer | Browser speech recognition |
+| Voice authenticity + scam intent | On-device ONNX inference and rules | Server-side inference and rules |
+| Input | Microphone | Microphone, pasted text, optional audio upload |
+| Session history | Local full transcripts, view/delete/clear | Browser-saved full transcripts, view/delete/clear |
+| Appearance | Light, dark, or system theme | Light/dark theme with saved preference |
 
-## 📱 Android
+Android uses INT8 model exports and pre-quantized ASR; the web demo is deployed
+via **Docker/FastAPI on Render**.
 
-The main application is built with **Kotlin, Jetpack Compose, Coroutines, ONNX Runtime, and sherpa-onnx**.
+## 📊 Benchmark highlights
 
-The Android pipeline is designed for **on-device inference**, keeping the core voice-analysis pipeline local and minimizing latency and cloud dependency.
+| Metric | Result | Scope |
+|---|---|---|
+| English / Hindi F1 | **92.3% / 85.7%** | Pooled held-out Python supplied-text fusion |
+| Real-time factor (RTF) | **0.092 (~11× real-time throughput)** | AASIST-L acoustic inference |
+| P99 inference latency | **~527 ms** | Acoustic inference, median per-run P99 |
+| MiniLM export-size reduction | **~75%** | FP32 to self-contained ONNX INT8 |
+| Android model footprint | **~358 MiB (~376 MB)** | Bundled ONNX models, excluding staged VAD; not APK size or peak RAM |
 
-## 🌐 Web Demo
+These are separate text/acoustic benchmarks, not complete microphone-pipeline
+accuracy or end-to-end latency. [Methodology, device results, and limitations](docs/evaluation.md#measured-results).
 
-The `webdemo/` directory provides a browser-based demonstration with:
+## 🚀 Get started
 
-- Live microphone analysis
-- Transcript analysis
-- WAV audio analysis
-- English and Hindi support
-- Semantic scam scoring
-- Acoustic spoof scoring
-- Continuous fraud-risk updates
-- Supervisor-agent reasoning
+| Goal | Guide |
+|---|---|
+| Run the web demo locally | [Python or Docker setup](docs/guide.md#web-demo) |
+| Build and use Android | [Android setup](docs/guide.md#android) |
+| Find source, models, and development commands | [Project structure](docs/guide.md#project-structure) |
+| Reproduce and interpret benchmarks | [Evaluation commands](docs/evaluation.md#run-evaluations) |
 
-The deployed web demo runs inference server-side; the Android application targets on-device inference.
-
-## 📂 Project Structure
-
-```text
-EchoGuard-AI/
-├── app/                         # Android application
-├── acoustic/                    # VAD + AASIST-L spoof detection
-├── semantic/                    # Scam intent detection (MiniLM + rules)
-├── fusion/                      # Fusion engine + supervisor
-├── backend/                     # FastAPI online mode
-├── webdemo/                     # Browser-based demonstration
-├── download_indicconformer.py   # Hindi STT setup (pre-quantized, downloaded)
-├── download_kroko.py            # English STT setup (pre-quantized, downloaded)
-├── acoustic/export_onnx.py      # AASIST-L export + INT8 quantization
-├── semantic/export_minilm_onnx.py  # MiniLM export + INT8 quantization
-└── requirements.txt
-```
-
-## 🚀 Setup
-
-Heavy ML models and Android binary dependencies are excluded from Git.
-
-```bash
-git clone https://github.com/Chirag514/EchoGuard-AI.git
-cd EchoGuard-AI
-
-pip install -r requirements.txt
-python download_indicconformer.py   # Hindi STT (pre-quantized, downloaded from HF)
-python download_kroko.py            # English STT (pre-quantized, downloaded from HF)
-python acoustic/export_onnx.py           # AASIST-L: exports + INT8-quantizes locally
-python semantic/export_minilm_onnx.py    # MiniLM: exports + INT8-quantizes locally
-```
-
-The last two scripts need `torch` + `transformers` (already in `requirements.txt`)
-and, for MiniLM, internet access on first run to pull `all-MiniLM-L6-v2` from
-Hugging Face. Both write their quantized `.onnx` output directly into
-`app/app/src/main/assets/models/` under the exact filename the app expects —
-no manual copying or renaming needed, same as the two download scripts above.
-
-Open `app/` in Android Studio, sync Gradle, and run on an Android device.
-
-### Python Pipeline
-
-```bash
-cd acoustic && python vad_gate.py && python spoof_detector.py
-cd ../semantic && python scam_classifier.py
-cd ../fusion && python demo_pipeline.py
-```
-
-## 🔮 Future Scope
-
-- VoIP and WhatsApp scam detection
-- Pan-India multilingual support
-- Federated learning for scam intelligence
-- Elderly protection mode
-- Adaptive detection of emerging scam patterns
-
----
-
-**EchoGuard-AI — Detect the voice. Understand the intent. Stop the scam.**
+Recordings, generated reports, build outputs, and secrets are excluded from Git.
+Recommendations are risk signals, not proof of fraud or automatic blocking.

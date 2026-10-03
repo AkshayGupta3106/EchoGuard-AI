@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <style name="Theme.EchoGuardAI" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="android:windowBackground">#0A0F1E</item>
-        <item name="android:statusBarColor">#0A0F1E</item>
-        <item name="android:navigationBarColor">#0A0F1E</item>
+        <item name="android:windowBackground">#F8F6F0</item>
+        <item name="android:statusBarColor">#F8F6F0</item>
+        <item name="android:navigationBarColor">#121212</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
     </style>
 </resources>

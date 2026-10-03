@@ -1,17 +1,16 @@
-// Module-level build.gradle.kts (app/)
 import java.io.FileOutputStream
 import java.io.InputStream
 import java.net.URI
+import java.util.zip.ZipEntry
+import java.util.zip.ZipFile
+import java.util.zip.ZipOutputStream
 
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
 }
 
-// ---------------------------------------------------------------------------
-// Auto-download sherpa-onnx AAR if missing (e.g. fresh clone on a new machine)
-// This runs transparently before any compilation - no manual steps needed.
-// ---------------------------------------------------------------------------
+// Fetch the native ASR dependency when absent.
 val sherpaAarFile = file("libs/sherpa-onnx-1.13.4.aar")
 if (!sherpaAarFile.exists()) {
     println("sherpa-onnx AAR not found. Downloading (~37 MB)...")
@@ -30,24 +29,55 @@ if (!sherpaAarFile.exists()) {
     println("sherpa-onnx AAR downloaded successfully.")
 }
 
+// Use Microsoft's ONNX Runtime 1.27.0/JNI pair with sherpa 1.13.4.
+// Exclude the duplicate runtime from a generated sherpa AAR, not the source AAR.
+val filteredSherpaAar = layout.buildDirectory.file("dependencies/sherpa-onnx-1.13.4-java-runtime.aar")
+val prepareSherpaAar by tasks.registering {
+    inputs.file(sherpaAarFile)
+    outputs.file(filteredSherpaAar)
+    doLast {
+        val output = filteredSherpaAar.get().asFile
+        output.parentFile.mkdirs()
+        ZipFile(sherpaAarFile).use { source ->
+            ZipOutputStream(output.outputStream()).use { target ->
+                source.entries().asSequence().forEach { entry ->
+                    if (!entry.name.endsWith("/libonnxruntime.so")) {
+                        target.putNextEntry(ZipEntry(entry.name).apply { time = entry.time })
+                        if (!entry.isDirectory) source.getInputStream(entry).use { it.copyTo(target) }
+                        target.closeEntry()
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Stage VAD bytes into generated assets; a missing source is a build error.
+val vadSource = rootProject.file("../assets/acoustic/silero_vad.onnx")
+val generatedVadAssets = layout.buildDirectory.dir("generated/modelAssets")
+val stageVadAsset by tasks.registering(Copy::class) {
+    inputs.file(vadSource)
+    from(vadSource)
+    into(generatedVadAssets.map { it.dir("models") })
+    doFirst { check(vadSource.isFile) { "Missing VAD asset: $vadSource" } }
+}
+
 android {
     namespace = "com.echoguard"
     compileSdk = 35
 
     defaultConfig {
         applicationId = "com.echoguard"
-        minSdk = 26      // AASIST-L/Zipformer inference is CPU-heavy; low-end
-                         // devices below this are unlikely to hit acceptable
-                         // latency anyway, per the Day-1 test results
+        minSdk = 26
         targetSdk = 35
         versionCode = 1
         versionName = "0.1-hackathon"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false  // keep off for the hackathon build - simpler
-                                     // debugging matters more than APK size here
+            isMinifyEnabled = false
         }
     }
 
@@ -66,20 +96,21 @@ android {
         kotlinCompilerExtensionVersion = "1.5.14"
     }
 
-    // AASIST-L's aasist_l.onnx.data companion file and other large model
-    // assets shouldn't be compressed - matches the note in acoustic/README.md
-    // about keeping the .onnx/.onnx.data pair together.
+    // Keep model assets uncompressed for native runtime access.
     androidResources {
         noCompress += listOf("onnx", "bin", "data")
     }
+    sourceSets.getByName("main").assets.srcDir(generatedVadAssets)
 
     packaging {
         jniLibs {
             useLegacyPackaging = true
-            pickFirsts += setOf("**/libonnxruntime.so", "**/libc++_shared.so")
+            pickFirsts += setOf("**/libc++_shared.so")
         }
     }
 }
+
+tasks.named("preBuild") { dependsOn(stageVadAsset) }
 
 dependencies {
     implementation("androidx.core:core-ktx:1.13.1")
@@ -95,15 +126,15 @@ dependencies {
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
 
-    // JSON parsing for exemplar_embeddings.json (semantic/android/ScamClassifier.kt)
+    // JSON parsing for bundled semantic exemplar embeddings.
     implementation("org.json:json:20240303")
 
-    // Microsoft ONNX Runtime (MUST be listed before sherpa-onnx so pickFirst selects this library)
-    implementation("com.microsoft.onnxruntime:onnxruntime-android:1.22.0")
+    implementation("com.microsoft.onnxruntime:onnxruntime-android:1.27.0")
 
-    // sherpa-onnx local AAR
-    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar", "*.aar"))))
+    implementation(files(filteredSherpaAar).builtBy(prepareSherpaAar))
+    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar", "*.aar"),
+        "exclude" to listOf("sherpa-onnx-1.13.4.aar"))))
+    androidTestImplementation("androidx.test:runner:1.6.2")
+    androidTestImplementation("androidx.test.ext:junit:1.2.1")
 
-    // whisper.cpp is temporarily disabled for the hackathon demo
-    // to avoid the complex NDK compilation step.
 }

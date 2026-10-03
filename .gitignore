@@ -1,14 +1,22 @@
-# Android & Gradle
-.gradle
+# Android, Gradle, and editors
+.gradle/
 local.properties
 .idea/
+.vscode/
 .DS_Store
 build/
-app/build/
 captures/
 .externalNativeBuild
 .cxx
+.kotlin/
 *.iml
+
+# Generated Android packages (the Gradle wrapper JAR remains versioned)
+*.apk
+*.aab
+*.apks
+*.dex
+*.class
 
 # Android Studio Crash/Dump files
 *.hprof
@@ -23,18 +31,73 @@ __pycache__/
 venv/
 env/
 
-# Ignore heavy ML models from GitHub
+# Local model downloads and exports
 *.onnx
 *.onnx.data
 *.tar.bz2
 *.bin
 *.pt
+*.pth
+*.safetensors
 *.aar
 
-# Local Documentation and Metadata
-AI_ARENA_DOCUMENTATION.md
-PRESENTATION_DECK.md
-events.json
+# Recordings and app-private session data
+/data/audio/
+*.wav
+*.pcm
+*.mp3
+*.m4a
+*.amr
+*.aac
+*.flac
+*.ogg
+*.opus
+call_history.json
 
-# Quantization
-inspect_onnx.py
+# Generated evaluation reports
+/artifacts/
+
+# Packaging / test / analysis caches
+*.egg-info/
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+.hf_cache/
+.tox/
+.nox/
+.cache/
+.uv_cache/
+node_modules/
+coverage/
+dist/
+
+# Local logs, editor backups, and incomplete downloads
+*.log
+*.tmp
+*.temp
+*.part
+*.partial
+*.download
+*.bak
+*.orig
+*.rej
+*.swp
+*.swo
+*~
+Thumbs.db
+Desktop.ini
+
+# Secrets / Android signing material
+.env
+.env.*
+!.env.example
+*.jks
+*.keystore
+
+# Publishable web model, export source, and VAD; other model binaries stay local.
+!assets/acoustic/aasist_l.onnx
+!assets/acoustic/models/AASIST-L.pth
+!assets/acoustic/silero_vad.onnx

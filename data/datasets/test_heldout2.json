@@ -1,0 +1,1282 @@
+[
+ {
+  "id": "b_en_scam_sim_block_01",
+  "language": "en",
+  "label": "scam",
+  "category": "sim_block_threat",
+  "difficulty": "paraphrase",
+  "critical_turn_index": 3,
+  "note": "",
+  "turns": [
+   {
+    "speaker": "caller",
+    "text": "This is an important notice from the telecom authority. Your mobile number has been linked to illegal activity."
+   },
+   {
+    "speaker": "callee",
+    "text": "What? I have not done anything."
+   },
+   {
+    "speaker": "caller",
+    "text": "Your number will be permanently blocked in two hours. Please stay on the line to speak to the senior officer."
+   },
+   {
+    "speaker": "callee",
+    "text": "Okay, what do I need to do?"
+   },
+   {
+    "speaker": "caller",
+    "text": "Confirm your Aadhaar number now and pay a reactivation charge of twenty five hundred rupees to keep your number."
+   }
+  ],
+  "audio_file": null
+ },
+ {
+  "id": "b_en_scam_apk_app_02",
+  "language": "en",
+  "label": "scam",
+  "category": "apk_remote_app",
+  "difficulty": "paraphrase",
+  "critical_turn_index": 3,
+  "note": "",
+  "turns": [
+   {
+    "speaker": "caller",
+    "text": "Hello, I am from your bank's verification department. Your KYC update is pending."
+   },
+   {
+    "speaker": "callee",
+    "text": "I thought I had done that already."
+   },
+   {
+    "speaker": "caller",
+    "text": "The old one failed. I am sending you a link on SMS, please install our secure verification app from it."
+   },
+   {
+    "speaker": "callee",
+    "text": "It is asking for permission to read messages and share the screen."
+   },
+   {
+    "speaker": "caller",
+    "text": "Yes, allow everything, that is required, then tell me what you see on the screen."
+   }
+  ],
+  "audio_file": null
+ },
+ {
+  "id": "b_en_scam_card_limit_03",
+  "language": "en",
+  "label": "scam",
+  "category": "credit_card_details",
+  "difficulty": "paraphrase",
+  "critical_turn_index": 2,
+  "note": "",
+  "turns": [
+   {
+    "speaker": "caller",
+    "text": "Good evening sir, we are happy to increase your credit limit to five lakh rupees, free of cost."
+   },
+   {
+    "speaker": "callee",
+    "text": "That sounds nice. What do you need from me?"
+   },
+   {
+    "speaker": "caller",
+    "text": "Just a quick verification. Please read out your sixteen digit card number and the expiry date."
+   },
+   {
+    "speaker": "callee",
+    "text": "Alright, it is on my card."
+   },
+   {
+    "speaker": "caller",
+    "text": "Perfect, and the three digit number on the back so the system can approve it right away."
+   }
+  ],
+  "audio_file": null
+ },
+ {
+  "id": "b_en_scam_sextortion_04",
+  "language": "en",
+  "label": "scam",
+  "category": "sextortion_blackmail",
+  "difficulty": "hard",
+  "critical_turn_index": 2,
+  "note": "",
+  "turns": [
+   {
+    "speaker": "caller",
+    "text": "We have a recording of your video call from last night."
+   },
+   {
+    "speaker": "callee",
+    "text": "What recording? Who is this?"
+   },
+   {
+    "speaker": "caller",
+    "text": "It is very embarrassing content. If you do not want it sent to all your contacts, you must pay twenty thousand rupees."
+   },
+   {
+    "speaker": "callee",
+    "text": "Please do not do that."
+   },
+   {
+    "speaker": "caller",
+    "text": "Send it to this account within one hour and we will delete everything."
+   }
+  ],
+  "audio_file": null
+ },
+ {
+  "id": "b_en_scam_task_fraud_05",
+  "language": "en",
+  "label": "scam",
+  "category": "task_reward_fraud",
+  "difficulty": "hard",
+  "critical_turn_index": 3,
+  "note": "",
+  "turns": [
+   {
+    "speaker": "caller",
+    "text": "Hi, we are hiring people to like and review short videos, and you earn five hundred rupees per task."
+   },
+   {
+    "speaker": "callee",
+    "text": "Is it really that simple?"
+   },
+   {
+    "speaker": "caller",
+    "text": "Yes. Your first three tasks are already paid to you. To unlock the higher level tasks you need to deposit three thousand rupees."
+   },
+   {
+    "speaker": "callee",
+    "text": "And then I get the money back?"
+   },
+   {
+    "speaker": "caller",
+    "text": "You will get five thousand back after that level. Hurry, only a few seats are open today."
+   }
+  ],
+  "audio_file": null
+ },
+ {
+  "id": "b_en_scam_insurance_bonus_06",
+  "language": "en",
+  "label": "scam",
+  "category": "insurance_maturity_fee",
+  "difficulty": "paraphrase",
+  "critical_turn_index": 2,
+  "note": "",
+  "turns": [
+   {
+    "speaker": "caller",
+    "text": "Sir, your old life insurance policy has matured and there is a bonus of eight lakh rupees waiting for you."
+   },
+   {
+    "speaker": "callee",
+    "text": "I did not know that. How do I get it?"
+   },
+   {
+    "speaker": "caller",
+    "text": "The amount is ready in our system. First you must pay the government tax and the processing fee, fifteen thousand in total."
+   },
+   {
+    "speaker": "callee",
+    "text": "Can you deduct it from the bonus?"
+   },
+   {
+    "speaker": "caller",
+    "text": "No, the rules require it upfront. Send it today and the bonus will reach you tomorrow."
+   }
+  ],
+  "audio_file": null
+ },
+ {
+  "id": "b_en_scam_challan_07",
+  "language": "en",
+  "label": "scam",
+  "category": "fake_challan_fine",
+  "difficulty": "paraphrase",
+  "critical_turn_index": 3,
+  "note": "",
+  "turns": [
+   {
+    "speaker": "caller",
+    "text": "This is the traffic department. There is an unpaid challan of forty five hundred rupees on your vehicle."
+   },
+   {
+    "speaker": "callee",
+    "text": "I did not get any notice."
+   },
+   {
+    "speaker": "caller",
+    "text": "A court summons will be issued today if it is not cleared. You can settle it right now by phone."
+   },
+   {
+    "speaker": "callee",
+    "text": "How should I pay?"
+   },
+   {
+    "speaker": "caller",
+    "text": "Send the amount to this personal payment number and I will close the case immediately."
+   }
+  ],
+  "audio_file": null
+ },
+ {
+  "id": "b_en_scam_hospital_08",
+  "language": "en",
+  "label": "scam",
+  "category": "relative_emergency",
+  "difficulty": "hard",
+  "critical_turn_index": 3,
+  "note": "",
+  "turns": [
+   {
+    "speaker": "caller",
+    "text": "Hello, I am a friend of your nephew. Your uncle has had an accident and he is in the hospital."
+   },
+   {
+    "speaker": "callee",
+    "text": "Oh no, is he alright?"
+   },
+   {
+    "speaker": "caller",
+    "text": "He is in surgery but the hospital wants a deposit before they continue. Please do not delay."
+   },
+   {
+    "speaker": "callee",
+    "text": "How much do they want?"
+   },
+   {
+    "speaker": "caller",
+    "text": "Sixty thousand rupees, right now. I will share the number where you should send it."
+   }
+  ],
+  "audio_file": null
+ },
+ {
+  "id": "b_en_benign_cab_otp_01",
+  "language": "en",
+  "label": "benign",
+  "category": "delivery_or_ride_code",
+  "difficulty": "hard_negative",
+  "critical_turn_index": null,
+  "note": "Legit ride-start code.",
+  "turns": [
+   {
+    "speaker": "caller",
+    "text": "Hello, I am your cab driver, I have reached the pickup point."
+   },
+   {
+    "speaker": "callee",
+    "text": "Okay, I am coming down."
+   },
+   {
+    "speaker": "caller",
+    "text": "Please share the ride code that shows on your app so I can start the trip."
+   },
+   {
+    "speaker": "callee",
+    "text": "Sure, it is three seven one nine."
+   },
+   {
+    "speaker": "caller",
+    "text": "Thank you, please sit, we will leave now."
+   }
+  ],
+  "audio_file": null
+ },
+ {
+  "id": "b_en_benign_card_reminder_02",
+  "language": "en",
+  "label": "benign",
+  "category": "bank_service_call",
+  "difficulty": "hard_negative",
+  "critical_turn_index": null,
+  "note": "Legit bill reminder with amount, deadline and late-fee wording.",
+  "turns": [
+   {
+    "speaker": "caller",
+    "text": "Hello, this is a reminder from your card issuer about your monthly statement."
+   },
+   {
+    "speaker": "callee",
+    "text": "Yes, please go ahead."
+   },
+   {
+    "speaker": "caller",
+    "text": "Your total due is twelve thousand four hundred fifty rupees, and the last date is the twenty eighth to avoid a late fee."
+   },
+   {
+    "speaker": "callee",
+    "text": "I will pay it through the app this weekend."
+   },
+   {
+    "speaker": "caller",
+    "text": "That works. There is nothing else needed on this call, thank you."
+   }
+  ],
+  "audio_file": null
+ },
+ {
+  "id": "b_en_benign_hr_interview_03",
+  "language": "en",
+  "label": "benign",
+  "category": "job_interview",
+  "difficulty": "hard_negative",
+  "critical_turn_index": null,
+  "note": "Legit recruiter call.",
+  "turns": [
+   {
+    "speaker": "caller",
+    "text": "Hi, I am calling from the HR team regarding your application for the analyst role."
+   },
+   {
+    "speaker": "callee",
+    "text": "Yes, thank you for calling."
+   },
+   {
+    "speaker": "caller",
+    "text": "We would like to schedule an interview on Tuesday at eleven. Does that work for you?"
+   },
+   {
+    "speaker": "callee",
+    "text": "Yes, that works."
+   },
+   {
+    "speaker": "caller",
+    "text": "Great, you will get an email with the details. There is no fee at any stage of our hiring."
+   }
+  ],
+  "audio_file": null
+ },
+ {
+  "id": "b_en_benign_school_fee_04",
+  "language": "en",
+  "label": "benign",
+  "category": "school_notice",
+  "difficulty": "hard_negative",
+  "critical_turn_index": null,
+  "note": "Legit fee reminder.",
+  "turns": [
+   {
+    "speaker": "caller",
+    "text": "Good morning, this is the school office with a reminder about the term fee."
+   },
+   {
+    "speaker": "callee",
+    "text": "Yes, which amount is pending?"
+   },
+   {
+    "speaker": "caller",
+    "text": "Eighteen thousand rupees for the second term, and the last date is the thirtieth."
+   },
+   {
+    "speaker": "callee",
+    "text": "Can I pay at the counter?"
+   },
+   {
+    "speaker": "caller",
+    "text": "Yes, the counter is open till four, or you can use the school portal."
+   }
+  ],
+  "audio_file": null
+ },
+ {
+  "id": "b_en_benign_bank_visit_05",
+  "language": "en",
+  "label": "benign",
+  "category": "bank_service_call",
+  "difficulty": "hard_negative",
+  "critical_turn_index": null,
+  "note": "Legit KYC call, explicitly warns.",
+  "turns": [
+   {
+    "speaker": "caller",
+    "text": "Hello, this is your bank branch. Your KYC update is due this month."
+   },
+   {
+    "speaker": "callee",
+    "text": "What do I need to do?"
+   },
+   {
+    "speaker": "caller",
+    "text": "Please visit the branch with your identity proof. We never ask for card details, PIN or passwords over the phone."
+   },
+   {
+    "speaker": "callee",
+    "text": "Alright, I will come this Saturday."
+   },
+   {
+    "speaker": "caller",
+    "text": "Thank you, the branch manager will assist you."
+   }
+  ],
+  "audio_file": null
+ },
+ {
+  "id": "b_en_benign_friend_lend_06",
+  "language": "en",
+  "label": "benign",
+  "category": "personal_family_call",
+  "difficulty": "hard_negative",
+  "critical_turn_index": null,
+  "note": "Friend money request.",
+  "turns": [
+   {
+    "speaker": "caller",
+    "text": "Hey, are you free? I need a small favour."
+   },
+   {
+    "speaker": "callee",
+    "text": "Sure, what is it?"
+   },
+   {
+    "speaker": "caller",
+    "text": "Can you lend me two thousand till Monday? I forgot my wallet at home."
+   },
+   {
+    "speaker": "callee",
+    "text": "No problem, I will send it to you now."
+   },
+   {
+    "speaker": "caller",
+    "text": "Thanks a lot, I will pay you back first thing Monday."
+   }
+  ],
+  "audio_file": null
+ },
+ {
+  "id": "b_en_benign_hospital_bill_07",
+  "language": "en",
+  "label": "benign",
+  "category": "hospital_billing",
+  "difficulty": "hard_negative",
+  "critical_turn_index": null,
+  "note": "Legit hospital bill.",
+  "turns": [
+   {
+    "speaker": "caller",
+    "text": "Hello, this is the hospital billing counter. Your father's discharge is ready."
+   },
+   {
+    "speaker": "callee",
+    "text": "That is a relief. What about the bill?"
+   },
+   {
+    "speaker": "caller",
+    "text": "The final bill is thirty two thousand rupees. You can pay by card or cash at the counter."
+   },
+   {
+    "speaker": "callee",
+    "text": "I will be there in twenty minutes."
+   },
+   {
+    "speaker": "caller",
+    "text": "Fine, we will keep the papers ready."
+   }
+  ],
+  "audio_file": null
+ },
+ {
+  "id": "b_en_benign_recharge_08",
+  "language": "en",
+  "label": "benign",
+  "category": "telecom_support",
+  "difficulty": "hard_negative",
+  "critical_turn_index": null,
+  "note": "Legit expiry reminder with urgency.",
+  "turns": [
+   {
+    "speaker": "caller",
+    "text": "Hello, your mobile plan expires tomorrow."
+   },
+   {
+    "speaker": "callee",
+    "text": "Oh, thanks for telling me."
+   },
+   {
+    "speaker": "caller",
+    "text": "Please recharge before then to avoid any interruption of service."
+   },
+   {
+    "speaker": "callee",
+    "text": "I will do it on the app tonight."
+   },
+   {
+    "speaker": "caller",
+    "text": "Great, have a nice day."
+   }
+  ],
+  "audio_file": null
+ },
+ {
+  "id": "b_hi_scam_sim_block_01",
+  "language": "hi",
+  "label": "scam",
+  "category": "sim_block_threat",
+  "difficulty": "paraphrase",
+  "critical_turn_index": 3,
+  "note": "",
+  "turns": [
+   {
+    "speaker": "caller",
+    "text": "यह दूरसंचार विभाग की तरफ से एक ज़रूरी सूचना है। आपका मोबाइल नंबर गैरकानूनी गतिविधि से जुड़ा पाया गया है।"
+   },
+   {
+    "speaker": "callee",
+    "text": "क्या? मैंने तो कुछ नहीं किया।"
+   },
+   {
+    "speaker": "caller",
+    "text": "दो घंटे में आपका नंबर हमेशा के लिए बंद कर दिया जाएगा। कृपया वरिष्ठ अधिकारी से बात करने के लिए लाइन पर बने रहिए।"
+   },
+   {
+    "speaker": "callee",
+    "text": "ठीक है, मुझे क्या करना होगा?"
+   },
+   {
+    "speaker": "caller",
+    "text": "अभी अपना आधार नंबर बताइए और नंबर चालू रखने के लिए पच्चीस सौ रुपये पुनः सक्रियण शुल्क जमा कीजिए।"
+   }
+  ],
+  "audio_file": null
+ },
+ {
+  "id": "b_hi_scam_apk_app_02",
+  "language": "hi",
+  "label": "scam",
+  "category": "apk_remote_app",
+  "difficulty": "paraphrase",
+  "critical_turn_index": 3,
+  "note": "",
+  "turns": [
+   {
+    "speaker": "caller",
+    "text": "नमस्ते, मैं आपके बैंक के वेरिफिकेशन विभाग से बोल रहा हूँ। आपका केवाईसी अपडेट बाकी है।"
+   },
+   {
+    "speaker": "callee",
+    "text": "मुझे लगा था कि वह हो चुका है।"
+   },
+   {
+    "speaker": "caller",
+    "text": "पुराना वाला असफल रहा। मैं आपको एसएमएस पर एक लिंक भेज रहा हूँ, उससे हमारा सुरक्षित ऐप इंस्टॉल कर लीजिए।"
+   },
+   {
+    "speaker": "callee",
+    "text": "यह तो मैसेज पढ़ने और स्क्रीन शेयर करने की अनुमति माँग रहा है।"
+   },
+   {
+    "speaker": "caller",
+    "text": "जी हाँ, सब अनुमति दे दीजिए, यह ज़रूरी है, फिर मुझे बताइए कि स्क्रीन पर क्या दिख रहा है।"
+   }
+  ],
+  "audio_file": null
+ },
+ {
+  "id": "b_hi_scam_card_limit_03",
+  "language": "hi",
+  "label": "scam",
+  "category": "credit_card_details",
+  "difficulty": "paraphrase",
+  "critical_turn_index": 2,
+  "note": "",
+  "turns": [
+   {
+    "speaker": "caller",
+    "text": "शुभ संध्या सर, हम आपकी क्रेडिट लिमिट बिना किसी शुल्क के पाँच लाख रुपये तक बढ़ा रहे हैं।"
+   },
+   {
+    "speaker": "callee",
+    "text": "अच्छी बात है। आपको मुझसे क्या चाहिए?"
+   },
+   {
+    "speaker": "caller",
+    "text": "बस एक छोटा सत्यापन। कृपया अपना सोलह अंकों का कार्ड नंबर और समाप्ति की तारीख बताइए।"
+   },
+   {
+    "speaker": "callee",
+    "text": "ठीक है, कार्ड पर लिखा है।"
+   },
+   {
+    "speaker": "caller",
+    "text": "बहुत बढ़िया, और पीछे के तीन अंक भी बताइए ताकि सिस्टम तुरंत मंज़ूरी दे दे।"
+   }
+  ],
+  "audio_file": null
+ },
+ {
+  "id": "b_hi_scam_challan_04",
+  "language": "hi",
+  "label": "scam",
+  "category": "fake_challan_fine",
+  "difficulty": "paraphrase",
+  "critical_turn_index": 3,
+  "note": "",
+  "turns": [
+   {
+    "speaker": "caller",
+    "text": "यह यातायात विभाग है। आपके वाहन पर साढ़े चार हजार रुपये का चालान बकाया है।"
+   },
+   {
+    "speaker": "callee",
+    "text": "मुझे तो कोई नोटिस नहीं मिला।"
+   },
+   {
+    "speaker": "caller",
+    "text": "अगर आज जमा नहीं हुआ तो अदालत का समन जारी हो जाएगा। आप अभी फोन पर ही निपटा सकते हैं।"
+   },
+   {
+    "speaker": "callee",
+    "text": "पैसे कैसे भेजूँ?"
+   },
+   {
+    "speaker": "caller",
+    "text": "यह रकम इस निजी पेमेंट नंबर पर भेज दीजिए, मैं मामला तुरंत बंद कर दूँगा।"
+   }
+  ],
+  "audio_file": null
+ },
+ {
+  "id": "b_hi_scam_insurance_bonus_05",
+  "language": "hi",
+  "label": "scam",
+  "category": "insurance_maturity_fee",
+  "difficulty": "paraphrase",
+  "critical_turn_index": 2,
+  "note": "",
+  "turns": [
+   {
+    "speaker": "caller",
+    "text": "सर, आपकी पुरानी जीवन बीमा पॉलिसी पूरी हो गई है और आठ लाख रुपये का बोनस आपका इंतज़ार कर रहा है।"
+   },
+   {
+    "speaker": "callee",
+    "text": "मुझे तो पता ही नहीं था। यह कैसे मिलेगा?"
+   },
+   {
+    "speaker": "caller",
+    "text": "रकम सिस्टम में तैयार है। पहले आपको सरकारी टैक्स और प्रोसेसिंग फीस, कुल पंद्रह हजार रुपये, भरनी होगी।"
+   },
+   {
+    "speaker": "callee",
+    "text": "क्या यह बोनस में से कट नहीं सकता?"
+   },
+   {
+    "speaker": "caller",
+    "text": "नहीं जी, नियम के अनुसार पहले जमा करना होगा। आज भेजिए, कल बोनस आपके खाते में आ जाएगा।"
+   }
+  ],
+  "audio_file": null
+ },
+ {
+  "id": "b_hi_scam_task_fraud_06",
+  "language": "hi",
+  "label": "scam",
+  "category": "task_reward_fraud",
+  "difficulty": "hard",
+  "critical_turn_index": 3,
+  "note": "",
+  "turns": [
+   {
+    "speaker": "caller",
+    "text": "नमस्ते, हम छोटे वीडियो को लाइक और रिव्यू करने वाले लोग रख रहे हैं, हर टास्क पर पाँच सौ रुपये मिलेंगे।"
+   },
+   {
+    "speaker": "callee",
+    "text": "क्या सच में इतना आसान है?"
+   },
+   {
+    "speaker": "caller",
+    "text": "जी हाँ। आपके पहले तीन टास्क के पैसे मिल चुके हैं। आगे के बड़े टास्क खोलने के लिए तीन हजार रुपये जमा करने होंगे।"
+   },
+   {
+    "speaker": "callee",
+    "text": "और फिर पैसे वापस मिल जाएँगे?"
+   },
+   {
+    "speaker": "caller",
+    "text": "उस स्तर के बाद आपको पाँच हजार वापस मिलेंगे। जल्दी कीजिए, आज सिर्फ कुछ ही जगह बची हैं।"
+   }
+  ],
+  "audio_file": null
+ },
+ {
+  "id": "b_hi_scam_gas_kyc_07",
+  "language": "hi",
+  "label": "scam",
+  "category": "utility_kyc_scam",
+  "difficulty": "paraphrase",
+  "critical_turn_index": 3,
+  "note": "",
+  "turns": [
+   {
+    "speaker": "caller",
+    "text": "मैं गैस एजेंसी से बोल रहा हूँ। आपके सिलेंडर कनेक्शन का केवाईसी आज ही पूरा करना है।"
+   },
+   {
+    "speaker": "callee",
+    "text": "मुझे तो अभी तक कोई सूचना नहीं मिली।"
+   },
+   {
+    "speaker": "caller",
+    "text": "आज पूरा नहीं हुआ तो आपकी सब्सिडी और कनेक्शन दोनों बंद हो जाएँगे।"
+   },
+   {
+    "speaker": "callee",
+    "text": "तो मुझे क्या करना होगा?"
+   },
+   {
+    "speaker": "caller",
+    "text": "आपके फोन पर एक कोड आएगा, वह मुझे पढ़कर सुना दीजिए, फिर मैं तुरंत पूरा कर दूँगा।"
+   }
+  ],
+  "audio_file": null
+ },
+ {
+  "id": "b_hi_scam_sextortion_08",
+  "language": "hi",
+  "label": "scam",
+  "category": "sextortion_blackmail",
+  "difficulty": "hard",
+  "critical_turn_index": 2,
+  "note": "",
+  "turns": [
+   {
+    "speaker": "caller",
+    "text": "हमारे पास कल रात की आपकी वीडियो कॉल की रिकॉर्डिंग है।"
+   },
+   {
+    "speaker": "callee",
+    "text": "कौन सी रिकॉर्डिंग? आप कौन बोल रहे हैं?"
+   },
+   {
+    "speaker": "caller",
+    "text": "वह बहुत शर्मनाक सामग्री है। अगर आप नहीं चाहते कि वह आपके सब कॉन्टैक्ट्स को भेजी जाए तो बीस हजार रुपये देने होंगे।"
+   },
+   {
+    "speaker": "callee",
+    "text": "कृपया ऐसा मत कीजिए।"
+   },
+   {
+    "speaker": "caller",
+    "text": "एक घंटे के अंदर इस खाते में भेज दीजिए, हम सब कुछ मिटा देंगे।"
+   }
+  ],
+  "audio_file": null
+ },
+ {
+  "id": "b_hi_benign_cab_otp_01",
+  "language": "hi",
+  "label": "benign",
+  "category": "delivery_or_ride_code",
+  "difficulty": "hard_negative",
+  "critical_turn_index": null,
+  "note": "Legit ride-start code in Hindi.",
+  "turns": [
+   {
+    "speaker": "caller",
+    "text": "हेलो, मैं आपका कैब ड्राइवर हूँ, पिकअप पॉइंट पर पहुँच गया हूँ।"
+   },
+   {
+    "speaker": "callee",
+    "text": "ठीक है, मैं नीचे आ रहा हूँ।"
+   },
+   {
+    "speaker": "caller",
+    "text": "आपके ऐप में जो राइड कोड दिख रहा है, वह बता दीजिए ताकि मैं सफर शुरू कर सकूँ।"
+   },
+   {
+    "speaker": "callee",
+    "text": "जी, तीन सात एक नौ है।"
+   },
+   {
+    "speaker": "caller",
+    "text": "धन्यवाद, बैठ जाइए, हम चलते हैं।"
+   }
+  ],
+  "audio_file": null
+ },
+ {
+  "id": "b_hi_benign_card_reminder_02",
+  "language": "hi",
+  "label": "benign",
+  "category": "bank_service_call",
+  "difficulty": "hard_negative",
+  "critical_turn_index": null,
+  "note": "Legit reminder, Hindi.",
+  "turns": [
+   {
+    "speaker": "caller",
+    "text": "नमस्ते, यह आपके कार्ड जारीकर्ता की तरफ से मासिक स्टेटमेंट की याद दिलाने के लिए कॉल है।"
+   },
+   {
+    "speaker": "callee",
+    "text": "जी, बताइए।"
+   },
+   {
+    "speaker": "caller",
+    "text": "आपकी कुल बकाया रकम बारह हजार चार सौ पचास रुपये है और देर शुल्क से बचने के लिए आखिरी तारीख अट्ठाईस है।"
+   },
+   {
+    "speaker": "callee",
+    "text": "मैं इस हफ्ते के अंत में ऐप से भर दूँगा।"
+   },
+   {
+    "speaker": "caller",
+    "text": "ठीक है, इस कॉल पर और कुछ करने की ज़रूरत नहीं है, धन्यवाद।"
+   }
+  ],
+  "audio_file": null
+ },
+ {
+  "id": "b_hi_benign_hr_interview_03",
+  "language": "hi",
+  "label": "benign",
+  "category": "job_interview",
+  "difficulty": "hard_negative",
+  "critical_turn_index": null,
+  "note": "Legit HR call, Hindi.",
+  "turns": [
+   {
+    "speaker": "caller",
+    "text": "नमस्ते, मैं एचआर टीम से बोल रही हूँ, आपके विश्लेषक पद के आवेदन के बारे में।"
+   },
+   {
+    "speaker": "callee",
+    "text": "जी, कॉल करने के लिए धन्यवाद।"
+   },
+   {
+    "speaker": "caller",
+    "text": "हम मंगलवार को ग्यारह बजे आपका इंटरव्यू रखना चाहते हैं। क्या यह समय ठीक रहेगा?"
+   },
+   {
+    "speaker": "callee",
+    "text": "जी हाँ, ठीक रहेगा।"
+   },
+   {
+    "speaker": "caller",
+    "text": "बढ़िया, आपको ईमेल पर विवरण मिल जाएगा। हमारी भर्ती में किसी भी चरण पर कोई शुल्क नहीं लगता।"
+   }
+  ],
+  "audio_file": null
+ },
+ {
+  "id": "b_hi_benign_school_fee_04",
+  "language": "hi",
+  "label": "benign",
+  "category": "school_notice",
+  "difficulty": "hard_negative",
+  "critical_turn_index": null,
+  "note": "Legit fee reminder, Hindi.",
+  "turns": [
+   {
+    "speaker": "caller",
+    "text": "सुप्रभात, यह स्कूल कार्यालय से दूसरे सत्र की फीस की याद दिलाने के लिए कॉल है।"
+   },
+   {
+    "speaker": "callee",
+    "text": "जी, कितनी रकम बाकी है?"
+   },
+   {
+    "speaker": "caller",
+    "text": "दूसरे सत्र के अठारह हजार रुपये, और आखिरी तारीख तीस है।"
+   },
+   {
+    "speaker": "callee",
+    "text": "क्या मैं काउंटर पर जमा कर सकता हूँ?"
+   },
+   {
+    "speaker": "caller",
+    "text": "जी हाँ, काउंटर चार बजे तक खुला है, या आप स्कूल पोर्टल से भी भर सकते हैं।"
+   }
+  ],
+  "audio_file": null
+ },
+ {
+  "id": "b_hi_benign_bank_visit_05",
+  "language": "hi",
+  "label": "benign",
+  "category": "bank_service_call",
+  "difficulty": "hard_negative",
+  "critical_turn_index": null,
+  "note": "Legit KYC call, Hindi.",
+  "turns": [
+   {
+    "speaker": "caller",
+    "text": "नमस्ते, यह आपकी बैंक शाखा से कॉल है। इस महीने आपका केवाईसी अपडेट बाकी है।"
+   },
+   {
+    "speaker": "callee",
+    "text": "मुझे क्या करना होगा?"
+   },
+   {
+    "speaker": "caller",
+    "text": "कृपया अपने पहचान पत्र के साथ शाखा में आइए। हम फोन पर कभी कार्ड की जानकारी, पिन या पासवर्ड नहीं माँगते।"
+   },
+   {
+    "speaker": "callee",
+    "text": "ठीक है, मैं इस शनिवार को आ जाऊँगा।"
+   },
+   {
+    "speaker": "caller",
+    "text": "धन्यवाद, शाखा प्रबंधक आपकी मदद करेंगे।"
+   }
+  ],
+  "audio_file": null
+ },
+ {
+  "id": "b_hi_benign_friend_lend_06",
+  "language": "hi",
+  "label": "benign",
+  "category": "personal_family_call",
+  "difficulty": "hard_negative",
+  "critical_turn_index": null,
+  "note": "Friend money request, Hindi.",
+  "turns": [
+   {
+    "speaker": "caller",
+    "text": "अरे, फ्री हो क्या? एक छोटा-सा काम था।"
+   },
+   {
+    "speaker": "callee",
+    "text": "हाँ बोल, क्या हुआ?"
+   },
+   {
+    "speaker": "caller",
+    "text": "सोमवार तक दो हजार रुपये उधार दे सकता है? मैं अपना बटुआ घर भूल गया।"
+   },
+   {
+    "speaker": "callee",
+    "text": "कोई बात नहीं, अभी भेज देता हूँ।"
+   },
+   {
+    "speaker": "caller",
+    "text": "बहुत शुक्रिया, सोमवार सुबह सबसे पहले लौटा दूँगा।"
+   }
+  ],
+  "audio_file": null
+ },
+ {
+  "id": "b_hi_benign_mom_bill_07",
+  "language": "hi",
+  "label": "benign",
+  "category": "personal_family_call",
+  "difficulty": "hard_negative",
+  "critical_turn_index": null,
+  "note": "Family bill reminder.",
+  "turns": [
+   {
+    "speaker": "caller",
+    "text": "बेटा, बिजली का बिल आया है, अठारह सौ पचास रुपये का।"
+   },
+   {
+    "speaker": "callee",
+    "text": "हाँ माँ, आखिरी तारीख कब है?"
+   },
+   {
+    "speaker": "caller",
+    "text": "पच्चीस को है, पर सिर्फ याद दिला रही हूँ, कोई जल्दी नहीं है।"
+   },
+   {
+    "speaker": "callee",
+    "text": "ठीक है, मैं शाम को ऐप से भर दूँगा।"
+   },
+   {
+    "speaker": "caller",
+    "text": "बढ़िया, खाना खा लेना।"
+   }
+  ],
+  "audio_file": null
+ },
+ {
+  "id": "b_hi_benign_recharge_08",
+  "language": "hi",
+  "label": "benign",
+  "category": "telecom_support",
+  "difficulty": "hard_negative",
+  "critical_turn_index": null,
+  "note": "Legit expiry reminder, Hindi.",
+  "turns": [
+   {
+    "speaker": "caller",
+    "text": "नमस्ते, आपका मोबाइल प्लान कल खत्म हो रहा है।"
+   },
+   {
+    "speaker": "callee",
+    "text": "अच्छा, बताने के लिए धन्यवाद।"
+   },
+   {
+    "speaker": "caller",
+    "text": "सेवा बिना रुके चलती रहे, इसके लिए कृपया उससे पहले रिचार्ज कर लीजिए।"
+   },
+   {
+    "speaker": "callee",
+    "text": "मैं आज रात ऐप से कर लूँगा।"
+   },
+   {
+    "speaker": "caller",
+    "text": "बहुत अच्छा, आपका दिन शुभ हो।"
+   }
+  ],
+  "audio_file": null
+ },
+ {
+  "id": "b_hg_scam_apk_app_01",
+  "language": "hinglish",
+  "label": "scam",
+  "category": "apk_remote_app",
+  "difficulty": "paraphrase",
+  "critical_turn_index": 3,
+  "note": "",
+  "turns": [
+   {
+    "speaker": "caller",
+    "text": "Hello sir, main aapke bank ke verification department se bol raha hoon. Aapka KYC pending hai."
+   },
+   {
+    "speaker": "callee",
+    "text": "Accha, mujhe laga tha ho gaya hai."
+   },
+   {
+    "speaker": "caller",
+    "text": "Nahi sir, wo fail ho gaya tha. Main aapko SMS par ek link bhej raha hoon, usse hamara secure app install kar lijiye."
+   },
+   {
+    "speaker": "callee",
+    "text": "Ye to messages aur screen share ki permission maang raha hai."
+   },
+   {
+    "speaker": "caller",
+    "text": "Haan sir, sab permission de dijiye, phir screen par jo dikh raha hai wo mujhe bataiye."
+   }
+  ],
+  "audio_file": null
+ },
+ {
+  "id": "b_hg_scam_card_limit_02",
+  "language": "hinglish",
+  "label": "scam",
+  "category": "credit_card_details",
+  "difficulty": "paraphrase",
+  "critical_turn_index": 2,
+  "note": "",
+  "turns": [
+   {
+    "speaker": "caller",
+    "text": "Good evening sir, hum aapki credit limit bina kisi charge ke paanch lakh tak badha rahe hain."
+   },
+   {
+    "speaker": "callee",
+    "text": "Accha, uske liye mujhe kya karna hoga?"
+   },
+   {
+    "speaker": "caller",
+    "text": "Bas ek chhota sa verification. Aap apna sixteen digit card number aur expiry date bataiye."
+   },
+   {
+    "speaker": "callee",
+    "text": "Theek hai, card par likha hai."
+   },
+   {
+    "speaker": "caller",
+    "text": "Bahut badhiya, aur peeche ke teen digit bhi bataiye taaki system turant approve kar de."
+   }
+  ],
+  "audio_file": null
+ },
+ {
+  "id": "b_hg_scam_digital_arrest_03",
+  "language": "hinglish",
+  "label": "scam",
+  "category": "digital_arrest",
+  "difficulty": "paraphrase",
+  "critical_turn_index": 3,
+  "note": "",
+  "turns": [
+   {
+    "speaker": "caller",
+    "text": "Main cyber crime branch se inspector bol raha hoon. Aapke naam se ek parcel mein drugs mile hain."
+   },
+   {
+    "speaker": "callee",
+    "text": "Ye kaise ho sakta hai, maine to kuch bheja hi nahi."
+   },
+   {
+    "speaker": "caller",
+    "text": "Aapki identity ka misuse hua hai aur aap abhi video surveillance mein hain. Ye call bilkul mat kaatna."
+   },
+   {
+    "speaker": "callee",
+    "text": "Mujhe kya karna chahiye?"
+   },
+   {
+    "speaker": "caller",
+    "text": "Apni bekasoori saabit karne ke liye apni saari savings ek secure government account mein daaliye, main account number deta hoon."
+   }
+  ],
+  "audio_file": null
+ },
+ {
+  "id": "b_hg_scam_electricity_04",
+  "language": "hinglish",
+  "label": "scam",
+  "category": "electricity_disconnection",
+  "difficulty": "paraphrase",
+  "critical_turn_index": 3,
+  "note": "",
+  "turns": [
+   {
+    "speaker": "caller",
+    "text": "Ye bijli vibhag se call hai. Aapka do mahine ka bill baaki hai."
+   },
+   {
+    "speaker": "callee",
+    "text": "Maine to pichhle mahine bhar diya tha."
+   },
+   {
+    "speaker": "caller",
+    "text": "Hamare system mein baaki dikh raha hai. Do ghante mein aapka connection kat jayega."
+   },
+   {
+    "speaker": "callee",
+    "text": "Please mat kaatiye, ghar mein bachche hain."
+   },
+   {
+    "speaker": "caller",
+    "text": "Toh abhi mere personal number par atharah sau pachaas rupaye UPI kar dijiye, main disconnection rok dunga."
+   }
+  ],
+  "audio_file": null
+ },
+ {
+  "id": "b_hg_benign_cab_otp_01",
+  "language": "hinglish",
+  "label": "benign",
+  "category": "delivery_or_ride_code",
+  "difficulty": "hard_negative",
+  "critical_turn_index": null,
+  "note": "Legit ride code in Hinglish.",
+  "turns": [
+   {
+    "speaker": "caller",
+    "text": "Hello, main aapka cab driver bol raha hoon, pickup point par pahunch gaya hoon."
+   },
+   {
+    "speaker": "callee",
+    "text": "Theek hai, main neeche aa raha hoon."
+   },
+   {
+    "speaker": "caller",
+    "text": "Aapke app mein jo ride code dikh raha hai wo bata dijiye taaki main trip start kar sakoon."
+   },
+   {
+    "speaker": "callee",
+    "text": "Haan, teen saat ek nau hai."
+   },
+   {
+    "speaker": "caller",
+    "text": "Thank you, baith jaiye, hum chalte hain."
+   }
+  ],
+  "audio_file": null
+ },
+ {
+  "id": "b_hg_benign_friend_lend_02",
+  "language": "hinglish",
+  "label": "benign",
+  "category": "personal_family_call",
+  "difficulty": "hard_negative",
+  "critical_turn_index": null,
+  "note": "Friend money request in Hinglish.",
+  "turns": [
+   {
+    "speaker": "caller",
+    "text": "Yaar free hai kya? Ek chhota sa kaam tha."
+   },
+   {
+    "speaker": "callee",
+    "text": "Haan bol, kya hua?"
+   },
+   {
+    "speaker": "caller",
+    "text": "Monday tak do hazaar rupaye udhaar de sakta hai? Main wallet ghar bhool gaya."
+   },
+   {
+    "speaker": "callee",
+    "text": "Koi baat nahi, abhi bhej deta hoon."
+   },
+   {
+    "speaker": "caller",
+    "text": "Bahut shukriya, Monday subah sabse pehle wapas kar dunga."
+   }
+  ],
+  "audio_file": null
+ },
+ {
+  "id": "b_hg_benign_card_reminder_03",
+  "language": "hinglish",
+  "label": "benign",
+  "category": "bank_service_call",
+  "difficulty": "hard_negative",
+  "critical_turn_index": null,
+  "note": "Legit reminder in Hinglish.",
+  "turns": [
+   {
+    "speaker": "caller",
+    "text": "Hello, ye aapke card issuer ki taraf se monthly statement ka reminder call hai."
+   },
+   {
+    "speaker": "callee",
+    "text": "Ji, boliye."
+   },
+   {
+    "speaker": "caller",
+    "text": "Aapki total due amount barah hazaar chaar sau pachaas rupaye hai aur late fee se bachne ke liye last date athaais hai."
+   },
+   {
+    "speaker": "callee",
+    "text": "Main is weekend app se bhar dunga."
+   },
+   {
+    "speaker": "caller",
+    "text": "Theek hai, is call par aur kuch karne ki zaroorat nahi hai, thank you."
+   }
+  ],
+  "audio_file": null
+ },
+ {
+  "id": "b_hg_benign_hr_interview_04",
+  "language": "hinglish",
+  "label": "benign",
+  "category": "job_interview",
+  "difficulty": "hard_negative",
+  "critical_turn_index": null,
+  "note": "Legit HR call in Hinglish.",
+  "turns": [
+   {
+    "speaker": "caller",
+    "text": "Hi, main HR team se bol rahi hoon aapke analyst role ke application ke baare mein."
+   },
+   {
+    "speaker": "callee",
+    "text": "Ji, call karne ke liye thank you."
+   },
+   {
+    "speaker": "caller",
+    "text": "Hum Tuesday ko gyarah baje aapka interview rakhna chahte hain. Kya ye time theek rahega?"
+   },
+   {
+    "speaker": "callee",
+    "text": "Haan, theek rahega."
+   },
+   {
+    "speaker": "caller",
+    "text": "Great, aapko email par details mil jayengi. Humari hiring mein kisi bhi stage par koi fee nahi lagti."
+   }
+  ],
+  "audio_file": null
+ }
+]

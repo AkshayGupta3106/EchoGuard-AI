@@ -1,9 +1,6 @@
 /**
- * IndicConformerLiveTranscriber.kt
- * Owner: Person B (semantic stream - Hindi/Hinglish ASR path)
- *
  * Uses AI4Bharat's IndicConformer (NeMo CTC) via sherpa-onnx's OfflineRecognizer.
- * Transcribes Hindi and Hinglish speech natively with high accuracy and low memory footprint.
+ * Buffers 16 kHz PCM for Hindi recognition and reports transcript/latency callbacks.
  */
 
 package com.echoguard.semantic
@@ -24,11 +21,13 @@ class IndicConformerLiveTranscriber(
 ) {
     private var recognizer: OfflineRecognizer? = null
     private val pcmBuffer = mutableListOf<Float>()
+    @Volatile var lastError: String? = null
+        private set
 
     companion object {
         private const val TAG = "IndicConformerDebug"
         const val SAMPLE_RATE = 16000
-        private const val MIN_SAMPLES_TO_DECODE = 16000 * 2 // Decode every 2 seconds of audio
+        private const val MIN_SAMPLES_TO_DECODE = 16000 * 2
     }
 
     private val modelDir get() = "indicconformer-$languageCode"
@@ -50,6 +49,7 @@ class IndicConformerLiveTranscriber(
     }
 
     fun init() {
+        lastError = null
         try {
             validateAssetsExist()
 
@@ -80,10 +80,14 @@ class IndicConformerLiveTranscriber(
 
     private var silenceChunks = 0
 
-    /**
-     * Feed PCM samples from the microphone audio loop.
-     * Accumulates audio and transcribes Hindi speech into text.
-     */
+    /** Discard pending audio between independent replay inputs/calls. */
+    fun reset() = synchronized(this) {
+        pcmBuffer.clear()
+        silenceChunks = 0
+        lastError = null
+    }
+
+    /** Buffer mono PCM and decode on pause or buffer limit. */
     fun acceptWaveform(samples: FloatArray) {
         val r = recognizer ?: return
         try {
@@ -102,8 +106,7 @@ class IndicConformerLiveTranscriber(
                     silenceChunks = 0
                 }
 
-                // Decode if we hit a natural pause (~400ms = 12 chunks of 32ms) and have at least 1.5s of audio,
-                // OR if the buffer is getting too long (force decode at 6s to prevent massive lag).
+                // Decode after 12 quiet chunks with at least 1.5s buffered, or at 6s total.
                 val isNaturalPause = silenceChunks >= 12 && pcmBuffer.size >= (16000 * 1.5).toInt()
                 val isBufferFull = pcmBuffer.size >= 16000 * 6
 
@@ -115,18 +118,20 @@ class IndicConformerLiveTranscriber(
 
                 val t0 = System.currentTimeMillis()
                 val stream = r.createStream()
-                stream.acceptWaveform(audioArray, SAMPLE_RATE)
-                r.decode(stream)
-                val text = r.getResult(stream).text
-                stream.release()
+                val text = try {
+                    stream.acceptWaveform(audioArray, SAMPLE_RATE)
+                    r.decode(stream)
+                    r.getResult(stream).text
+                } finally { stream.release() }
 
                 if (text.isNotBlank()) {
-                    Log.d(TAG, "Hindi ASR Transcribed text: '$text'")
+                    Log.d(TAG, "Hindi transcript characters=${text.length}")
                     onPartialResult(text, true)
                 }
                 onLatencyMeasured(System.currentTimeMillis() - t0)
             }
         } catch (e: Throwable) {
+            lastError = "Hindi ASR decode failed: ${e.localizedMessage}"
             Log.e(TAG, "Error decoding Hindi audio chunk", e)
         }
     }

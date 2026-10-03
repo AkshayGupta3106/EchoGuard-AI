@@ -1,0 +1,5 @@
+# Install when using evaluation and test commands.
+# Application/model dependencies remain in tools/requirements/models.txt or webdemo/requirements.txt.
+-e .
+pytest>=8,<9
+requests>=2.31,<3

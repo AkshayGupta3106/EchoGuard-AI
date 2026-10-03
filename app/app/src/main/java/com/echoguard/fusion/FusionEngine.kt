@@ -1,10 +1,6 @@
 /**
- * FusionEngine.kt
- * Owner: Person A + Person B together
- *
- * Kotlin port of fusion_engine.py - same weighted-sum MVP, same normalized
- * weights, same StreamSignal/FusionResult shape. Verified logic against the
- * Python version's test scenarios before porting.
+ * Asymmetric fusion: scam + spoof * (1 - scam) * 0.45.
+ * Retains the peak fused risk until reset and carries signal explanations.
  */
 
 package com.echoguard.fusion
@@ -32,7 +28,6 @@ class FusionEngine {
     private val lock = Any()
 
     fun combine(spoofSignal: StreamSignal, scamSignal: StreamSignal): FusionResult = synchronized(lock) {
-        // Asymmetric Boost: Scam sets baseline, Spoof boosts by max 45%
         val maxSpoofBoost = 0.45f
         val risk = scamSignal.score + spoofSignal.score * (1.0f - scamSignal.score) * maxSpoofBoost
         

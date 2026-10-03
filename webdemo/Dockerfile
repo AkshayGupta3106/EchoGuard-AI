@@ -1,5 +1,4 @@
-# Deploy target: Hugging Face Spaces (Docker SDK) or any Docker host (Render, Fly.io, etc.)
-# Build context = repo root (this file references ../acoustic, ../semantic, ../fusion).
+# Lightweight FastAPI web image; build context is the repository root.
 
 FROM python:3.11-slim
 
@@ -9,25 +8,17 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /app
 
-# Only what's needed to run the pipeline + demo -- not the Android app, datasets, etc.
-COPY acoustic ./acoustic
-COPY semantic ./semantic
-COPY fusion ./fusion
+# Install the source package without pulling optional model/export dependencies.
+COPY pyproject.toml README.md ./
+COPY src ./src
+
+# Runtime assets and browser frontend; local recordings/builds are excluded.
+COPY assets ./assets
 COPY webdemo ./webdemo
 
-# NOTE: this image intentionally never installs torch. The web service uses
-# acoustic/spoof_detector_onnx.py (ONNX Runtime) instead of spoof_detector.py
-# (PyTorch): `import torch` alone uses ~490MB RSS - nearly the entire 512MB
-# free-tier RAM budget on its own - while `import onnxruntime` uses ~40MB,
-# for numerically identical output from the same AASIST-L weights (verified
-# to ~1e-7). That gap was causing OOM crash-restart loops under normal use.
-# This needs acoustic/aasist_model/aasist_l.onnx to be committed to the repo
-# (~600KB - generate it once with `python3 acoustic/export_onnx.py` in an
-# environment that has torch, then `git add` the resulting .onnx file).
+# ONNX acoustic inference and rules-only text scoring, without model-export dependencies.
 RUN pip install --no-cache-dir -r webdemo/requirements.txt
-
-# sentence-transformers is intentionally omitted from the free-tier image.
-# ScamClassifier falls back to its rules-only detector when it is unavailable.
+RUN pip install --no-cache-dir --no-deps -e .
 
 WORKDIR /app/webdemo
 EXPOSE 7860

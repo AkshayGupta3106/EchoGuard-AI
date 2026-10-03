@@ -1,29 +1,9 @@
 /**
- * ScamClassifier.kt
- * Owner: Person B (semantic stream)
- *
- * Kotlin port of scam_classifier.py. Two layers, same as the Python version:
- *
- *   1. Rule layer - regex patterns, fully ported below, deterministic,
- *      no model needed. This is a direct, careful translation of
- *      RULE_CATEGORIES from the Python file - keep the two in sync if you
- *      edit one.
- *
- *   2. Semantic layer - MiniLM embedding similarity. Unlike the acoustic
- *      stream's AASIST-L (which just needed a straight ONNX port), this one
- *      needs a tokenizer too, since MiniLM takes token IDs, not raw text.
- *      Design to minimize on-device work:
- *        - The 14 exemplar sentences NEVER change at runtime, so they're
- *          embedded ONCE on a dev machine (export_exemplar_embeddings.py)
- *          and bundled as a JSON asset - no tokenization/inference needed
- *          for them on-device.
- *        - Only the LIVE transcript gets tokenized + embedded on-device,
- *          via the WordPieceTokenizer below + minilm.onnx.
- *
- * NOT compiled or run - written by hand against the ONNX Runtime Mobile
- * and standard WordPiece algorithm, but this environment has no Android
- * build toolchain to verify it against. Treat as a careful skeleton, test
- * it for real before relying on it.
+ * On-device scam scoring from deterministic rules and MiniLM similarity.
+ * WordPieceTokenizer supplies token IDs to the quantized ONNX model; pooled
+ * transcript embeddings are compared against bundled exemplar embeddings.
+ * Rules, normalization, and tokenization are specific to this Kotlin backend.
+ * Intentional joke/prank phrases can override the combined scam score.
  */
 
 package com.echoguard.semantic
@@ -36,8 +16,7 @@ import java.nio.LongBuffer
 import kotlin.math.sqrt
 
 // ---------------------------------------------------------------------------
-// 1. Rule layer - direct port of RULE_CATEGORIES from scam_classifier.py.
-//    Keep these regexes in sync with the Python file if either changes.
+// 1. Deterministic Kotlin rule categories; no model inference required.
 // ---------------------------------------------------------------------------
 
 data class RuleCategory(val name: String, val weight: Double, val patterns: List<Regex>)
@@ -195,8 +174,7 @@ private val RULE_CATEGORIES: List<RuleCategory> = listOf(
 data class RuleHit(val category: String, val weight: Double, val matchedText: String)
 data class RuleScoreResult(val score: Double, val hits: List<RuleHit>)
 
-/** Standard edit distance - kept simple and obvious rather than optimized,
- * so it stays easy to verify it matches the Python version exactly. */
+/** Levenshtein edit distance using dynamic programming. */
 private fun levenshtein(a: String, b: String): Int {
     if (a == b) return 0
     var prev = IntArray(b.length + 1) { it }
@@ -214,13 +192,12 @@ private fun levenshtein(a: String, b: String): Int {
 
 /** Undoes two common ASR artifacts before matching - spelled-out acronyms
  * ("o t p" -> "otp") and stray punctuation between letters ("o.t.p" -> "otp").
- * Does NOT fix wrong-word substitutions - see scam_classifier.py's docstring
- * for the same caveat; that's what the sherpa-onnx hotwords fix is for
- * (see generate_hotwords.py). */
+ * Explicit substitutions below cover selected recognition errors, not arbitrary
+ * wrong-word substitutions or missing speech content. */
 private fun normalizeForMatching(transcript: String): String {
     var text = transcript.lowercase()
     
-    // Explicit fixes for Zipformer 2023's common phonetic hallucinations
+    // Selected phonetic substitutions and split brand names are normalized explicitly.
     text = text.replace("or tippy", "otp")
     text = text.replace("old tibby", "otp")
     text = text.replace("scamper", "scammer")
@@ -234,7 +211,7 @@ private fun normalizeForMatching(transcript: String): String {
 
 private data class FuzzyTerm(val term: String, val category: String, val weight: Double, val maxDist: Int)
 
-// Same list as scam_classifier.py's _FUZZY_TERMS - keep these two in sync.
+// Fuzzy-match high-value acronyms and remote-access product names.
 private val FUZZY_TERMS = listOf(
     FuzzyTerm("otp", "otp_request", 0.9, 1),
     FuzzyTerm("cvv", "otp_request", 0.9, 1),
@@ -271,7 +248,7 @@ fun ruleScore(transcript: String): RuleScoreResult {
             val m = rx.find(normalized)
             if (m != null) {
                 hits.add(RuleHit(cat.name, cat.weight, m.value))
-                break  // one hit per category is enough, matches Python version
+                break  // Count each category once.
             }
         }
     }
@@ -281,7 +258,7 @@ fun ruleScore(transcript: String): RuleScoreResult {
 
     if (hits.isEmpty()) return RuleScoreResult(0.0, emptyList())
 
-    // score = 1 - product(1 - weight_i), same compounding as the Python version
+    // Compound rule weights: 1 - product(1 - weight_i).
     var score = 1.0
     for (h in hits) score *= (1.0 - h.weight)
     score = 1.0 - score
@@ -291,8 +268,8 @@ fun ruleScore(transcript: String): RuleScoreResult {
 // ---------------------------------------------------------------------------
 // 2. Minimal WordPiece tokenizer - the same algorithm BERT/MiniLM tokenizers
 //    use: greedy longest-match-first subword matching against a vocab.
-//    Loads vocab.txt produced by export_minilm_onnx.py (one token per line,
-//    line number == token id).
+//    Loads vocab.txt produced by tools/models/export_minilm.py (one token per line,
+//    zero-based line index == token id).
 // ---------------------------------------------------------------------------
 
 class WordPieceTokenizer(vocabLines: List<String>, private val maxSeqLen: Int = 64) {
@@ -399,27 +376,22 @@ class SemanticScorer(
                     setExecutionMode(OrtSession.SessionOptions.ExecutionMode.SEQUENTIAL)
                 }
 
-                if (!modelFile.exists() || !dataFile.exists() || modelFile.length() == 0L || dataFile.length() == 0L) {
-                    modelFile.delete()
-                    dataFile.delete()
-                    context.assets.open(modelAssetPath).use { input ->
-                        java.io.FileOutputStream(modelFile).use { output -> input.copyTo(output) }
-                    }
-                    context.assets.open("$modelAssetPath.data").use { input ->
-                        java.io.FileOutputStream(dataFile).use { output -> input.copyTo(output) }
-                    }
+                opts.use {
+                    com.echoguard.acoustic.copyModelAsset(context, modelAssetPath, "minilm.onnx")
+                    session = env?.createSession(modelFile.absolutePath, it)
                 }
-                session = env?.createSession(modelFile.absolutePath, opts)
 
-                val vocabLines = context.assets.open(vocabAssetPath).bufferedReader().readLines()
+                val vocabLines = context.assets.open(vocabAssetPath).bufferedReader().use { it.readLines() }
                 tokenizer = WordPieceTokenizer(vocabLines)
 
-                val json = JSONObject(context.assets.open(exemplarsAssetPath).bufferedReader().readText())
+                val json = JSONObject(context.assets.open(exemplarsAssetPath).bufferedReader().use { it.readText() })
                 scamExemplars = parseExemplarSet(json.getJSONArray("scam_exemplars"))
                 benignExemplars = parseExemplarSet(json.getJSONArray("benign_exemplars"))
+                android.util.Log.i("SemanticScorer", "MiniLM ONNX session ready")
             }
         } catch (e: Throwable) {
             android.util.Log.e("SemanticScorer", "MiniLM failed to load, falling back to rules-only", e)
+            try { session?.close() } catch (_: Throwable) {}
             try {
                 modelFile.delete()
                 dataFile.delete()
@@ -458,29 +430,31 @@ class SemanticScorer(
             val seqLen = inputIds.size
 
             val inputTensor = OnnxTensor.createTensor(currentEnv, LongBuffer.wrap(inputIds), longArrayOf(1, seqLen.toLong()))
-            val maskTensor = OnnxTensor.createTensor(currentEnv, LongBuffer.wrap(attentionMask), longArrayOf(1, seqLen.toLong()))
+            inputTensor.use {
+                val maskTensor = OnnxTensor.createTensor(currentEnv, LongBuffer.wrap(attentionMask), longArrayOf(1, seqLen.toLong()))
+                maskTensor.use {
+                    currentSession.run(mapOf("input_ids" to inputTensor, "attention_mask" to maskTensor)).use { results ->
+                        @Suppress("UNCHECKED_CAST")
+                        val hidden = (results.get("last_hidden_state").get().value as Array<Array<FloatArray>>)[0]  // [seq, hidden]
+                        val hiddenDim = hidden[0].size
 
-            currentSession.run(mapOf("input_ids" to inputTensor, "attention_mask" to maskTensor)).use { results ->
-                @Suppress("UNCHECKED_CAST")
-                val hidden = (results.get("last_hidden_state").get().value as Array<Array<FloatArray>>)[0]  // [seq, hidden]
-                val hiddenDim = hidden[0].size
+                        val pooled = FloatArray(hiddenDim)
+                        var maskSum = 0f
+                        for (i in 0 until seqLen) {
+                            val m = attentionMask[i].toFloat()
+                            maskSum += m
+                            for (j in 0 until hiddenDim) pooled[j] += hidden[i][j] * m
+                        }
+                        for (j in 0 until hiddenDim) pooled[j] /= maskSum.coerceAtLeast(1e-9f)
 
-                val pooled = FloatArray(hiddenDim)
-                var maskSum = 0f
-                for (i in 0 until seqLen) {
-                    val m = attentionMask[i].toFloat()
-                    maskSum += m
-                    for (j in 0 until hiddenDim) pooled[j] += hidden[i][j] * m
+                        // L2 normalize
+                        var norm = 0f
+                        for (v in pooled) norm += v * v
+                        norm = sqrt(norm).coerceAtLeast(1e-9f)
+                        for (j in pooled.indices) pooled[j] /= norm
+                        pooled
+                    }
                 }
-                for (j in 0 until hiddenDim) pooled[j] /= maskSum.coerceAtLeast(1e-9f)
-
-                // L2 normalize
-                var norm = 0f
-                for (v in pooled) norm += v * v
-                norm = sqrt(norm).coerceAtLeast(1e-9f)
-                for (j in pooled.indices) pooled[j] /= norm
-
-                pooled
             }
         } catch (e: Throwable) {
             android.util.Log.e("SemanticScorer", "Embed failed", e)
@@ -493,12 +467,8 @@ class SemanticScorer(
             return SemanticResult(0f, null, available)
         }
         
-        // Fix: MiniLM is trained on short sentences. Embedding a massive 
-        // multi-minute conversation dilutes the "scam" signal, and our 
-        // tokenizer truncates at maxSeqLen (64) anyway, completely ignoring 
-        // the end of the call!
-        // We only need to embed the most recent trailing context. PipelineRunner 
-        // already remembers the max historical risk via `maxRiskSoFar`.
+        // Embed the last 50 words, with tokenizer maxSeqLen=64.
+        // PipelineRunner retains peak risk across transcript updates.
         val words = transcript.split(Regex("\\s+"))
         val trailingContext = words.takeLast(50).joinToString(" ")
         
@@ -542,7 +512,7 @@ class SemanticScorer(
 }
 
 // ---------------------------------------------------------------------------
-// 4. Combined classifier - same shape as scam_classifier.py's ScamClassifier.
+// 4. Combined rule/semantic classifier with joke handling.
 // ---------------------------------------------------------------------------
 
 data class ScamScoreResult(
@@ -568,6 +538,7 @@ class ScamClassifier(
     private val semanticWeight: Double = 0.5,
 ) {
     private val semanticScorer = SemanticScorer(context)
+    val semanticAvailable: Boolean get() = semanticScorer.available
 
     fun scamScore(transcript: String): ScamScoreResult {
         val r = ruleScore(transcript)

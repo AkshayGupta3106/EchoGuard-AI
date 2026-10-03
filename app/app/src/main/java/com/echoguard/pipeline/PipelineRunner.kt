@@ -1,41 +1,10 @@
 /**
- * PipelineRunner.kt
- * Owner: together (Day 3)
- *
- * Wires the four already-tested pieces together in the SAME order verified
- * end-to-end in fusion/demo_pipeline.py:
- *
- *   mic audio -> VadGate --(speech only)--> AASIST-L SpoofDetector
- *                                        -> IndicConformer live transcript -> ScamClassifier
- *   both scores -> FusionEngine -> SupervisorAgent -> PipelineUiState
- *
- * ASR engine: AI4Bharat IndicConformer (NeMo CTC via sherpa-onnx)
- *   Replaced English-only Zipformer Transducer with IndicConformer so the
- *   pipeline handles Hinglish code-switching natively. Indian scam callers
- *   frequently mix Hindi into English conversation — Zipformer would drop or
- *   hallucinate those words. IndicConformer is trained on all 22 official
- *   Indian languages and handles this naturally.
- *
- * Two fixes applied to the version this was based on:
- *
- *   1. Removed the `maxAmp > 0.03f` override that was forcing almost every
- *      audio chunk (including background noise) to be treated as speech,
- *      defeating the VAD entirely. If VAD wasn't triggering reliably in
- *      testing, the real fix is lowering VadGate's own probability
- *      threshold (now a constructor parameter, see vadThreshold below) -
- *      not bypassing it with a raw loudness check that lets noise flood
- *      both downstream models.
- *
- *   2. Scam scoring now tracks a cumulative max risk across the whole call
- *      instead of only scoring the trailing ~40 words. Previously, a red
- *      flag raised early in the call (e.g. "this is your bank's security
- *      department") could silently stop affecting the risk score once the
- *      conversation moved on past that 40-word window - a real fraud
- *      signal shouldn't be "forgotten" just because the caller changed
- *      the subject. The full transcript is still what gets scored (cheap
- *      enough - regex + one MiniLM embed call), and the fused risk score
- *      is now the max of "current fused score" and "highest fused score
- *      seen so far this call," so an escalation sticks.
+ * Coordinates audio, English Kroko or Hindi IndicConformer ASR, scam scoring,
+ * fusion, supervisor recommendations, and observable UI state.
+ * Incoming chunks are sent to VAD, AASIST, and the selected ASR engine; the
+ * VAD result does not gate downstream audio. Scoring runs every 45 chunks.
+ * Accumulated transcript text is supplied to ScamClassifier. Peak risk is
+ * Peak risk persists across scoring updates and resets when an intentional joke override fires.
  */
 
 package com.echoguard.pipeline
@@ -55,10 +24,13 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.cancelChildren
+import java.util.concurrent.locks.ReentrantReadWriteLock
+import kotlin.concurrent.read
+import kotlin.concurrent.write
 
 class PipelineRunner(
     private val context: Context,
-    private val vadThreshold: Float = 0.05f, // Extremely sensitive so it triggers even on low-volume mics!
+    private val vadThreshold: Float = 0.05f, // VAD probability threshold; not a downstream audio gate.
 ) {
 
     companion object {
@@ -90,30 +62,28 @@ class PipelineRunner(
     )
     private var isScoring = java.util.concurrent.atomic.AtomicBoolean(false)
     @Volatile private var isRunning = false
+    private val lifecycleLock = ReentrantReadWriteLock(true)
+    private val lifecycleVersion = java.util.concurrent.atomic.AtomicLong(0)
 
-    fun start(assetManager: AssetManager) {
+    fun start(assetManager: AssetManager) = lifecycleLock.write {
         android.util.Log.i("PipelineRunner", "Starting pipeline...")
-        // Ensure previous sessions and memory are fully freed to prevent leaks
+        // Request scoring cancellation and release the current model sessions.
         stopInternalOnly()
-        _uiState.update { it.copy(isInitializing = true) }
+        _uiState.update { PipelineUiState(uiLanguage = it.uiLanguage, isInitializing = true) }
 
         try {
-            // 1. Initialize VadGate
             android.util.Log.i("PipelineRunner", "Initializing VadGate...")
             vadGate = VadGate(assetManager, threshold = vadThreshold)
             Thread.sleep(200)
 
-            // 2. Initialize SpoofDetector (~150MB ONNX)
             android.util.Log.i("PipelineRunner", "Initializing SpoofDetector...")
             spoofDetector = SpoofDetector(context)
             Thread.sleep(200)
 
-            // 3. Initialize ScamClassifier (MiniLM ~30MB ONNX)
             android.util.Log.i("PipelineRunner", "Initializing ScamClassifier...")
             scamClassifier = ScamClassifier(context)
             Thread.sleep(200)
 
-            // 4. Initialize FusionEngine
             android.util.Log.i("PipelineRunner", "Initializing FusionEngine...")
             fusionEngine = FusionEngine()
             Thread.sleep(100)
@@ -140,7 +110,6 @@ class PipelineRunner(
                 lastScamExplain = ""
             }
 
-            // 5. Initialize ASR Transcriber based on selected language
             android.util.Log.i("PipelineRunner", "Initializing ASR...")
             val normalizeTranscript = { text: String ->
                 var t = text
@@ -174,6 +143,7 @@ class PipelineRunner(
                     android.util.Log.i("PipelineRunner", "IndicConformer Hindi ASR initialized successfully!")
                 } catch (e: Throwable) {
                     android.util.Log.e("PipelineRunner", "IndicConformer failed", e)
+                    throw e
                 }
             } else {
                 try {
@@ -195,21 +165,35 @@ class PipelineRunner(
                     android.util.Log.i("PipelineRunner", "Zipformer English ASR initialized successfully!")
                 } catch (e2: Throwable) {
                     android.util.Log.e("PipelineRunner", "Zipformer English ASR failed", e2)
+                    throw e2
                 }
             }
 
             isRunning = true
-            _uiState.update { it.copy(status = MonitorStatus.Monitoring, isInitializing = false) }
+            val unavailable = buildList {
+                if (vadGate?.available != true) add("VAD")
+                if (spoofDetector?.available != true) add("voice spoof detection")
+                if (scamClassifier?.semanticAvailable != true) add("MiniLM (text scoring is rules-only)")
+            }
+            _uiState.update { it.copy(
+                status = MonitorStatus.Monitoring,
+                isInitializing = false,
+                warningMessage = unavailable.takeIf { models -> models.isNotEmpty() }?.joinToString(prefix = "Unavailable: "),
+            ) }
         } catch (e: Throwable) {
             android.util.Log.e("PipelineRunner", "Error during model initialization", e)
             stopInternalOnly()
             currentPartial = "[Error initializing AI models: ${e.localizedMessage}]"
-            _uiState.update { it.copy(liveTranscript = currentPartial, status = MonitorStatus.Idle, isInitializing = false) }
+            _uiState.update { it.copy(liveTranscript = "", errorMessage = currentPartial, status = MonitorStatus.Idle, isInitializing = false) }
         }
     }
 
-    fun setLanguage(language: AppLanguage) {
+    fun setLanguage(language: AppLanguage) = lifecycleLock.write {
         _uiState.update { it.copy(uiLanguage = language) }
+    }
+
+    fun reportCaptureError(message: String) {
+        _uiState.update { it.copy(errorMessage = message) }
     }
 
     private var chunkCount = 0
@@ -220,8 +204,8 @@ class PipelineRunner(
     @Volatile private var maxRiskSoFar = 0f
     private val stateLock = Any()
 
-    fun onAudioChunk(samples: FloatArray) {
-        if (!isRunning) return
+    fun onAudioChunk(samples: FloatArray) = lifecycleLock.read {
+        if (!isRunning) return@read
         try {
             onAudioChunkInternal(samples)
         } catch (e: Throwable) {
@@ -240,35 +224,35 @@ class PipelineRunner(
         chunkCount++
 
         if ((chunkCount % 45 == 0) && isScoring.compareAndSet(false, true)) {
+            val version = lifecycleVersion.get()
             val transcriptSnapshot = synchronized(transcriptLock) { 
                 "$finalizedTranscript $currentPartial".trim() 
             }
             
             scoringScope.launch {
                 try {
-                    if (!isRunning) return@launch
-                    val spoofResult = spoofDetector?.score() ?: SpoofDetector.Result(0f, 1f, 0)
-                    val scamResult = scamClassifier?.scamScore(transcriptSnapshot) 
-                        ?: ScamScoreResult(0.0, emptyList(), null)
+                    lifecycleLock.read {
+                        if (!isRunning || version != lifecycleVersion.get()) return@read
+                        val spoofResult = spoofDetector?.score() ?: SpoofDetector.Result(0f, 1f, 0)
+                        val scamResult = scamClassifier?.scamScore(transcriptSnapshot)
+                            ?: ScamScoreResult(0.0, emptyList(), null)
 
-                    synchronized(stateLock) {
-                        if (scamResult.isJokeOverride) {
-                            maxRiskSoFar = 0f
-                            fusionEngine?.reset()
+                        synchronized(stateLock) {
+                            if (scamResult.isJokeOverride) {
+                                maxRiskSoFar = 0f
+                                fusionEngine?.reset()
+                            }
+                            lastSpoofScore = spoofResult.spoofScore
+                            lastSpoofExplain = if (spoofResult.spoofScore > 0.5f) "likely AI-generated voice" else "no spoof detected"
+                            lastScamScore = scamResult.score
+                            lastScamExplain = scamResult.explain()
+                            if (isRunning) updateUiState(transcriptSnapshot)
                         }
-                        lastSpoofScore = spoofResult.spoofScore
-                        lastSpoofExplain = if (spoofResult.spoofScore > 0.5f) "likely AI-generated voice" else "no spoof detected"
-                        lastScamScore = scamResult.score
-                        lastScamExplain = scamResult.explain()
-                    }
-                    
-                    if (isRunning) {
-                        updateUiState(transcriptSnapshot)
                     }
                 } catch (e: Throwable) {
                     android.util.Log.e("PipelineRunner", "Error scoring chunk", e)
                 } finally {
-                    isScoring.set(false)
+                    if (version == lifecycleVersion.get()) isScoring.set(false)
                 }
             }
         } else {
@@ -276,21 +260,14 @@ class PipelineRunner(
         }
     }
 
-    private fun updateUiState(transcriptOverride: String?) {
-        if (!isRunning) return
-        val spoofSignal: StreamSignal
-        val scamSignal: StreamSignal
-        
-        synchronized(stateLock) {
-            spoofSignal = StreamSignal(score = lastSpoofScore, explain = lastSpoofExplain)
-            scamSignal = StreamSignal(score = lastScamScore.toFloat(), explain = lastScamExplain)
-        }
+    private fun updateUiState(transcriptOverride: String?) = synchronized(stateLock) {
+        if (!isRunning) return@synchronized
+        val spoofSignal = StreamSignal(score = lastSpoofScore, explain = lastSpoofExplain)
+        val scamSignal = StreamSignal(score = lastScamScore.toFloat(), explain = lastScamExplain)
 
-        val fusionResult = fusionEngine?.combine(spoofSignal, scamSignal) ?: return
+        val fusionResult = fusionEngine?.combine(spoofSignal, scamSignal) ?: return@synchronized
 
-        synchronized(stateLock) {
-            maxRiskSoFar = maxOf(maxRiskSoFar, fusionResult.riskScore)
-        }
+        maxRiskSoFar = maxOf(maxRiskSoFar, fusionResult.riskScore)
         val stickyResult = fusionResult.copy(riskScore = maxRiskSoFar)
 
         val language = _uiState.value.uiLanguage
@@ -323,15 +300,10 @@ class PipelineRunner(
 
     private fun stopInternalOnly() {
         isRunning = false
+        lifecycleVersion.incrementAndGet()
         scoringScope.coroutineContext[kotlinx.coroutines.Job]?.cancelChildren()
-        
-        // Prevent native crash: Wait for the concurrent scoring thread to finish 
-        // accessing ONNX pointers before we release them.
-        var waitCount = 0
-        while (isScoring.get() && waitCount < 50) {
-            Thread.sleep(10)
-            waitCount++
-        }
+        // The lifecycle write lock is held: all native audio/scoring readers have finished.
+        isScoring.set(false)
 
         try { krokoTranscriber?.release() } catch (e: Throwable) { android.util.Log.e("PipelineRunner", "Error releasing krokoTranscriber", e) }
         try { transcriber?.release() } catch (e: Throwable) { android.util.Log.e("PipelineRunner", "Error releasing transcriber", e) }
@@ -349,7 +321,7 @@ class PipelineRunner(
         System.gc()
     }
 
-    fun stop() {
+    fun stop() = lifecycleLock.write {
         stopInternalOnly()
         _uiState.update { 
             it.copy(
@@ -361,5 +333,10 @@ class PipelineRunner(
                 timeline = emptyList()
             ) 
         }
+    }
+
+    fun release() {
+        stop()
+        scoringScope.coroutineContext[kotlinx.coroutines.Job]?.cancel()
     }
 }

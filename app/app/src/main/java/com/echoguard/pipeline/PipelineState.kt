@@ -1,10 +1,5 @@
 /**
- * PipelineState.kt
- * Owner: together (Day 3)
- *
- * The shape CallMonitorService publishes and MainActivity's UI observes.
- * Kept in its own file since both the service (producer) and the UI
- * (consumer) need it, and neither should depend on the other's internals.
+ * Observable pipeline and timeline state shared by the runner and Compose UI.
  */
 
 package com.echoguard.pipeline
@@ -19,8 +14,7 @@ data class TimelineUiEntry(
 )
 
 sealed class MonitorStatus {
-    object Idle : MonitorStatus()                 // no call active
-    object ListeningNoSpeaker : MonitorStatus()    // call active, speaker not confirmed on yet
+    object Idle : MonitorStatus()                 // no analysis active
     object Monitoring : MonitorStatus()            // actively capturing + scoring
 }
 
@@ -34,4 +28,6 @@ data class PipelineUiState(
     val currentAction: Action = Action.MONITOR,
     val timeline: List<TimelineUiEntry> = emptyList(),
     val liveTranscript: String = "",
+    val errorMessage: String? = null,
+    val warningMessage: String? = null,
 )

@@ -1,0 +1,3402 @@
+[
+  {
+    "id": "en_scam_otp_phishing_01",
+    "language": "en",
+    "label": "scam",
+    "category": "otp_phishing",
+    "critical_turn_index": 4,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "Good afternoon, I am calling from Suraksha Bank security department regarding a suspicious transaction on your account ending 4821."
+      },
+      {
+        "speaker": "callee",
+        "text": "Oh, I didn't make any such transaction."
+      },
+      {
+        "speaker": "caller",
+        "text": "Yes sir, someone tried to withdraw Rs 45,000 from your account just now. To block this, I need to verify your identity."
+      },
+      {
+        "speaker": "callee",
+        "text": "Okay, what do you need?"
+      },
+      {
+        "speaker": "caller",
+        "text": "You will receive a 6 digit OTP on your registered mobile number. Please read it out to me so I can cancel the transaction."
+      },
+      {
+        "speaker": "callee",
+        "text": "Wait, isn't the OTP supposed to stay private?"
+      },
+      {
+        "speaker": "caller",
+        "text": "Sir, this is a special verification OTP, not a transaction OTP. If you don't tell me in two minutes, you will lose Rs 45,000."
+      },
+      {
+        "speaker": "callee",
+        "text": "Okay okay, the OTP is 458219."
+      }
+    ],
+    "audio_file": "audio/en_scam_otp_phishing_01.wav"
+  },
+  {
+    "id": "en_scam_otp_phishing_02",
+    "language": "en",
+    "label": "scam",
+    "category": "otp_phishing",
+    "critical_turn_index": 4,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "Good afternoon, I am calling from Trustline Bank security department regarding a suspicious transaction on your account ending 7734."
+      },
+      {
+        "speaker": "callee",
+        "text": "Oh, I didn't make any such transaction."
+      },
+      {
+        "speaker": "caller",
+        "text": "Yes sir, someone tried to withdraw Rs 1,20,000 from your account just now. To block this, I need to verify your identity."
+      },
+      {
+        "speaker": "callee",
+        "text": "Okay, what do you need?"
+      },
+      {
+        "speaker": "caller",
+        "text": "You will receive a 6 digit OTP on your registered mobile number. Please read it out to me so I can cancel the transaction."
+      },
+      {
+        "speaker": "callee",
+        "text": "Wait, isn't the OTP supposed to stay private?"
+      },
+      {
+        "speaker": "caller",
+        "text": "Sir, this is a special verification OTP, not a transaction OTP. If you don't tell me in two minutes, you will lose Rs 1,20,000."
+      },
+      {
+        "speaker": "callee",
+        "text": "Okay okay, the OTP is 612073."
+      }
+    ],
+    "audio_file": "audio/en_scam_otp_phishing_02.wav"
+  },
+  {
+    "id": "en_scam_otp_phishing_03",
+    "language": "en",
+    "label": "scam",
+    "category": "otp_phishing",
+    "critical_turn_index": 4,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "Good afternoon, I am calling from Nationwide Trust Bank security department regarding a suspicious transaction on your account ending 2290."
+      },
+      {
+        "speaker": "callee",
+        "text": "Oh, I didn't make any such transaction."
+      },
+      {
+        "speaker": "caller",
+        "text": "Yes sir, someone tried to withdraw Rs 8,500 from your account just now. To block this, I need to verify your identity."
+      },
+      {
+        "speaker": "callee",
+        "text": "Okay, what do you need?"
+      },
+      {
+        "speaker": "caller",
+        "text": "You will receive a 6 digit OTP on your registered mobile number. Please read it out to me so I can cancel the transaction."
+      },
+      {
+        "speaker": "callee",
+        "text": "Wait, isn't the OTP supposed to stay private?"
+      },
+      {
+        "speaker": "caller",
+        "text": "Sir, this is a special verification OTP, not a transaction OTP. If you don't tell me in two minutes, you will lose Rs 8,500."
+      },
+      {
+        "speaker": "callee",
+        "text": "Okay okay, the OTP is 839451."
+      }
+    ],
+    "audio_file": "audio/en_scam_otp_phishing_03.wav"
+  },
+  {
+    "id": "en_scam_otp_phishing_04",
+    "language": "en",
+    "label": "scam",
+    "category": "otp_phishing",
+    "critical_turn_index": 4,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "Good afternoon, I am calling from Horizon Bank security department regarding a suspicious transaction on your account ending 5567."
+      },
+      {
+        "speaker": "callee",
+        "text": "Oh, I didn't make any such transaction."
+      },
+      {
+        "speaker": "caller",
+        "text": "Yes sir, someone tried to withdraw Rs 2,30,000 from your account just now. To block this, I need to verify your identity."
+      },
+      {
+        "speaker": "callee",
+        "text": "Okay, what do you need?"
+      },
+      {
+        "speaker": "caller",
+        "text": "You will receive a 6 digit OTP on your registered mobile number. Please read it out to me so I can cancel the transaction."
+      },
+      {
+        "speaker": "callee",
+        "text": "Wait, isn't the OTP supposed to stay private?"
+      },
+      {
+        "speaker": "caller",
+        "text": "Sir, this is a special verification OTP, not a transaction OTP. If you don't tell me in two minutes, you will lose Rs 2,30,000."
+      },
+      {
+        "speaker": "callee",
+        "text": "Okay okay, the OTP is 205967."
+      }
+    ],
+    "audio_file": "audio/en_scam_otp_phishing_04.wav"
+  },
+  {
+    "id": "en_scam_otp_phishing_05",
+    "language": "en",
+    "label": "scam",
+    "category": "otp_phishing",
+    "critical_turn_index": 4,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "Good afternoon, I am calling from Capital Shield Bank security department regarding a suspicious transaction on your account ending 9013."
+      },
+      {
+        "speaker": "callee",
+        "text": "Oh, I didn't make any such transaction."
+      },
+      {
+        "speaker": "caller",
+        "text": "Yes sir, someone tried to withdraw Rs 15,750 from your account just now. To block this, I need to verify your identity."
+      },
+      {
+        "speaker": "callee",
+        "text": "Okay, what do you need?"
+      },
+      {
+        "speaker": "caller",
+        "text": "You will receive a 6 digit OTP on your registered mobile number. Please read it out to me so I can cancel the transaction."
+      },
+      {
+        "speaker": "callee",
+        "text": "Wait, isn't the OTP supposed to stay private?"
+      },
+      {
+        "speaker": "caller",
+        "text": "Sir, this is a special verification OTP, not a transaction OTP. If you don't tell me in two minutes, you will lose Rs 15,750."
+      },
+      {
+        "speaker": "callee",
+        "text": "Okay okay, the OTP is 701384."
+      }
+    ],
+    "audio_file": "audio/en_scam_otp_phishing_05.wav"
+  },
+  {
+    "id": "en_scam_digital_arrest_01",
+    "language": "en",
+    "label": "scam",
+    "category": "digital_arrest",
+    "critical_turn_index": 4,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "This call is from the Cyber Crime Cell. A parcel booked under your ID containing illegal substances has been intercepted."
+      },
+      {
+        "speaker": "callee",
+        "text": "What? I didn't book any parcel."
+      },
+      {
+        "speaker": "caller",
+        "text": "Your identity has been used for money laundering, sir. You are under digital arrest until this is resolved. Do not disconnect."
+      },
+      {
+        "speaker": "callee",
+        "text": "This is scary, what do I do?"
+      },
+      {
+        "speaker": "caller",
+        "text": "Transfer Rs 45,000 to the verification account for a clearance certificate, or a warrant will be issued within the hour."
+      },
+      {
+        "speaker": "callee",
+        "text": "I don't have that kind of money right now."
+      },
+      {
+        "speaker": "caller",
+        "text": "Then send whatever you can immediately, or a team will be sent to your address."
+      }
+    ],
+    "audio_file": "audio/en_scam_digital_arrest_01.wav"
+  },
+  {
+    "id": "en_scam_digital_arrest_02",
+    "language": "en",
+    "label": "scam",
+    "category": "digital_arrest",
+    "critical_turn_index": 4,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "This call is from the Cyber Crime Cell. A parcel booked under your ID containing illegal substances has been intercepted."
+      },
+      {
+        "speaker": "callee",
+        "text": "What? I didn't book any parcel."
+      },
+      {
+        "speaker": "caller",
+        "text": "Your identity has been used for money laundering, sir. You are under digital arrest until this is resolved. Do not disconnect."
+      },
+      {
+        "speaker": "callee",
+        "text": "This is scary, what do I do?"
+      },
+      {
+        "speaker": "caller",
+        "text": "Transfer Rs 1,20,000 to the verification account for a clearance certificate, or a warrant will be issued within the hour."
+      },
+      {
+        "speaker": "callee",
+        "text": "I don't have that kind of money right now."
+      },
+      {
+        "speaker": "caller",
+        "text": "Then send whatever you can immediately, or a team will be sent to your address."
+      }
+    ],
+    "audio_file": "audio/en_scam_digital_arrest_02.wav"
+  },
+  {
+    "id": "en_scam_digital_arrest_03",
+    "language": "en",
+    "label": "scam",
+    "category": "digital_arrest",
+    "critical_turn_index": 4,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "This call is from the Cyber Crime Cell. A parcel booked under your ID containing illegal substances has been intercepted."
+      },
+      {
+        "speaker": "callee",
+        "text": "What? I didn't book any parcel."
+      },
+      {
+        "speaker": "caller",
+        "text": "Your identity has been used for money laundering, sir. You are under digital arrest until this is resolved. Do not disconnect."
+      },
+      {
+        "speaker": "callee",
+        "text": "This is scary, what do I do?"
+      },
+      {
+        "speaker": "caller",
+        "text": "Transfer Rs 8,500 to the verification account for a clearance certificate, or a warrant will be issued within the hour."
+      },
+      {
+        "speaker": "callee",
+        "text": "I don't have that kind of money right now."
+      },
+      {
+        "speaker": "caller",
+        "text": "Then send whatever you can immediately, or a team will be sent to your address."
+      }
+    ],
+    "audio_file": "audio/en_scam_digital_arrest_03.wav"
+  },
+  {
+    "id": "en_scam_digital_arrest_04",
+    "language": "en",
+    "label": "scam",
+    "category": "digital_arrest",
+    "critical_turn_index": 4,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "This call is from the Cyber Crime Cell. A parcel booked under your ID containing illegal substances has been intercepted."
+      },
+      {
+        "speaker": "callee",
+        "text": "What? I didn't book any parcel."
+      },
+      {
+        "speaker": "caller",
+        "text": "Your identity has been used for money laundering, sir. You are under digital arrest until this is resolved. Do not disconnect."
+      },
+      {
+        "speaker": "callee",
+        "text": "This is scary, what do I do?"
+      },
+      {
+        "speaker": "caller",
+        "text": "Transfer Rs 2,30,000 to the verification account for a clearance certificate, or a warrant will be issued within the hour."
+      },
+      {
+        "speaker": "callee",
+        "text": "I don't have that kind of money right now."
+      },
+      {
+        "speaker": "caller",
+        "text": "Then send whatever you can immediately, or a team will be sent to your address."
+      }
+    ],
+    "audio_file": "audio/en_scam_digital_arrest_04.wav"
+  },
+  {
+    "id": "en_scam_digital_arrest_05",
+    "language": "en",
+    "label": "scam",
+    "category": "digital_arrest",
+    "critical_turn_index": 4,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "This call is from the Cyber Crime Cell. A parcel booked under your ID containing illegal substances has been intercepted."
+      },
+      {
+        "speaker": "callee",
+        "text": "What? I didn't book any parcel."
+      },
+      {
+        "speaker": "caller",
+        "text": "Your identity has been used for money laundering, sir. You are under digital arrest until this is resolved. Do not disconnect."
+      },
+      {
+        "speaker": "callee",
+        "text": "This is scary, what do I do?"
+      },
+      {
+        "speaker": "caller",
+        "text": "Transfer Rs 15,750 to the verification account for a clearance certificate, or a warrant will be issued within the hour."
+      },
+      {
+        "speaker": "callee",
+        "text": "I don't have that kind of money right now."
+      },
+      {
+        "speaker": "caller",
+        "text": "Then send whatever you can immediately, or a team will be sent to your address."
+      }
+    ],
+    "audio_file": "audio/en_scam_digital_arrest_05.wav"
+  },
+  {
+    "id": "en_scam_kyc_bank_impersonation_01",
+    "language": "en",
+    "label": "scam",
+    "category": "kyc_bank_impersonation",
+    "critical_turn_index": 2,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "Sir, this is Suraksha Bank customer care. Your KYC has expired and your account will be blocked in 2 hours."
+      },
+      {
+        "speaker": "callee",
+        "text": "Nobody told me about this."
+      },
+      {
+        "speaker": "caller",
+        "text": "We tried reaching you earlier. To re-verify, please share the OTP sent to your number and your debit card number."
+      },
+      {
+        "speaker": "callee",
+        "text": "I'm not comfortable sharing my card number over the phone."
+      },
+      {
+        "speaker": "caller",
+        "text": "Without this, your salary account will be frozen tonight, sir. This is your last chance today."
+      },
+      {
+        "speaker": "callee",
+        "text": "Fine, hold on, let me check the OTP."
+      }
+    ],
+    "audio_file": "audio/en_scam_kyc_bank_impersonation_01.wav"
+  },
+  {
+    "id": "en_scam_kyc_bank_impersonation_02",
+    "language": "en",
+    "label": "scam",
+    "category": "kyc_bank_impersonation",
+    "critical_turn_index": 2,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "Sir, this is Trustline Bank customer care. Your KYC has expired and your account will be blocked in 2 hours."
+      },
+      {
+        "speaker": "callee",
+        "text": "Nobody told me about this."
+      },
+      {
+        "speaker": "caller",
+        "text": "We tried reaching you earlier. To re-verify, please share the OTP sent to your number and your debit card number."
+      },
+      {
+        "speaker": "callee",
+        "text": "I'm not comfortable sharing my card number over the phone."
+      },
+      {
+        "speaker": "caller",
+        "text": "Without this, your salary account will be frozen tonight, sir. This is your last chance today."
+      },
+      {
+        "speaker": "callee",
+        "text": "Fine, hold on, let me check the OTP."
+      }
+    ],
+    "audio_file": "audio/en_scam_kyc_bank_impersonation_02.wav"
+  },
+  {
+    "id": "en_scam_kyc_bank_impersonation_03",
+    "language": "en",
+    "label": "scam",
+    "category": "kyc_bank_impersonation",
+    "critical_turn_index": 2,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "Sir, this is Nationwide Trust Bank customer care. Your KYC has expired and your account will be blocked in 2 hours."
+      },
+      {
+        "speaker": "callee",
+        "text": "Nobody told me about this."
+      },
+      {
+        "speaker": "caller",
+        "text": "We tried reaching you earlier. To re-verify, please share the OTP sent to your number and your debit card number."
+      },
+      {
+        "speaker": "callee",
+        "text": "I'm not comfortable sharing my card number over the phone."
+      },
+      {
+        "speaker": "caller",
+        "text": "Without this, your salary account will be frozen tonight, sir. This is your last chance today."
+      },
+      {
+        "speaker": "callee",
+        "text": "Fine, hold on, let me check the OTP."
+      }
+    ],
+    "audio_file": "audio/en_scam_kyc_bank_impersonation_03.wav"
+  },
+  {
+    "id": "en_scam_kyc_bank_impersonation_04",
+    "language": "en",
+    "label": "scam",
+    "category": "kyc_bank_impersonation",
+    "critical_turn_index": 2,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "Sir, this is Horizon Bank customer care. Your KYC has expired and your account will be blocked in 2 hours."
+      },
+      {
+        "speaker": "callee",
+        "text": "Nobody told me about this."
+      },
+      {
+        "speaker": "caller",
+        "text": "We tried reaching you earlier. To re-verify, please share the OTP sent to your number and your debit card number."
+      },
+      {
+        "speaker": "callee",
+        "text": "I'm not comfortable sharing my card number over the phone."
+      },
+      {
+        "speaker": "caller",
+        "text": "Without this, your salary account will be frozen tonight, sir. This is your last chance today."
+      },
+      {
+        "speaker": "callee",
+        "text": "Fine, hold on, let me check the OTP."
+      }
+    ],
+    "audio_file": "audio/en_scam_kyc_bank_impersonation_04.wav"
+  },
+  {
+    "id": "en_scam_kyc_bank_impersonation_05",
+    "language": "en",
+    "label": "scam",
+    "category": "kyc_bank_impersonation",
+    "critical_turn_index": 2,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "Sir, this is Capital Shield Bank customer care. Your KYC has expired and your account will be blocked in 2 hours."
+      },
+      {
+        "speaker": "callee",
+        "text": "Nobody told me about this."
+      },
+      {
+        "speaker": "caller",
+        "text": "We tried reaching you earlier. To re-verify, please share the OTP sent to your number and your debit card number."
+      },
+      {
+        "speaker": "callee",
+        "text": "I'm not comfortable sharing my card number over the phone."
+      },
+      {
+        "speaker": "caller",
+        "text": "Without this, your salary account will be frozen tonight, sir. This is your last chance today."
+      },
+      {
+        "speaker": "callee",
+        "text": "Fine, hold on, let me check the OTP."
+      }
+    ],
+    "audio_file": "audio/en_scam_kyc_bank_impersonation_05.wav"
+  },
+  {
+    "id": "en_scam_courier_customs_01",
+    "language": "en",
+    "label": "scam",
+    "category": "courier_customs",
+    "critical_turn_index": 4,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "This is QuickShip Couriers. We have a parcel addressed to you containing banned items, held at customs."
+      },
+      {
+        "speaker": "callee",
+        "text": "I haven't ordered anything like that."
+      },
+      {
+        "speaker": "caller",
+        "text": "It's possible your ID was misused. I am connecting you to the customs department to avoid legal action."
+      },
+      {
+        "speaker": "callee",
+        "text": "Okay, connect me."
+      },
+      {
+        "speaker": "caller",
+        "text": "To close this case without a legal notice, you need to pay a customs clearance fee of Rs 45,000 right now."
+      },
+      {
+        "speaker": "callee",
+        "text": "This all sounds very sudden."
+      },
+      {
+        "speaker": "caller",
+        "text": "Sir, if this is not paid in the next 30 minutes, a case will be registered against you."
+      }
+    ],
+    "audio_file": "audio/en_scam_courier_customs_01.wav"
+  },
+  {
+    "id": "en_scam_courier_customs_02",
+    "language": "en",
+    "label": "scam",
+    "category": "courier_customs",
+    "critical_turn_index": 4,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "This is MetroParcel Services. We have a parcel addressed to you containing banned items, held at customs."
+      },
+      {
+        "speaker": "callee",
+        "text": "I haven't ordered anything like that."
+      },
+      {
+        "speaker": "caller",
+        "text": "It's possible your ID was misused. I am connecting you to the customs department to avoid legal action."
+      },
+      {
+        "speaker": "callee",
+        "text": "Okay, connect me."
+      },
+      {
+        "speaker": "caller",
+        "text": "To close this case without a legal notice, you need to pay a customs clearance fee of Rs 1,20,000 right now."
+      },
+      {
+        "speaker": "callee",
+        "text": "This all sounds very sudden."
+      },
+      {
+        "speaker": "caller",
+        "text": "Sir, if this is not paid in the next 30 minutes, a case will be registered against you."
+      }
+    ],
+    "audio_file": "audio/en_scam_courier_customs_02.wav"
+  },
+  {
+    "id": "en_scam_courier_customs_03",
+    "language": "en",
+    "label": "scam",
+    "category": "courier_customs",
+    "critical_turn_index": 4,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "This is SwiftLine Express. We have a parcel addressed to you containing banned items, held at customs."
+      },
+      {
+        "speaker": "callee",
+        "text": "I haven't ordered anything like that."
+      },
+      {
+        "speaker": "caller",
+        "text": "It's possible your ID was misused. I am connecting you to the customs department to avoid legal action."
+      },
+      {
+        "speaker": "callee",
+        "text": "Okay, connect me."
+      },
+      {
+        "speaker": "caller",
+        "text": "To close this case without a legal notice, you need to pay a customs clearance fee of Rs 8,500 right now."
+      },
+      {
+        "speaker": "callee",
+        "text": "This all sounds very sudden."
+      },
+      {
+        "speaker": "caller",
+        "text": "Sir, if this is not paid in the next 30 minutes, a case will be registered against you."
+      }
+    ],
+    "audio_file": "audio/en_scam_courier_customs_03.wav"
+  },
+  {
+    "id": "en_scam_courier_customs_04",
+    "language": "en",
+    "label": "scam",
+    "category": "courier_customs",
+    "critical_turn_index": 4,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "This is National Cargo Post. We have a parcel addressed to you containing banned items, held at customs."
+      },
+      {
+        "speaker": "callee",
+        "text": "I haven't ordered anything like that."
+      },
+      {
+        "speaker": "caller",
+        "text": "It's possible your ID was misused. I am connecting you to the customs department to avoid legal action."
+      },
+      {
+        "speaker": "callee",
+        "text": "Okay, connect me."
+      },
+      {
+        "speaker": "caller",
+        "text": "To close this case without a legal notice, you need to pay a customs clearance fee of Rs 2,30,000 right now."
+      },
+      {
+        "speaker": "callee",
+        "text": "This all sounds very sudden."
+      },
+      {
+        "speaker": "caller",
+        "text": "Sir, if this is not paid in the next 30 minutes, a case will be registered against you."
+      }
+    ],
+    "audio_file": "audio/en_scam_courier_customs_04.wav"
+  },
+  {
+    "id": "en_scam_courier_customs_05",
+    "language": "en",
+    "label": "scam",
+    "category": "courier_customs",
+    "critical_turn_index": 4,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "This is RapidTrack Couriers. We have a parcel addressed to you containing banned items, held at customs."
+      },
+      {
+        "speaker": "callee",
+        "text": "I haven't ordered anything like that."
+      },
+      {
+        "speaker": "caller",
+        "text": "It's possible your ID was misused. I am connecting you to the customs department to avoid legal action."
+      },
+      {
+        "speaker": "callee",
+        "text": "Okay, connect me."
+      },
+      {
+        "speaker": "caller",
+        "text": "To close this case without a legal notice, you need to pay a customs clearance fee of Rs 15,750 right now."
+      },
+      {
+        "speaker": "callee",
+        "text": "This all sounds very sudden."
+      },
+      {
+        "speaker": "caller",
+        "text": "Sir, if this is not paid in the next 30 minutes, a case will be registered against you."
+      }
+    ],
+    "audio_file": "audio/en_scam_courier_customs_05.wav"
+  },
+  {
+    "id": "en_scam_electricity_disconnection_01",
+    "language": "en",
+    "label": "scam",
+    "category": "electricity_disconnection",
+    "critical_turn_index": 4,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "This is an automated message from City Power Board. Your electricity connection will be disconnected tonight due to unpaid bill."
+      },
+      {
+        "speaker": "callee",
+        "text": "I paid my bill last week."
+      },
+      {
+        "speaker": "caller",
+        "text": "Press 1 to speak to our billing executive to resolve this immediately."
+      },
+      {
+        "speaker": "callee",
+        "text": "Okay connecting."
+      },
+      {
+        "speaker": "caller",
+        "text": "Sir your last payment did not reflect. Please pay Rs 45,000 right now through this link, and share the OTP for verification."
+      },
+      {
+        "speaker": "callee",
+        "text": "Sending link payments feels risky."
+      },
+      {
+        "speaker": "caller",
+        "text": "This is the only way to stop the disconnection order tonight, sir."
+      }
+    ],
+    "audio_file": "audio/en_scam_electricity_disconnection_01.wav"
+  },
+  {
+    "id": "en_scam_electricity_disconnection_02",
+    "language": "en",
+    "label": "scam",
+    "category": "electricity_disconnection",
+    "critical_turn_index": 4,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "This is an automated message from Metro Electricity Board. Your electricity connection will be disconnected tonight due to unpaid bill."
+      },
+      {
+        "speaker": "callee",
+        "text": "I paid my bill last week."
+      },
+      {
+        "speaker": "caller",
+        "text": "Press 1 to speak to our billing executive to resolve this immediately."
+      },
+      {
+        "speaker": "callee",
+        "text": "Okay connecting."
+      },
+      {
+        "speaker": "caller",
+        "text": "Sir your last payment did not reflect. Please pay Rs 1,20,000 right now through this link, and share the OTP for verification."
+      },
+      {
+        "speaker": "callee",
+        "text": "Sending link payments feels risky."
+      },
+      {
+        "speaker": "caller",
+        "text": "This is the only way to stop the disconnection order tonight, sir."
+      }
+    ],
+    "audio_file": "audio/en_scam_electricity_disconnection_02.wav"
+  },
+  {
+    "id": "en_scam_electricity_disconnection_03",
+    "language": "en",
+    "label": "scam",
+    "category": "electricity_disconnection",
+    "critical_turn_index": 4,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "This is an automated message from State Grid Utility. Your electricity connection will be disconnected tonight due to unpaid bill."
+      },
+      {
+        "speaker": "callee",
+        "text": "I paid my bill last week."
+      },
+      {
+        "speaker": "caller",
+        "text": "Press 1 to speak to our billing executive to resolve this immediately."
+      },
+      {
+        "speaker": "callee",
+        "text": "Okay connecting."
+      },
+      {
+        "speaker": "caller",
+        "text": "Sir your last payment did not reflect. Please pay Rs 8,500 right now through this link, and share the OTP for verification."
+      },
+      {
+        "speaker": "callee",
+        "text": "Sending link payments feels risky."
+      },
+      {
+        "speaker": "caller",
+        "text": "This is the only way to stop the disconnection order tonight, sir."
+      }
+    ],
+    "audio_file": "audio/en_scam_electricity_disconnection_03.wav"
+  },
+  {
+    "id": "en_scam_electricity_disconnection_04",
+    "language": "en",
+    "label": "scam",
+    "category": "electricity_disconnection",
+    "critical_turn_index": 4,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "This is an automated message from Urban Power Corp. Your electricity connection will be disconnected tonight due to unpaid bill."
+      },
+      {
+        "speaker": "callee",
+        "text": "I paid my bill last week."
+      },
+      {
+        "speaker": "caller",
+        "text": "Press 1 to speak to our billing executive to resolve this immediately."
+      },
+      {
+        "speaker": "callee",
+        "text": "Okay connecting."
+      },
+      {
+        "speaker": "caller",
+        "text": "Sir your last payment did not reflect. Please pay Rs 2,30,000 right now through this link, and share the OTP for verification."
+      },
+      {
+        "speaker": "callee",
+        "text": "Sending link payments feels risky."
+      },
+      {
+        "speaker": "caller",
+        "text": "This is the only way to stop the disconnection order tonight, sir."
+      }
+    ],
+    "audio_file": "audio/en_scam_electricity_disconnection_04.wav"
+  },
+  {
+    "id": "en_scam_electricity_disconnection_05",
+    "language": "en",
+    "label": "scam",
+    "category": "electricity_disconnection",
+    "critical_turn_index": 4,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "This is an automated message from Regional Electric Board. Your electricity connection will be disconnected tonight due to unpaid bill."
+      },
+      {
+        "speaker": "callee",
+        "text": "I paid my bill last week."
+      },
+      {
+        "speaker": "caller",
+        "text": "Press 1 to speak to our billing executive to resolve this immediately."
+      },
+      {
+        "speaker": "callee",
+        "text": "Okay connecting."
+      },
+      {
+        "speaker": "caller",
+        "text": "Sir your last payment did not reflect. Please pay Rs 15,750 right now through this link, and share the OTP for verification."
+      },
+      {
+        "speaker": "callee",
+        "text": "Sending link payments feels risky."
+      },
+      {
+        "speaker": "caller",
+        "text": "This is the only way to stop the disconnection order tonight, sir."
+      }
+    ],
+    "audio_file": "audio/en_scam_electricity_disconnection_05.wav"
+  },
+  {
+    "id": "en_benign_delivery_confirmation_01",
+    "language": "en",
+    "label": "benign",
+    "category": "delivery_confirmation",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "Hi, this is QuickShip Couriers. I'm outside your building with your order, are you home?"
+      },
+      {
+        "speaker": "callee",
+        "text": "Yes I'm home, please come to the second floor."
+      },
+      {
+        "speaker": "caller",
+        "text": "Sure, I'll be there in two minutes. Cash on delivery or already paid?"
+      },
+      {
+        "speaker": "callee",
+        "text": "Already paid online."
+      },
+      {
+        "speaker": "caller",
+        "text": "Great, see you shortly."
+      }
+    ],
+    "audio_file": "audio/en_benign_delivery_confirmation_01.wav"
+  },
+  {
+    "id": "en_benign_delivery_confirmation_02",
+    "language": "en",
+    "label": "benign",
+    "category": "delivery_confirmation",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "Hi, this is MetroParcel Services. I'm outside your building with your order, are you home?"
+      },
+      {
+        "speaker": "callee",
+        "text": "Yes I'm home, please come to the second floor."
+      },
+      {
+        "speaker": "caller",
+        "text": "Sure, I'll be there in two minutes. Cash on delivery or already paid?"
+      },
+      {
+        "speaker": "callee",
+        "text": "Already paid online."
+      },
+      {
+        "speaker": "caller",
+        "text": "Great, see you shortly."
+      }
+    ],
+    "audio_file": "audio/en_benign_delivery_confirmation_02.wav"
+  },
+  {
+    "id": "en_benign_delivery_confirmation_03",
+    "language": "en",
+    "label": "benign",
+    "category": "delivery_confirmation",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "Hi, this is SwiftLine Express. I'm outside your building with your order, are you home?"
+      },
+      {
+        "speaker": "callee",
+        "text": "Yes I'm home, please come to the second floor."
+      },
+      {
+        "speaker": "caller",
+        "text": "Sure, I'll be there in two minutes. Cash on delivery or already paid?"
+      },
+      {
+        "speaker": "callee",
+        "text": "Already paid online."
+      },
+      {
+        "speaker": "caller",
+        "text": "Great, see you shortly."
+      }
+    ],
+    "audio_file": "audio/en_benign_delivery_confirmation_03.wav"
+  },
+  {
+    "id": "en_benign_delivery_confirmation_04",
+    "language": "en",
+    "label": "benign",
+    "category": "delivery_confirmation",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "Hi, this is National Cargo Post. I'm outside your building with your order, are you home?"
+      },
+      {
+        "speaker": "callee",
+        "text": "Yes I'm home, please come to the second floor."
+      },
+      {
+        "speaker": "caller",
+        "text": "Sure, I'll be there in two minutes. Cash on delivery or already paid?"
+      },
+      {
+        "speaker": "callee",
+        "text": "Already paid online."
+      },
+      {
+        "speaker": "caller",
+        "text": "Great, see you shortly."
+      }
+    ],
+    "audio_file": "audio/en_benign_delivery_confirmation_04.wav"
+  },
+  {
+    "id": "en_benign_delivery_confirmation_05",
+    "language": "en",
+    "label": "benign",
+    "category": "delivery_confirmation",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "Hi, this is RapidTrack Couriers. I'm outside your building with your order, are you home?"
+      },
+      {
+        "speaker": "callee",
+        "text": "Yes I'm home, please come to the second floor."
+      },
+      {
+        "speaker": "caller",
+        "text": "Sure, I'll be there in two minutes. Cash on delivery or already paid?"
+      },
+      {
+        "speaker": "callee",
+        "text": "Already paid online."
+      },
+      {
+        "speaker": "caller",
+        "text": "Great, see you shortly."
+      }
+    ],
+    "audio_file": "audio/en_benign_delivery_confirmation_05.wav"
+  },
+  {
+    "id": "en_benign_appointment_reminder_01",
+    "language": "en",
+    "label": "benign",
+    "category": "appointment_reminder",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "Hello, this is Sunrise Clinic, calling to remind you about your appointment tomorrow at 10:30 AM."
+      },
+      {
+        "speaker": "callee",
+        "text": "Oh right, thank you for the reminder."
+      },
+      {
+        "speaker": "caller",
+        "text": "Would you like to reschedule or confirm?"
+      },
+      {
+        "speaker": "callee",
+        "text": "I'll confirm, 10:30 AM works fine."
+      },
+      {
+        "speaker": "caller",
+        "text": "Great, see you then. Have a good day."
+      }
+    ],
+    "audio_file": "audio/en_benign_appointment_reminder_01.wav"
+  },
+  {
+    "id": "en_benign_appointment_reminder_02",
+    "language": "en",
+    "label": "benign",
+    "category": "appointment_reminder",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "Hello, this is CityCare Hospital, calling to remind you about your appointment tomorrow at 4:00 PM."
+      },
+      {
+        "speaker": "callee",
+        "text": "Oh right, thank you for the reminder."
+      },
+      {
+        "speaker": "caller",
+        "text": "Would you like to reschedule or confirm?"
+      },
+      {
+        "speaker": "callee",
+        "text": "I'll confirm, 4:00 PM works fine."
+      },
+      {
+        "speaker": "caller",
+        "text": "Great, see you then. Have a good day."
+      }
+    ],
+    "audio_file": "audio/en_benign_appointment_reminder_02.wav"
+  },
+  {
+    "id": "en_benign_appointment_reminder_03",
+    "language": "en",
+    "label": "benign",
+    "category": "appointment_reminder",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "Hello, this is Wellness Point Clinic, calling to remind you about your appointment tomorrow at 11:00 AM."
+      },
+      {
+        "speaker": "callee",
+        "text": "Oh right, thank you for the reminder."
+      },
+      {
+        "speaker": "caller",
+        "text": "Would you like to reschedule or confirm?"
+      },
+      {
+        "speaker": "callee",
+        "text": "I'll confirm, 11:00 AM works fine."
+      },
+      {
+        "speaker": "caller",
+        "text": "Great, see you then. Have a good day."
+      }
+    ],
+    "audio_file": "audio/en_benign_appointment_reminder_03.wav"
+  },
+  {
+    "id": "en_benign_appointment_reminder_04",
+    "language": "en",
+    "label": "benign",
+    "category": "appointment_reminder",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "Hello, this is Green Valley Hospital, calling to remind you about your appointment tomorrow at 6:30 PM."
+      },
+      {
+        "speaker": "callee",
+        "text": "Oh right, thank you for the reminder."
+      },
+      {
+        "speaker": "caller",
+        "text": "Would you like to reschedule or confirm?"
+      },
+      {
+        "speaker": "callee",
+        "text": "I'll confirm, 6:30 PM works fine."
+      },
+      {
+        "speaker": "caller",
+        "text": "Great, see you then. Have a good day."
+      }
+    ],
+    "audio_file": "audio/en_benign_appointment_reminder_04.wav"
+  },
+  {
+    "id": "en_benign_appointment_reminder_05",
+    "language": "en",
+    "label": "benign",
+    "category": "appointment_reminder",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "Hello, this is HealthFirst Clinic, calling to remind you about your appointment tomorrow at 3:15 PM."
+      },
+      {
+        "speaker": "callee",
+        "text": "Oh right, thank you for the reminder."
+      },
+      {
+        "speaker": "caller",
+        "text": "Would you like to reschedule or confirm?"
+      },
+      {
+        "speaker": "callee",
+        "text": "I'll confirm, 3:15 PM works fine."
+      },
+      {
+        "speaker": "caller",
+        "text": "Great, see you then. Have a good day."
+      }
+    ],
+    "audio_file": "audio/en_benign_appointment_reminder_05.wav"
+  },
+  {
+    "id": "en_benign_bank_service_call_01",
+    "language": "en",
+    "label": "benign",
+    "category": "bank_service_call",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "Good morning, this is Suraksha Bank calling to inform you that your fixed deposit of Rs 45,000 has matured."
+      },
+      {
+        "speaker": "callee",
+        "text": "Oh nice, what are my options?"
+      },
+      {
+        "speaker": "caller",
+        "text": "You can renew it, or the amount will be credited to your savings account automatically in 3 days."
+      },
+      {
+        "speaker": "callee",
+        "text": "Let's renew it for another year."
+      },
+      {
+        "speaker": "caller",
+        "text": "Sure, I've noted that. You'll get a confirmation SMS, no action needed from your side."
+      }
+    ],
+    "audio_file": "audio/en_benign_bank_service_call_01.wav"
+  },
+  {
+    "id": "en_benign_bank_service_call_02",
+    "language": "en",
+    "label": "benign",
+    "category": "bank_service_call",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "Good morning, this is Trustline Bank calling to inform you that your fixed deposit of Rs 1,20,000 has matured."
+      },
+      {
+        "speaker": "callee",
+        "text": "Oh nice, what are my options?"
+      },
+      {
+        "speaker": "caller",
+        "text": "You can renew it, or the amount will be credited to your savings account automatically in 3 days."
+      },
+      {
+        "speaker": "callee",
+        "text": "Let's renew it for another year."
+      },
+      {
+        "speaker": "caller",
+        "text": "Sure, I've noted that. You'll get a confirmation SMS, no action needed from your side."
+      }
+    ],
+    "audio_file": "audio/en_benign_bank_service_call_02.wav"
+  },
+  {
+    "id": "en_benign_bank_service_call_03",
+    "language": "en",
+    "label": "benign",
+    "category": "bank_service_call",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "Good morning, this is Nationwide Trust Bank calling to inform you that your fixed deposit of Rs 8,500 has matured."
+      },
+      {
+        "speaker": "callee",
+        "text": "Oh nice, what are my options?"
+      },
+      {
+        "speaker": "caller",
+        "text": "You can renew it, or the amount will be credited to your savings account automatically in 3 days."
+      },
+      {
+        "speaker": "callee",
+        "text": "Let's renew it for another year."
+      },
+      {
+        "speaker": "caller",
+        "text": "Sure, I've noted that. You'll get a confirmation SMS, no action needed from your side."
+      }
+    ],
+    "audio_file": "audio/en_benign_bank_service_call_03.wav"
+  },
+  {
+    "id": "en_benign_bank_service_call_04",
+    "language": "en",
+    "label": "benign",
+    "category": "bank_service_call",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "Good morning, this is Horizon Bank calling to inform you that your fixed deposit of Rs 2,30,000 has matured."
+      },
+      {
+        "speaker": "callee",
+        "text": "Oh nice, what are my options?"
+      },
+      {
+        "speaker": "caller",
+        "text": "You can renew it, or the amount will be credited to your savings account automatically in 3 days."
+      },
+      {
+        "speaker": "callee",
+        "text": "Let's renew it for another year."
+      },
+      {
+        "speaker": "caller",
+        "text": "Sure, I've noted that. You'll get a confirmation SMS, no action needed from your side."
+      }
+    ],
+    "audio_file": "audio/en_benign_bank_service_call_04.wav"
+  },
+  {
+    "id": "en_benign_bank_service_call_05",
+    "language": "en",
+    "label": "benign",
+    "category": "bank_service_call",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "Good morning, this is Capital Shield Bank calling to inform you that your fixed deposit of Rs 15,750 has matured."
+      },
+      {
+        "speaker": "callee",
+        "text": "Oh nice, what are my options?"
+      },
+      {
+        "speaker": "caller",
+        "text": "You can renew it, or the amount will be credited to your savings account automatically in 3 days."
+      },
+      {
+        "speaker": "callee",
+        "text": "Let's renew it for another year."
+      },
+      {
+        "speaker": "caller",
+        "text": "Sure, I've noted that. You'll get a confirmation SMS, no action needed from your side."
+      }
+    ],
+    "audio_file": "audio/en_benign_bank_service_call_05.wav"
+  },
+  {
+    "id": "en_benign_telecom_support_01",
+    "language": "en",
+    "label": "benign",
+    "category": "telecom_support",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "Hello, this is NetConnect support. I see you raised a request about slow internet speed."
+      },
+      {
+        "speaker": "callee",
+        "text": "Yes, it's been really slow since yesterday."
+      },
+      {
+        "speaker": "caller",
+        "text": "I've run a diagnostic, there was a local tower issue which is now resolved. Can you restart your router and check?"
+      },
+      {
+        "speaker": "callee",
+        "text": "Sure, one second... yes it's much better now."
+      },
+      {
+        "speaker": "caller",
+        "text": "Great, let us know if it happens again."
+      }
+    ],
+    "audio_file": "audio/en_benign_telecom_support_01.wav"
+  },
+  {
+    "id": "en_benign_telecom_support_02",
+    "language": "en",
+    "label": "benign",
+    "category": "telecom_support",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "Hello, this is AirLink Telecom support. I see you raised a request about slow internet speed."
+      },
+      {
+        "speaker": "callee",
+        "text": "Yes, it's been really slow since yesterday."
+      },
+      {
+        "speaker": "caller",
+        "text": "I've run a diagnostic, there was a local tower issue which is now resolved. Can you restart your router and check?"
+      },
+      {
+        "speaker": "callee",
+        "text": "Sure, one second... yes it's much better now."
+      },
+      {
+        "speaker": "caller",
+        "text": "Great, let us know if it happens again."
+      }
+    ],
+    "audio_file": "audio/en_benign_telecom_support_02.wav"
+  },
+  {
+    "id": "en_benign_telecom_support_03",
+    "language": "en",
+    "label": "benign",
+    "category": "telecom_support",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "Hello, this is StreamTel support. I see you raised a request about slow internet speed."
+      },
+      {
+        "speaker": "callee",
+        "text": "Yes, it's been really slow since yesterday."
+      },
+      {
+        "speaker": "caller",
+        "text": "I've run a diagnostic, there was a local tower issue which is now resolved. Can you restart your router and check?"
+      },
+      {
+        "speaker": "callee",
+        "text": "Sure, one second... yes it's much better now."
+      },
+      {
+        "speaker": "caller",
+        "text": "Great, let us know if it happens again."
+      }
+    ],
+    "audio_file": "audio/en_benign_telecom_support_03.wav"
+  },
+  {
+    "id": "en_benign_telecom_support_04",
+    "language": "en",
+    "label": "benign",
+    "category": "telecom_support",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "Hello, this is ConnectPlus support. I see you raised a request about slow internet speed."
+      },
+      {
+        "speaker": "callee",
+        "text": "Yes, it's been really slow since yesterday."
+      },
+      {
+        "speaker": "caller",
+        "text": "I've run a diagnostic, there was a local tower issue which is now resolved. Can you restart your router and check?"
+      },
+      {
+        "speaker": "callee",
+        "text": "Sure, one second... yes it's much better now."
+      },
+      {
+        "speaker": "caller",
+        "text": "Great, let us know if it happens again."
+      }
+    ],
+    "audio_file": "audio/en_benign_telecom_support_04.wav"
+  },
+  {
+    "id": "en_benign_telecom_support_05",
+    "language": "en",
+    "label": "benign",
+    "category": "telecom_support",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "Hello, this is FastNet Broadband support. I see you raised a request about slow internet speed."
+      },
+      {
+        "speaker": "callee",
+        "text": "Yes, it's been really slow since yesterday."
+      },
+      {
+        "speaker": "caller",
+        "text": "I've run a diagnostic, there was a local tower issue which is now resolved. Can you restart your router and check?"
+      },
+      {
+        "speaker": "callee",
+        "text": "Sure, one second... yes it's much better now."
+      },
+      {
+        "speaker": "caller",
+        "text": "Great, let us know if it happens again."
+      }
+    ],
+    "audio_file": "audio/en_benign_telecom_support_05.wav"
+  },
+  {
+    "id": "en_benign_personal_family_call_01",
+    "language": "en",
+    "label": "benign",
+    "category": "personal_family_call",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "Hey, it's Riya, are you free this weekend?"
+      },
+      {
+        "speaker": "callee",
+        "text": "Yes, what's the plan?"
+      },
+      {
+        "speaker": "caller",
+        "text": "Thinking of visiting mom for her birthday at 10:30 AM, want to join?"
+      },
+      {
+        "speaker": "callee",
+        "text": "Of course, count me in."
+      },
+      {
+        "speaker": "caller",
+        "text": "Perfect, I'll book the tickets then."
+      }
+    ],
+    "audio_file": "audio/en_benign_personal_family_call_01.wav"
+  },
+  {
+    "id": "en_benign_personal_family_call_02",
+    "language": "en",
+    "label": "benign",
+    "category": "personal_family_call",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "Hey, it's Karan, are you free this weekend?"
+      },
+      {
+        "speaker": "callee",
+        "text": "Yes, what's the plan?"
+      },
+      {
+        "speaker": "caller",
+        "text": "Thinking of visiting mom for her birthday at 4:00 PM, want to join?"
+      },
+      {
+        "speaker": "callee",
+        "text": "Of course, count me in."
+      },
+      {
+        "speaker": "caller",
+        "text": "Perfect, I'll book the tickets then."
+      }
+    ],
+    "audio_file": "audio/en_benign_personal_family_call_02.wav"
+  },
+  {
+    "id": "en_benign_personal_family_call_03",
+    "language": "en",
+    "label": "benign",
+    "category": "personal_family_call",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "Hey, it's Ananya, are you free this weekend?"
+      },
+      {
+        "speaker": "callee",
+        "text": "Yes, what's the plan?"
+      },
+      {
+        "speaker": "caller",
+        "text": "Thinking of visiting mom for her birthday at 11:00 AM, want to join?"
+      },
+      {
+        "speaker": "callee",
+        "text": "Of course, count me in."
+      },
+      {
+        "speaker": "caller",
+        "text": "Perfect, I'll book the tickets then."
+      }
+    ],
+    "audio_file": "audio/en_benign_personal_family_call_03.wav"
+  },
+  {
+    "id": "en_benign_personal_family_call_04",
+    "language": "en",
+    "label": "benign",
+    "category": "personal_family_call",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "Hey, it's Vikram, are you free this weekend?"
+      },
+      {
+        "speaker": "callee",
+        "text": "Yes, what's the plan?"
+      },
+      {
+        "speaker": "caller",
+        "text": "Thinking of visiting mom for her birthday at 6:30 PM, want to join?"
+      },
+      {
+        "speaker": "callee",
+        "text": "Of course, count me in."
+      },
+      {
+        "speaker": "caller",
+        "text": "Perfect, I'll book the tickets then."
+      }
+    ],
+    "audio_file": "audio/en_benign_personal_family_call_04.wav"
+  },
+  {
+    "id": "en_benign_personal_family_call_05",
+    "language": "en",
+    "label": "benign",
+    "category": "personal_family_call",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "Hey, it's Priya, are you free this weekend?"
+      },
+      {
+        "speaker": "callee",
+        "text": "Yes, what's the plan?"
+      },
+      {
+        "speaker": "caller",
+        "text": "Thinking of visiting mom for her birthday at 3:15 PM, want to join?"
+      },
+      {
+        "speaker": "callee",
+        "text": "Of course, count me in."
+      },
+      {
+        "speaker": "caller",
+        "text": "Perfect, I'll book the tickets then."
+      }
+    ],
+    "audio_file": "audio/en_benign_personal_family_call_05.wav"
+  },
+  {
+    "id": "hi_scam_otp_phishing_01",
+    "language": "hi",
+    "label": "scam",
+    "category": "otp_phishing",
+    "critical_turn_index": 4,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "नमस्ते, मैं Suraksha Bank की सुरक्षा टीम से बोल रहा हूं। आपके खाते से एक संदिग्ध लेनदेन की कोशिश हुई है।"
+      },
+      {
+        "speaker": "callee",
+        "text": "मैंने तो कोई लेनदेन नहीं किया।"
+      },
+      {
+        "speaker": "caller",
+        "text": "जी, अभी किसी ने आपके खाते से Rs 45,000 निकालने की कोशिश की है। इसे रोकने के लिए मुझे आपकी पहचान वेरीफाई करनी होगी।"
+      },
+      {
+        "speaker": "callee",
+        "text": "ठीक है, बताइए क्या करना है।"
+      },
+      {
+        "speaker": "caller",
+        "text": "आपके नंबर पर एक OTP आएगा, कृपया वह मुझे बता दीजिए ताकि मैं लेनदेन रद्द कर सकूं।"
+      },
+      {
+        "speaker": "callee",
+        "text": "लेकिन OTP तो किसी को नहीं बताना चाहिए ना?"
+      },
+      {
+        "speaker": "caller",
+        "text": "मैडम, यह एक विशेष वेरिफिकेशन OTP है, अगर दो मिनट में नहीं बताया तो Rs 45,000 कट जाएगा।"
+      },
+      {
+        "speaker": "callee",
+        "text": "ठीक है ठीक है, OTP है 458219।"
+      }
+    ],
+    "audio_file": "audio/hi_scam_otp_phishing_01.wav"
+  },
+  {
+    "id": "hi_scam_otp_phishing_02",
+    "language": "hi",
+    "label": "scam",
+    "category": "otp_phishing",
+    "critical_turn_index": 4,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "नमस्ते, मैं Trustline Bank की सुरक्षा टीम से बोल रहा हूं। आपके खाते से एक संदिग्ध लेनदेन की कोशिश हुई है।"
+      },
+      {
+        "speaker": "callee",
+        "text": "मैंने तो कोई लेनदेन नहीं किया।"
+      },
+      {
+        "speaker": "caller",
+        "text": "जी, अभी किसी ने आपके खाते से Rs 1,20,000 निकालने की कोशिश की है। इसे रोकने के लिए मुझे आपकी पहचान वेरीफाई करनी होगी।"
+      },
+      {
+        "speaker": "callee",
+        "text": "ठीक है, बताइए क्या करना है।"
+      },
+      {
+        "speaker": "caller",
+        "text": "आपके नंबर पर एक OTP आएगा, कृपया वह मुझे बता दीजिए ताकि मैं लेनदेन रद्द कर सकूं।"
+      },
+      {
+        "speaker": "callee",
+        "text": "लेकिन OTP तो किसी को नहीं बताना चाहिए ना?"
+      },
+      {
+        "speaker": "caller",
+        "text": "मैडम, यह एक विशेष वेरिफिकेशन OTP है, अगर दो मिनट में नहीं बताया तो Rs 1,20,000 कट जाएगा।"
+      },
+      {
+        "speaker": "callee",
+        "text": "ठीक है ठीक है, OTP है 612073।"
+      }
+    ],
+    "audio_file": "audio/hi_scam_otp_phishing_02.wav"
+  },
+  {
+    "id": "hi_scam_otp_phishing_03",
+    "language": "hi",
+    "label": "scam",
+    "category": "otp_phishing",
+    "critical_turn_index": 4,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "नमस्ते, मैं Nationwide Trust Bank की सुरक्षा टीम से बोल रहा हूं। आपके खाते से एक संदिग्ध लेनदेन की कोशिश हुई है।"
+      },
+      {
+        "speaker": "callee",
+        "text": "मैंने तो कोई लेनदेन नहीं किया।"
+      },
+      {
+        "speaker": "caller",
+        "text": "जी, अभी किसी ने आपके खाते से Rs 8,500 निकालने की कोशिश की है। इसे रोकने के लिए मुझे आपकी पहचान वेरीफाई करनी होगी।"
+      },
+      {
+        "speaker": "callee",
+        "text": "ठीक है, बताइए क्या करना है।"
+      },
+      {
+        "speaker": "caller",
+        "text": "आपके नंबर पर एक OTP आएगा, कृपया वह मुझे बता दीजिए ताकि मैं लेनदेन रद्द कर सकूं।"
+      },
+      {
+        "speaker": "callee",
+        "text": "लेकिन OTP तो किसी को नहीं बताना चाहिए ना?"
+      },
+      {
+        "speaker": "caller",
+        "text": "मैडम, यह एक विशेष वेरिफिकेशन OTP है, अगर दो मिनट में नहीं बताया तो Rs 8,500 कट जाएगा।"
+      },
+      {
+        "speaker": "callee",
+        "text": "ठीक है ठीक है, OTP है 839451।"
+      }
+    ],
+    "audio_file": "audio/hi_scam_otp_phishing_03.wav"
+  },
+  {
+    "id": "hi_scam_otp_phishing_04",
+    "language": "hi",
+    "label": "scam",
+    "category": "otp_phishing",
+    "critical_turn_index": 4,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "नमस्ते, मैं Horizon Bank की सुरक्षा टीम से बोल रहा हूं। आपके खाते से एक संदिग्ध लेनदेन की कोशिश हुई है।"
+      },
+      {
+        "speaker": "callee",
+        "text": "मैंने तो कोई लेनदेन नहीं किया।"
+      },
+      {
+        "speaker": "caller",
+        "text": "जी, अभी किसी ने आपके खाते से Rs 2,30,000 निकालने की कोशिश की है। इसे रोकने के लिए मुझे आपकी पहचान वेरीफाई करनी होगी।"
+      },
+      {
+        "speaker": "callee",
+        "text": "ठीक है, बताइए क्या करना है।"
+      },
+      {
+        "speaker": "caller",
+        "text": "आपके नंबर पर एक OTP आएगा, कृपया वह मुझे बता दीजिए ताकि मैं लेनदेन रद्द कर सकूं।"
+      },
+      {
+        "speaker": "callee",
+        "text": "लेकिन OTP तो किसी को नहीं बताना चाहिए ना?"
+      },
+      {
+        "speaker": "caller",
+        "text": "मैडम, यह एक विशेष वेरिफिकेशन OTP है, अगर दो मिनट में नहीं बताया तो Rs 2,30,000 कट जाएगा।"
+      },
+      {
+        "speaker": "callee",
+        "text": "ठीक है ठीक है, OTP है 205967।"
+      }
+    ],
+    "audio_file": "audio/hi_scam_otp_phishing_04.wav"
+  },
+  {
+    "id": "hi_scam_otp_phishing_05",
+    "language": "hi",
+    "label": "scam",
+    "category": "otp_phishing",
+    "critical_turn_index": 4,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "नमस्ते, मैं Capital Shield Bank की सुरक्षा टीम से बोल रहा हूं। आपके खाते से एक संदिग्ध लेनदेन की कोशिश हुई है।"
+      },
+      {
+        "speaker": "callee",
+        "text": "मैंने तो कोई लेनदेन नहीं किया।"
+      },
+      {
+        "speaker": "caller",
+        "text": "जी, अभी किसी ने आपके खाते से Rs 15,750 निकालने की कोशिश की है। इसे रोकने के लिए मुझे आपकी पहचान वेरीफाई करनी होगी।"
+      },
+      {
+        "speaker": "callee",
+        "text": "ठीक है, बताइए क्या करना है।"
+      },
+      {
+        "speaker": "caller",
+        "text": "आपके नंबर पर एक OTP आएगा, कृपया वह मुझे बता दीजिए ताकि मैं लेनदेन रद्द कर सकूं।"
+      },
+      {
+        "speaker": "callee",
+        "text": "लेकिन OTP तो किसी को नहीं बताना चाहिए ना?"
+      },
+      {
+        "speaker": "caller",
+        "text": "मैडम, यह एक विशेष वेरिफिकेशन OTP है, अगर दो मिनट में नहीं बताया तो Rs 15,750 कट जाएगा।"
+      },
+      {
+        "speaker": "callee",
+        "text": "ठीक है ठीक है, OTP है 701384।"
+      }
+    ],
+    "audio_file": "audio/hi_scam_otp_phishing_05.wav"
+  },
+  {
+    "id": "hi_scam_digital_arrest_01",
+    "language": "hi",
+    "label": "scam",
+    "category": "digital_arrest",
+    "critical_turn_index": 4,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "यह कॉल साइबर क्राइम सेल से है। आपके नाम पर बुक हुए एक पार्सल में अवैध सामान मिला है।"
+      },
+      {
+        "speaker": "callee",
+        "text": "मैंने तो कोई पार्सल बुक ही नहीं किया।"
+      },
+      {
+        "speaker": "caller",
+        "text": "आपकी पहचान का गलत इस्तेमाल हुआ लगता है। जब तक यह केस साफ नहीं होता, आप डिजिटल अरेस्ट में रहेंगे, कॉल मत काटिए।"
+      },
+      {
+        "speaker": "callee",
+        "text": "यह तो डरावना है, अब क्या करूं?"
+      },
+      {
+        "speaker": "caller",
+        "text": "क्लीयरेंस सर्टिफिकेट के लिए तुरंत Rs 45,000 वेरिफिकेशन खाते में भेजिए, वरना एक घंटे में गिरफ्तारी वारंट जारी हो जाएगा।"
+      },
+      {
+        "speaker": "callee",
+        "text": "मेरे पास इतनी रकम अभी नहीं है।"
+      },
+      {
+        "speaker": "caller",
+        "text": "जितना भी है तुरंत भेजिए, वरना टीम आपके पते पर भेजी जाएगी।"
+      }
+    ],
+    "audio_file": "audio/hi_scam_digital_arrest_01.wav"
+  },
+  {
+    "id": "hi_scam_digital_arrest_02",
+    "language": "hi",
+    "label": "scam",
+    "category": "digital_arrest",
+    "critical_turn_index": 4,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "यह कॉल साइबर क्राइम सेल से है। आपके नाम पर बुक हुए एक पार्सल में अवैध सामान मिला है।"
+      },
+      {
+        "speaker": "callee",
+        "text": "मैंने तो कोई पार्सल बुक ही नहीं किया।"
+      },
+      {
+        "speaker": "caller",
+        "text": "आपकी पहचान का गलत इस्तेमाल हुआ लगता है। जब तक यह केस साफ नहीं होता, आप डिजिटल अरेस्ट में रहेंगे, कॉल मत काटिए।"
+      },
+      {
+        "speaker": "callee",
+        "text": "यह तो डरावना है, अब क्या करूं?"
+      },
+      {
+        "speaker": "caller",
+        "text": "क्लीयरेंस सर्टिफिकेट के लिए तुरंत Rs 1,20,000 वेरिफिकेशन खाते में भेजिए, वरना एक घंटे में गिरफ्तारी वारंट जारी हो जाएगा।"
+      },
+      {
+        "speaker": "callee",
+        "text": "मेरे पास इतनी रकम अभी नहीं है।"
+      },
+      {
+        "speaker": "caller",
+        "text": "जितना भी है तुरंत भेजिए, वरना टीम आपके पते पर भेजी जाएगी।"
+      }
+    ],
+    "audio_file": "audio/hi_scam_digital_arrest_02.wav"
+  },
+  {
+    "id": "hi_scam_digital_arrest_03",
+    "language": "hi",
+    "label": "scam",
+    "category": "digital_arrest",
+    "critical_turn_index": 4,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "यह कॉल साइबर क्राइम सेल से है। आपके नाम पर बुक हुए एक पार्सल में अवैध सामान मिला है।"
+      },
+      {
+        "speaker": "callee",
+        "text": "मैंने तो कोई पार्सल बुक ही नहीं किया।"
+      },
+      {
+        "speaker": "caller",
+        "text": "आपकी पहचान का गलत इस्तेमाल हुआ लगता है। जब तक यह केस साफ नहीं होता, आप डिजिटल अरेस्ट में रहेंगे, कॉल मत काटिए।"
+      },
+      {
+        "speaker": "callee",
+        "text": "यह तो डरावना है, अब क्या करूं?"
+      },
+      {
+        "speaker": "caller",
+        "text": "क्लीयरेंस सर्टिफिकेट के लिए तुरंत Rs 8,500 वेरिफिकेशन खाते में भेजिए, वरना एक घंटे में गिरफ्तारी वारंट जारी हो जाएगा।"
+      },
+      {
+        "speaker": "callee",
+        "text": "मेरे पास इतनी रकम अभी नहीं है।"
+      },
+      {
+        "speaker": "caller",
+        "text": "जितना भी है तुरंत भेजिए, वरना टीम आपके पते पर भेजी जाएगी।"
+      }
+    ],
+    "audio_file": "audio/hi_scam_digital_arrest_03.wav"
+  },
+  {
+    "id": "hi_scam_digital_arrest_04",
+    "language": "hi",
+    "label": "scam",
+    "category": "digital_arrest",
+    "critical_turn_index": 4,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "यह कॉल साइबर क्राइम सेल से है। आपके नाम पर बुक हुए एक पार्सल में अवैध सामान मिला है।"
+      },
+      {
+        "speaker": "callee",
+        "text": "मैंने तो कोई पार्सल बुक ही नहीं किया।"
+      },
+      {
+        "speaker": "caller",
+        "text": "आपकी पहचान का गलत इस्तेमाल हुआ लगता है। जब तक यह केस साफ नहीं होता, आप डिजिटल अरेस्ट में रहेंगे, कॉल मत काटिए।"
+      },
+      {
+        "speaker": "callee",
+        "text": "यह तो डरावना है, अब क्या करूं?"
+      },
+      {
+        "speaker": "caller",
+        "text": "क्लीयरेंस सर्टिफिकेट के लिए तुरंत Rs 2,30,000 वेरिफिकेशन खाते में भेजिए, वरना एक घंटे में गिरफ्तारी वारंट जारी हो जाएगा।"
+      },
+      {
+        "speaker": "callee",
+        "text": "मेरे पास इतनी रकम अभी नहीं है।"
+      },
+      {
+        "speaker": "caller",
+        "text": "जितना भी है तुरंत भेजिए, वरना टीम आपके पते पर भेजी जाएगी।"
+      }
+    ],
+    "audio_file": "audio/hi_scam_digital_arrest_04.wav"
+  },
+  {
+    "id": "hi_scam_digital_arrest_05",
+    "language": "hi",
+    "label": "scam",
+    "category": "digital_arrest",
+    "critical_turn_index": 4,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "यह कॉल साइबर क्राइम सेल से है। आपके नाम पर बुक हुए एक पार्सल में अवैध सामान मिला है।"
+      },
+      {
+        "speaker": "callee",
+        "text": "मैंने तो कोई पार्सल बुक ही नहीं किया।"
+      },
+      {
+        "speaker": "caller",
+        "text": "आपकी पहचान का गलत इस्तेमाल हुआ लगता है। जब तक यह केस साफ नहीं होता, आप डिजिटल अरेस्ट में रहेंगे, कॉल मत काटिए।"
+      },
+      {
+        "speaker": "callee",
+        "text": "यह तो डरावना है, अब क्या करूं?"
+      },
+      {
+        "speaker": "caller",
+        "text": "क्लीयरेंस सर्टिफिकेट के लिए तुरंत Rs 15,750 वेरिफिकेशन खाते में भेजिए, वरना एक घंटे में गिरफ्तारी वारंट जारी हो जाएगा।"
+      },
+      {
+        "speaker": "callee",
+        "text": "मेरे पास इतनी रकम अभी नहीं है।"
+      },
+      {
+        "speaker": "caller",
+        "text": "जितना भी है तुरंत भेजिए, वरना टीम आपके पते पर भेजी जाएगी।"
+      }
+    ],
+    "audio_file": "audio/hi_scam_digital_arrest_05.wav"
+  },
+  {
+    "id": "hi_scam_kyc_bank_impersonation_01",
+    "language": "hi",
+    "label": "scam",
+    "category": "kyc_bank_impersonation",
+    "critical_turn_index": 2,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "सर, मैं Suraksha Bank कस्टमर केयर से बोल रहा हूं। आपकी KYC एक्सपायर हो गई है, दो घंटे में खाता ब्लॉक हो जाएगा।"
+      },
+      {
+        "speaker": "callee",
+        "text": "मुझे तो इसकी कोई जानकारी नहीं दी गई।"
+      },
+      {
+        "speaker": "caller",
+        "text": "हमने पहले भी संपर्क करने की कोशिश की थी। वेरिफिकेशन के लिए OTP और डेबिट कार्ड नंबर बताइए।"
+      },
+      {
+        "speaker": "callee",
+        "text": "कार्ड नंबर फोन पर बताना ठीक नहीं लगता।"
+      },
+      {
+        "speaker": "caller",
+        "text": "बिना इसके आज रात से आपकी सैलरी खाता फ्रीज हो जाएगा सर, आज आखिरी मौका है।"
+      },
+      {
+        "speaker": "callee",
+        "text": "ठीक है, रुकिए OTP देखता हूं।"
+      }
+    ],
+    "audio_file": "audio/hi_scam_kyc_bank_impersonation_01.wav"
+  },
+  {
+    "id": "hi_scam_kyc_bank_impersonation_02",
+    "language": "hi",
+    "label": "scam",
+    "category": "kyc_bank_impersonation",
+    "critical_turn_index": 2,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "सर, मैं Trustline Bank कस्टमर केयर से बोल रहा हूं। आपकी KYC एक्सपायर हो गई है, दो घंटे में खाता ब्लॉक हो जाएगा।"
+      },
+      {
+        "speaker": "callee",
+        "text": "मुझे तो इसकी कोई जानकारी नहीं दी गई।"
+      },
+      {
+        "speaker": "caller",
+        "text": "हमने पहले भी संपर्क करने की कोशिश की थी। वेरिफिकेशन के लिए OTP और डेबिट कार्ड नंबर बताइए।"
+      },
+      {
+        "speaker": "callee",
+        "text": "कार्ड नंबर फोन पर बताना ठीक नहीं लगता।"
+      },
+      {
+        "speaker": "caller",
+        "text": "बिना इसके आज रात से आपकी सैलरी खाता फ्रीज हो जाएगा सर, आज आखिरी मौका है।"
+      },
+      {
+        "speaker": "callee",
+        "text": "ठीक है, रुकिए OTP देखता हूं।"
+      }
+    ],
+    "audio_file": "audio/hi_scam_kyc_bank_impersonation_02.wav"
+  },
+  {
+    "id": "hi_scam_kyc_bank_impersonation_03",
+    "language": "hi",
+    "label": "scam",
+    "category": "kyc_bank_impersonation",
+    "critical_turn_index": 2,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "सर, मैं Nationwide Trust Bank कस्टमर केयर से बोल रहा हूं। आपकी KYC एक्सपायर हो गई है, दो घंटे में खाता ब्लॉक हो जाएगा।"
+      },
+      {
+        "speaker": "callee",
+        "text": "मुझे तो इसकी कोई जानकारी नहीं दी गई।"
+      },
+      {
+        "speaker": "caller",
+        "text": "हमने पहले भी संपर्क करने की कोशिश की थी। वेरिफिकेशन के लिए OTP और डेबिट कार्ड नंबर बताइए।"
+      },
+      {
+        "speaker": "callee",
+        "text": "कार्ड नंबर फोन पर बताना ठीक नहीं लगता।"
+      },
+      {
+        "speaker": "caller",
+        "text": "बिना इसके आज रात से आपकी सैलरी खाता फ्रीज हो जाएगा सर, आज आखिरी मौका है।"
+      },
+      {
+        "speaker": "callee",
+        "text": "ठीक है, रुकिए OTP देखता हूं।"
+      }
+    ],
+    "audio_file": "audio/hi_scam_kyc_bank_impersonation_03.wav"
+  },
+  {
+    "id": "hi_scam_kyc_bank_impersonation_04",
+    "language": "hi",
+    "label": "scam",
+    "category": "kyc_bank_impersonation",
+    "critical_turn_index": 2,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "सर, मैं Horizon Bank कस्टमर केयर से बोल रहा हूं। आपकी KYC एक्सपायर हो गई है, दो घंटे में खाता ब्लॉक हो जाएगा।"
+      },
+      {
+        "speaker": "callee",
+        "text": "मुझे तो इसकी कोई जानकारी नहीं दी गई।"
+      },
+      {
+        "speaker": "caller",
+        "text": "हमने पहले भी संपर्क करने की कोशिश की थी। वेरिफिकेशन के लिए OTP और डेबिट कार्ड नंबर बताइए।"
+      },
+      {
+        "speaker": "callee",
+        "text": "कार्ड नंबर फोन पर बताना ठीक नहीं लगता।"
+      },
+      {
+        "speaker": "caller",
+        "text": "बिना इसके आज रात से आपकी सैलरी खाता फ्रीज हो जाएगा सर, आज आखिरी मौका है।"
+      },
+      {
+        "speaker": "callee",
+        "text": "ठीक है, रुकिए OTP देखता हूं।"
+      }
+    ],
+    "audio_file": "audio/hi_scam_kyc_bank_impersonation_04.wav"
+  },
+  {
+    "id": "hi_scam_kyc_bank_impersonation_05",
+    "language": "hi",
+    "label": "scam",
+    "category": "kyc_bank_impersonation",
+    "critical_turn_index": 2,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "सर, मैं Capital Shield Bank कस्टमर केयर से बोल रहा हूं। आपकी KYC एक्सपायर हो गई है, दो घंटे में खाता ब्लॉक हो जाएगा।"
+      },
+      {
+        "speaker": "callee",
+        "text": "मुझे तो इसकी कोई जानकारी नहीं दी गई।"
+      },
+      {
+        "speaker": "caller",
+        "text": "हमने पहले भी संपर्क करने की कोशिश की थी। वेरिफिकेशन के लिए OTP और डेबिट कार्ड नंबर बताइए।"
+      },
+      {
+        "speaker": "callee",
+        "text": "कार्ड नंबर फोन पर बताना ठीक नहीं लगता।"
+      },
+      {
+        "speaker": "caller",
+        "text": "बिना इसके आज रात से आपकी सैलरी खाता फ्रीज हो जाएगा सर, आज आखिरी मौका है।"
+      },
+      {
+        "speaker": "callee",
+        "text": "ठीक है, रुकिए OTP देखता हूं।"
+      }
+    ],
+    "audio_file": "audio/hi_scam_kyc_bank_impersonation_05.wav"
+  },
+  {
+    "id": "hi_scam_courier_customs_01",
+    "language": "hi",
+    "label": "scam",
+    "category": "courier_customs",
+    "critical_turn_index": 4,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "यह QuickShip Couriers है। आपके नाम एक पार्सल आया है जिसमें प्रतिबंधित सामान मिला है, कस्टम्स में रुका है।"
+      },
+      {
+        "speaker": "callee",
+        "text": "मैंने तो ऐसा कुछ मंगवाया ही नहीं।"
+      },
+      {
+        "speaker": "caller",
+        "text": "हो सकता है आपकी ID का गलत इस्तेमाल हुआ हो। मैं आपको कस्टम्स अधिकारी से जोड़ रहा हूं।"
+      },
+      {
+        "speaker": "callee",
+        "text": "ठीक है, जोड़ दीजिए।"
+      },
+      {
+        "speaker": "caller",
+        "text": "इस केस को बिना कानूनी नोटिस के बंद करने के लिए अभी Rs 45,000 क्लीयरेंस फीस जमा करनी होगी।"
+      },
+      {
+        "speaker": "callee",
+        "text": "यह सब बहुत अचानक लग रहा है।"
+      },
+      {
+        "speaker": "caller",
+        "text": "सर अगले 30 मिनट में भुगतान नहीं हुआ तो आपके खिलाफ केस दर्ज हो जाएगा।"
+      }
+    ],
+    "audio_file": "audio/hi_scam_courier_customs_01.wav"
+  },
+  {
+    "id": "hi_scam_courier_customs_02",
+    "language": "hi",
+    "label": "scam",
+    "category": "courier_customs",
+    "critical_turn_index": 4,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "यह MetroParcel Services है। आपके नाम एक पार्सल आया है जिसमें प्रतिबंधित सामान मिला है, कस्टम्स में रुका है।"
+      },
+      {
+        "speaker": "callee",
+        "text": "मैंने तो ऐसा कुछ मंगवाया ही नहीं।"
+      },
+      {
+        "speaker": "caller",
+        "text": "हो सकता है आपकी ID का गलत इस्तेमाल हुआ हो। मैं आपको कस्टम्स अधिकारी से जोड़ रहा हूं।"
+      },
+      {
+        "speaker": "callee",
+        "text": "ठीक है, जोड़ दीजिए।"
+      },
+      {
+        "speaker": "caller",
+        "text": "इस केस को बिना कानूनी नोटिस के बंद करने के लिए अभी Rs 1,20,000 क्लीयरेंस फीस जमा करनी होगी।"
+      },
+      {
+        "speaker": "callee",
+        "text": "यह सब बहुत अचानक लग रहा है।"
+      },
+      {
+        "speaker": "caller",
+        "text": "सर अगले 30 मिनट में भुगतान नहीं हुआ तो आपके खिलाफ केस दर्ज हो जाएगा।"
+      }
+    ],
+    "audio_file": "audio/hi_scam_courier_customs_02.wav"
+  },
+  {
+    "id": "hi_scam_courier_customs_03",
+    "language": "hi",
+    "label": "scam",
+    "category": "courier_customs",
+    "critical_turn_index": 4,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "यह SwiftLine Express है। आपके नाम एक पार्सल आया है जिसमें प्रतिबंधित सामान मिला है, कस्टम्स में रुका है।"
+      },
+      {
+        "speaker": "callee",
+        "text": "मैंने तो ऐसा कुछ मंगवाया ही नहीं।"
+      },
+      {
+        "speaker": "caller",
+        "text": "हो सकता है आपकी ID का गलत इस्तेमाल हुआ हो। मैं आपको कस्टम्स अधिकारी से जोड़ रहा हूं।"
+      },
+      {
+        "speaker": "callee",
+        "text": "ठीक है, जोड़ दीजिए।"
+      },
+      {
+        "speaker": "caller",
+        "text": "इस केस को बिना कानूनी नोटिस के बंद करने के लिए अभी Rs 8,500 क्लीयरेंस फीस जमा करनी होगी।"
+      },
+      {
+        "speaker": "callee",
+        "text": "यह सब बहुत अचानक लग रहा है।"
+      },
+      {
+        "speaker": "caller",
+        "text": "सर अगले 30 मिनट में भुगतान नहीं हुआ तो आपके खिलाफ केस दर्ज हो जाएगा।"
+      }
+    ],
+    "audio_file": "audio/hi_scam_courier_customs_03.wav"
+  },
+  {
+    "id": "hi_scam_courier_customs_04",
+    "language": "hi",
+    "label": "scam",
+    "category": "courier_customs",
+    "critical_turn_index": 4,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "यह National Cargo Post है। आपके नाम एक पार्सल आया है जिसमें प्रतिबंधित सामान मिला है, कस्टम्स में रुका है।"
+      },
+      {
+        "speaker": "callee",
+        "text": "मैंने तो ऐसा कुछ मंगवाया ही नहीं।"
+      },
+      {
+        "speaker": "caller",
+        "text": "हो सकता है आपकी ID का गलत इस्तेमाल हुआ हो। मैं आपको कस्टम्स अधिकारी से जोड़ रहा हूं।"
+      },
+      {
+        "speaker": "callee",
+        "text": "ठीक है, जोड़ दीजिए।"
+      },
+      {
+        "speaker": "caller",
+        "text": "इस केस को बिना कानूनी नोटिस के बंद करने के लिए अभी Rs 2,30,000 क्लीयरेंस फीस जमा करनी होगी।"
+      },
+      {
+        "speaker": "callee",
+        "text": "यह सब बहुत अचानक लग रहा है।"
+      },
+      {
+        "speaker": "caller",
+        "text": "सर अगले 30 मिनट में भुगतान नहीं हुआ तो आपके खिलाफ केस दर्ज हो जाएगा।"
+      }
+    ],
+    "audio_file": "audio/hi_scam_courier_customs_04.wav"
+  },
+  {
+    "id": "hi_scam_courier_customs_05",
+    "language": "hi",
+    "label": "scam",
+    "category": "courier_customs",
+    "critical_turn_index": 4,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "यह RapidTrack Couriers है। आपके नाम एक पार्सल आया है जिसमें प्रतिबंधित सामान मिला है, कस्टम्स में रुका है।"
+      },
+      {
+        "speaker": "callee",
+        "text": "मैंने तो ऐसा कुछ मंगवाया ही नहीं।"
+      },
+      {
+        "speaker": "caller",
+        "text": "हो सकता है आपकी ID का गलत इस्तेमाल हुआ हो। मैं आपको कस्टम्स अधिकारी से जोड़ रहा हूं।"
+      },
+      {
+        "speaker": "callee",
+        "text": "ठीक है, जोड़ दीजिए।"
+      },
+      {
+        "speaker": "caller",
+        "text": "इस केस को बिना कानूनी नोटिस के बंद करने के लिए अभी Rs 15,750 क्लीयरेंस फीस जमा करनी होगी।"
+      },
+      {
+        "speaker": "callee",
+        "text": "यह सब बहुत अचानक लग रहा है।"
+      },
+      {
+        "speaker": "caller",
+        "text": "सर अगले 30 मिनट में भुगतान नहीं हुआ तो आपके खिलाफ केस दर्ज हो जाएगा।"
+      }
+    ],
+    "audio_file": "audio/hi_scam_courier_customs_05.wav"
+  },
+  {
+    "id": "hi_scam_electricity_disconnection_01",
+    "language": "hi",
+    "label": "scam",
+    "category": "electricity_disconnection",
+    "critical_turn_index": 4,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "यह City Power Board की तरफ से स्वचालित संदेश है। बकाया बिल के कारण आज रात आपकी बिजली काट दी जाएगी।"
+      },
+      {
+        "speaker": "callee",
+        "text": "मैंने तो पिछले हफ्ते ही बिल भरा था।"
+      },
+      {
+        "speaker": "caller",
+        "text": "तुरंत बात करने के लिए 1 दबाएं।"
+      },
+      {
+        "speaker": "callee",
+        "text": "ठीक है, जोड़ रहा हूं।"
+      },
+      {
+        "speaker": "caller",
+        "text": "सर आपका पिछला भुगतान दर्ज नहीं हुआ। कनेक्शन कटने से बचाने के लिए अभी इस लिंक से Rs 45,000 जमा करें और वेरिफिकेशन के लिए OTP बताएं।"
+      },
+      {
+        "speaker": "callee",
+        "text": "लिंक से पेमेंट करना थोड़ा जोखिम भरा लगता है।"
+      },
+      {
+        "speaker": "caller",
+        "text": "सर आज रात कटने से बचाने का यही एक तरीका है।"
+      }
+    ],
+    "audio_file": "audio/hi_scam_electricity_disconnection_01.wav"
+  },
+  {
+    "id": "hi_scam_electricity_disconnection_02",
+    "language": "hi",
+    "label": "scam",
+    "category": "electricity_disconnection",
+    "critical_turn_index": 4,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "यह Metro Electricity Board की तरफ से स्वचालित संदेश है। बकाया बिल के कारण आज रात आपकी बिजली काट दी जाएगी।"
+      },
+      {
+        "speaker": "callee",
+        "text": "मैंने तो पिछले हफ्ते ही बिल भरा था।"
+      },
+      {
+        "speaker": "caller",
+        "text": "तुरंत बात करने के लिए 1 दबाएं।"
+      },
+      {
+        "speaker": "callee",
+        "text": "ठीक है, जोड़ रहा हूं।"
+      },
+      {
+        "speaker": "caller",
+        "text": "सर आपका पिछला भुगतान दर्ज नहीं हुआ। कनेक्शन कटने से बचाने के लिए अभी इस लिंक से Rs 1,20,000 जमा करें और वेरिफिकेशन के लिए OTP बताएं।"
+      },
+      {
+        "speaker": "callee",
+        "text": "लिंक से पेमेंट करना थोड़ा जोखिम भरा लगता है।"
+      },
+      {
+        "speaker": "caller",
+        "text": "सर आज रात कटने से बचाने का यही एक तरीका है।"
+      }
+    ],
+    "audio_file": "audio/hi_scam_electricity_disconnection_02.wav"
+  },
+  {
+    "id": "hi_scam_electricity_disconnection_03",
+    "language": "hi",
+    "label": "scam",
+    "category": "electricity_disconnection",
+    "critical_turn_index": 4,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "यह State Grid Utility की तरफ से स्वचालित संदेश है। बकाया बिल के कारण आज रात आपकी बिजली काट दी जाएगी।"
+      },
+      {
+        "speaker": "callee",
+        "text": "मैंने तो पिछले हफ्ते ही बिल भरा था।"
+      },
+      {
+        "speaker": "caller",
+        "text": "तुरंत बात करने के लिए 1 दबाएं।"
+      },
+      {
+        "speaker": "callee",
+        "text": "ठीक है, जोड़ रहा हूं।"
+      },
+      {
+        "speaker": "caller",
+        "text": "सर आपका पिछला भुगतान दर्ज नहीं हुआ। कनेक्शन कटने से बचाने के लिए अभी इस लिंक से Rs 8,500 जमा करें और वेरिफिकेशन के लिए OTP बताएं।"
+      },
+      {
+        "speaker": "callee",
+        "text": "लिंक से पेमेंट करना थोड़ा जोखिम भरा लगता है।"
+      },
+      {
+        "speaker": "caller",
+        "text": "सर आज रात कटने से बचाने का यही एक तरीका है।"
+      }
+    ],
+    "audio_file": "audio/hi_scam_electricity_disconnection_03.wav"
+  },
+  {
+    "id": "hi_scam_electricity_disconnection_04",
+    "language": "hi",
+    "label": "scam",
+    "category": "electricity_disconnection",
+    "critical_turn_index": 4,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "यह Urban Power Corp की तरफ से स्वचालित संदेश है। बकाया बिल के कारण आज रात आपकी बिजली काट दी जाएगी।"
+      },
+      {
+        "speaker": "callee",
+        "text": "मैंने तो पिछले हफ्ते ही बिल भरा था।"
+      },
+      {
+        "speaker": "caller",
+        "text": "तुरंत बात करने के लिए 1 दबाएं।"
+      },
+      {
+        "speaker": "callee",
+        "text": "ठीक है, जोड़ रहा हूं।"
+      },
+      {
+        "speaker": "caller",
+        "text": "सर आपका पिछला भुगतान दर्ज नहीं हुआ। कनेक्शन कटने से बचाने के लिए अभी इस लिंक से Rs 2,30,000 जमा करें और वेरिफिकेशन के लिए OTP बताएं।"
+      },
+      {
+        "speaker": "callee",
+        "text": "लिंक से पेमेंट करना थोड़ा जोखिम भरा लगता है।"
+      },
+      {
+        "speaker": "caller",
+        "text": "सर आज रात कटने से बचाने का यही एक तरीका है।"
+      }
+    ],
+    "audio_file": "audio/hi_scam_electricity_disconnection_04.wav"
+  },
+  {
+    "id": "hi_scam_electricity_disconnection_05",
+    "language": "hi",
+    "label": "scam",
+    "category": "electricity_disconnection",
+    "critical_turn_index": 4,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "यह Regional Electric Board की तरफ से स्वचालित संदेश है। बकाया बिल के कारण आज रात आपकी बिजली काट दी जाएगी।"
+      },
+      {
+        "speaker": "callee",
+        "text": "मैंने तो पिछले हफ्ते ही बिल भरा था।"
+      },
+      {
+        "speaker": "caller",
+        "text": "तुरंत बात करने के लिए 1 दबाएं।"
+      },
+      {
+        "speaker": "callee",
+        "text": "ठीक है, जोड़ रहा हूं।"
+      },
+      {
+        "speaker": "caller",
+        "text": "सर आपका पिछला भुगतान दर्ज नहीं हुआ। कनेक्शन कटने से बचाने के लिए अभी इस लिंक से Rs 15,750 जमा करें और वेरिफिकेशन के लिए OTP बताएं।"
+      },
+      {
+        "speaker": "callee",
+        "text": "लिंक से पेमेंट करना थोड़ा जोखिम भरा लगता है।"
+      },
+      {
+        "speaker": "caller",
+        "text": "सर आज रात कटने से बचाने का यही एक तरीका है।"
+      }
+    ],
+    "audio_file": "audio/hi_scam_electricity_disconnection_05.wav"
+  },
+  {
+    "id": "hi_benign_delivery_confirmation_01",
+    "language": "hi",
+    "label": "benign",
+    "category": "delivery_confirmation",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "नमस्ते, मैं QuickShip Couriers डिलीवरी से बोल रहा हूं, आपका ऑर्डर लेकर बाहर खड़ा हूं, क्या आप घर पर हैं?"
+      },
+      {
+        "speaker": "callee",
+        "text": "हां, मैं घर पर हूं, दूसरी मंजिल पर आ जाइए।"
+      },
+      {
+        "speaker": "caller",
+        "text": "ठीक है, दो मिनट में आता हूं। कैश ऑन डिलीवरी है या पहले से पेमेंट हो चुकी है?"
+      },
+      {
+        "speaker": "callee",
+        "text": "पहले से ऑनलाइन पेमेंट कर दी थी।"
+      },
+      {
+        "speaker": "caller",
+        "text": "बढ़िया, अभी आता हूं।"
+      }
+    ],
+    "audio_file": "audio/hi_benign_delivery_confirmation_01.wav"
+  },
+  {
+    "id": "hi_benign_delivery_confirmation_02",
+    "language": "hi",
+    "label": "benign",
+    "category": "delivery_confirmation",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "नमस्ते, मैं MetroParcel Services डिलीवरी से बोल रहा हूं, आपका ऑर्डर लेकर बाहर खड़ा हूं, क्या आप घर पर हैं?"
+      },
+      {
+        "speaker": "callee",
+        "text": "हां, मैं घर पर हूं, दूसरी मंजिल पर आ जाइए।"
+      },
+      {
+        "speaker": "caller",
+        "text": "ठीक है, दो मिनट में आता हूं। कैश ऑन डिलीवरी है या पहले से पेमेंट हो चुकी है?"
+      },
+      {
+        "speaker": "callee",
+        "text": "पहले से ऑनलाइन पेमेंट कर दी थी।"
+      },
+      {
+        "speaker": "caller",
+        "text": "बढ़िया, अभी आता हूं।"
+      }
+    ],
+    "audio_file": "audio/hi_benign_delivery_confirmation_02.wav"
+  },
+  {
+    "id": "hi_benign_delivery_confirmation_03",
+    "language": "hi",
+    "label": "benign",
+    "category": "delivery_confirmation",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "नमस्ते, मैं SwiftLine Express डिलीवरी से बोल रहा हूं, आपका ऑर्डर लेकर बाहर खड़ा हूं, क्या आप घर पर हैं?"
+      },
+      {
+        "speaker": "callee",
+        "text": "हां, मैं घर पर हूं, दूसरी मंजिल पर आ जाइए।"
+      },
+      {
+        "speaker": "caller",
+        "text": "ठीक है, दो मिनट में आता हूं। कैश ऑन डिलीवरी है या पहले से पेमेंट हो चुकी है?"
+      },
+      {
+        "speaker": "callee",
+        "text": "पहले से ऑनलाइन पेमेंट कर दी थी।"
+      },
+      {
+        "speaker": "caller",
+        "text": "बढ़िया, अभी आता हूं।"
+      }
+    ],
+    "audio_file": "audio/hi_benign_delivery_confirmation_03.wav"
+  },
+  {
+    "id": "hi_benign_delivery_confirmation_04",
+    "language": "hi",
+    "label": "benign",
+    "category": "delivery_confirmation",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "नमस्ते, मैं National Cargo Post डिलीवरी से बोल रहा हूं, आपका ऑर्डर लेकर बाहर खड़ा हूं, क्या आप घर पर हैं?"
+      },
+      {
+        "speaker": "callee",
+        "text": "हां, मैं घर पर हूं, दूसरी मंजिल पर आ जाइए।"
+      },
+      {
+        "speaker": "caller",
+        "text": "ठीक है, दो मिनट में आता हूं। कैश ऑन डिलीवरी है या पहले से पेमेंट हो चुकी है?"
+      },
+      {
+        "speaker": "callee",
+        "text": "पहले से ऑनलाइन पेमेंट कर दी थी।"
+      },
+      {
+        "speaker": "caller",
+        "text": "बढ़िया, अभी आता हूं।"
+      }
+    ],
+    "audio_file": "audio/hi_benign_delivery_confirmation_04.wav"
+  },
+  {
+    "id": "hi_benign_delivery_confirmation_05",
+    "language": "hi",
+    "label": "benign",
+    "category": "delivery_confirmation",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "नमस्ते, मैं RapidTrack Couriers डिलीवरी से बोल रहा हूं, आपका ऑर्डर लेकर बाहर खड़ा हूं, क्या आप घर पर हैं?"
+      },
+      {
+        "speaker": "callee",
+        "text": "हां, मैं घर पर हूं, दूसरी मंजिल पर आ जाइए।"
+      },
+      {
+        "speaker": "caller",
+        "text": "ठीक है, दो मिनट में आता हूं। कैश ऑन डिलीवरी है या पहले से पेमेंट हो चुकी है?"
+      },
+      {
+        "speaker": "callee",
+        "text": "पहले से ऑनलाइन पेमेंट कर दी थी।"
+      },
+      {
+        "speaker": "caller",
+        "text": "बढ़िया, अभी आता हूं।"
+      }
+    ],
+    "audio_file": "audio/hi_benign_delivery_confirmation_05.wav"
+  },
+  {
+    "id": "hi_benign_appointment_reminder_01",
+    "language": "hi",
+    "label": "benign",
+    "category": "appointment_reminder",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "नमस्ते, यह Sunrise Clinic से कॉल है, कल 10:30 AM बजे आपकी अपॉइंटमेंट की याद दिला रहे हैं।"
+      },
+      {
+        "speaker": "callee",
+        "text": "अरे हां, बताने के लिए धन्यवाद।"
+      },
+      {
+        "speaker": "caller",
+        "text": "क्या आप कन्फर्म करेंगे या समय बदलना चाहेंगे?"
+      },
+      {
+        "speaker": "callee",
+        "text": "कन्फर्म कर दीजिए, 10:30 AM ठीक रहेगा।"
+      },
+      {
+        "speaker": "caller",
+        "text": "बढ़िया, तब मिलते हैं।"
+      }
+    ],
+    "audio_file": "audio/hi_benign_appointment_reminder_01.wav"
+  },
+  {
+    "id": "hi_benign_appointment_reminder_02",
+    "language": "hi",
+    "label": "benign",
+    "category": "appointment_reminder",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "नमस्ते, यह CityCare Hospital से कॉल है, कल 4:00 PM बजे आपकी अपॉइंटमेंट की याद दिला रहे हैं।"
+      },
+      {
+        "speaker": "callee",
+        "text": "अरे हां, बताने के लिए धन्यवाद।"
+      },
+      {
+        "speaker": "caller",
+        "text": "क्या आप कन्फर्म करेंगे या समय बदलना चाहेंगे?"
+      },
+      {
+        "speaker": "callee",
+        "text": "कन्फर्म कर दीजिए, 4:00 PM ठीक रहेगा।"
+      },
+      {
+        "speaker": "caller",
+        "text": "बढ़िया, तब मिलते हैं।"
+      }
+    ],
+    "audio_file": "audio/hi_benign_appointment_reminder_02.wav"
+  },
+  {
+    "id": "hi_benign_appointment_reminder_03",
+    "language": "hi",
+    "label": "benign",
+    "category": "appointment_reminder",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "नमस्ते, यह Wellness Point Clinic से कॉल है, कल 11:00 AM बजे आपकी अपॉइंटमेंट की याद दिला रहे हैं।"
+      },
+      {
+        "speaker": "callee",
+        "text": "अरे हां, बताने के लिए धन्यवाद।"
+      },
+      {
+        "speaker": "caller",
+        "text": "क्या आप कन्फर्म करेंगे या समय बदलना चाहेंगे?"
+      },
+      {
+        "speaker": "callee",
+        "text": "कन्फर्म कर दीजिए, 11:00 AM ठीक रहेगा।"
+      },
+      {
+        "speaker": "caller",
+        "text": "बढ़िया, तब मिलते हैं।"
+      }
+    ],
+    "audio_file": "audio/hi_benign_appointment_reminder_03.wav"
+  },
+  {
+    "id": "hi_benign_appointment_reminder_04",
+    "language": "hi",
+    "label": "benign",
+    "category": "appointment_reminder",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "नमस्ते, यह Green Valley Hospital से कॉल है, कल 6:30 PM बजे आपकी अपॉइंटमेंट की याद दिला रहे हैं।"
+      },
+      {
+        "speaker": "callee",
+        "text": "अरे हां, बताने के लिए धन्यवाद।"
+      },
+      {
+        "speaker": "caller",
+        "text": "क्या आप कन्फर्म करेंगे या समय बदलना चाहेंगे?"
+      },
+      {
+        "speaker": "callee",
+        "text": "कन्फर्म कर दीजिए, 6:30 PM ठीक रहेगा।"
+      },
+      {
+        "speaker": "caller",
+        "text": "बढ़िया, तब मिलते हैं।"
+      }
+    ],
+    "audio_file": "audio/hi_benign_appointment_reminder_04.wav"
+  },
+  {
+    "id": "hi_benign_appointment_reminder_05",
+    "language": "hi",
+    "label": "benign",
+    "category": "appointment_reminder",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "नमस्ते, यह HealthFirst Clinic से कॉल है, कल 3:15 PM बजे आपकी अपॉइंटमेंट की याद दिला रहे हैं।"
+      },
+      {
+        "speaker": "callee",
+        "text": "अरे हां, बताने के लिए धन्यवाद।"
+      },
+      {
+        "speaker": "caller",
+        "text": "क्या आप कन्फर्म करेंगे या समय बदलना चाहेंगे?"
+      },
+      {
+        "speaker": "callee",
+        "text": "कन्फर्म कर दीजिए, 3:15 PM ठीक रहेगा।"
+      },
+      {
+        "speaker": "caller",
+        "text": "बढ़िया, तब मिलते हैं।"
+      }
+    ],
+    "audio_file": "audio/hi_benign_appointment_reminder_05.wav"
+  },
+  {
+    "id": "hi_benign_bank_service_call_01",
+    "language": "hi",
+    "label": "benign",
+    "category": "bank_service_call",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "सुप्रभात, यह Suraksha Bank से कॉल है, आपकी Rs 45,000 की फिक्स्ड डिपॉजिट मैच्योर हो गई है।"
+      },
+      {
+        "speaker": "callee",
+        "text": "अच्छा, अब क्या विकल्प हैं?"
+      },
+      {
+        "speaker": "caller",
+        "text": "आप इसे रिन्यू करवा सकते हैं, या 3 दिन में यह राशि आपके सेविंग खाते में अपने आप आ जाएगी।"
+      },
+      {
+        "speaker": "callee",
+        "text": "एक और साल के लिए रिन्यू कर दीजिए।"
+      },
+      {
+        "speaker": "caller",
+        "text": "ठीक है, नोट कर लिया है। आपको पुष्टि का SMS मिल जाएगा, आपकी तरफ से कुछ करने की जरूरत नहीं।"
+      }
+    ],
+    "audio_file": "audio/hi_benign_bank_service_call_01.wav"
+  },
+  {
+    "id": "hi_benign_bank_service_call_02",
+    "language": "hi",
+    "label": "benign",
+    "category": "bank_service_call",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "सुप्रभात, यह Trustline Bank से कॉल है, आपकी Rs 1,20,000 की फिक्स्ड डिपॉजिट मैच्योर हो गई है।"
+      },
+      {
+        "speaker": "callee",
+        "text": "अच्छा, अब क्या विकल्प हैं?"
+      },
+      {
+        "speaker": "caller",
+        "text": "आप इसे रिन्यू करवा सकते हैं, या 3 दिन में यह राशि आपके सेविंग खाते में अपने आप आ जाएगी।"
+      },
+      {
+        "speaker": "callee",
+        "text": "एक और साल के लिए रिन्यू कर दीजिए।"
+      },
+      {
+        "speaker": "caller",
+        "text": "ठीक है, नोट कर लिया है। आपको पुष्टि का SMS मिल जाएगा, आपकी तरफ से कुछ करने की जरूरत नहीं।"
+      }
+    ],
+    "audio_file": "audio/hi_benign_bank_service_call_02.wav"
+  },
+  {
+    "id": "hi_benign_bank_service_call_03",
+    "language": "hi",
+    "label": "benign",
+    "category": "bank_service_call",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "सुप्रभात, यह Nationwide Trust Bank से कॉल है, आपकी Rs 8,500 की फिक्स्ड डिपॉजिट मैच्योर हो गई है।"
+      },
+      {
+        "speaker": "callee",
+        "text": "अच्छा, अब क्या विकल्प हैं?"
+      },
+      {
+        "speaker": "caller",
+        "text": "आप इसे रिन्यू करवा सकते हैं, या 3 दिन में यह राशि आपके सेविंग खाते में अपने आप आ जाएगी।"
+      },
+      {
+        "speaker": "callee",
+        "text": "एक और साल के लिए रिन्यू कर दीजिए।"
+      },
+      {
+        "speaker": "caller",
+        "text": "ठीक है, नोट कर लिया है। आपको पुष्टि का SMS मिल जाएगा, आपकी तरफ से कुछ करने की जरूरत नहीं।"
+      }
+    ],
+    "audio_file": "audio/hi_benign_bank_service_call_03.wav"
+  },
+  {
+    "id": "hi_benign_bank_service_call_04",
+    "language": "hi",
+    "label": "benign",
+    "category": "bank_service_call",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "सुप्रभात, यह Horizon Bank से कॉल है, आपकी Rs 2,30,000 की फिक्स्ड डिपॉजिट मैच्योर हो गई है।"
+      },
+      {
+        "speaker": "callee",
+        "text": "अच्छा, अब क्या विकल्प हैं?"
+      },
+      {
+        "speaker": "caller",
+        "text": "आप इसे रिन्यू करवा सकते हैं, या 3 दिन में यह राशि आपके सेविंग खाते में अपने आप आ जाएगी।"
+      },
+      {
+        "speaker": "callee",
+        "text": "एक और साल के लिए रिन्यू कर दीजिए।"
+      },
+      {
+        "speaker": "caller",
+        "text": "ठीक है, नोट कर लिया है। आपको पुष्टि का SMS मिल जाएगा, आपकी तरफ से कुछ करने की जरूरत नहीं।"
+      }
+    ],
+    "audio_file": "audio/hi_benign_bank_service_call_04.wav"
+  },
+  {
+    "id": "hi_benign_bank_service_call_05",
+    "language": "hi",
+    "label": "benign",
+    "category": "bank_service_call",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "सुप्रभात, यह Capital Shield Bank से कॉल है, आपकी Rs 15,750 की फिक्स्ड डिपॉजिट मैच्योर हो गई है।"
+      },
+      {
+        "speaker": "callee",
+        "text": "अच्छा, अब क्या विकल्प हैं?"
+      },
+      {
+        "speaker": "caller",
+        "text": "आप इसे रिन्यू करवा सकते हैं, या 3 दिन में यह राशि आपके सेविंग खाते में अपने आप आ जाएगी।"
+      },
+      {
+        "speaker": "callee",
+        "text": "एक और साल के लिए रिन्यू कर दीजिए।"
+      },
+      {
+        "speaker": "caller",
+        "text": "ठीक है, नोट कर लिया है। आपको पुष्टि का SMS मिल जाएगा, आपकी तरफ से कुछ करने की जरूरत नहीं।"
+      }
+    ],
+    "audio_file": "audio/hi_benign_bank_service_call_05.wav"
+  },
+  {
+    "id": "hi_benign_telecom_support_01",
+    "language": "hi",
+    "label": "benign",
+    "category": "telecom_support",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "नमस्ते, यह NetConnect सपोर्ट से कॉल है, आपने इंटरनेट की स्पीड धीमी होने की शिकायत दर्ज की थी।"
+      },
+      {
+        "speaker": "callee",
+        "text": "हां, कल से बहुत धीमा चल रहा है।"
+      },
+      {
+        "speaker": "caller",
+        "text": "मैंने जांच की, आपके इलाके में टावर से जुड़ी एक समस्या थी जो अब ठीक हो गई है। एक बार राउटर रीस्टार्ट करके देखिए।"
+      },
+      {
+        "speaker": "callee",
+        "text": "ठीक है एक सेकंड... हां अब काफी बेहतर है।"
+      },
+      {
+        "speaker": "caller",
+        "text": "बढ़िया, अगर दोबारा दिक्कत हो तो बताइएगा।"
+      }
+    ],
+    "audio_file": "audio/hi_benign_telecom_support_01.wav"
+  },
+  {
+    "id": "hi_benign_telecom_support_02",
+    "language": "hi",
+    "label": "benign",
+    "category": "telecom_support",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "नमस्ते, यह AirLink Telecom सपोर्ट से कॉल है, आपने इंटरनेट की स्पीड धीमी होने की शिकायत दर्ज की थी।"
+      },
+      {
+        "speaker": "callee",
+        "text": "हां, कल से बहुत धीमा चल रहा है।"
+      },
+      {
+        "speaker": "caller",
+        "text": "मैंने जांच की, आपके इलाके में टावर से जुड़ी एक समस्या थी जो अब ठीक हो गई है। एक बार राउटर रीस्टार्ट करके देखिए।"
+      },
+      {
+        "speaker": "callee",
+        "text": "ठीक है एक सेकंड... हां अब काफी बेहतर है।"
+      },
+      {
+        "speaker": "caller",
+        "text": "बढ़िया, अगर दोबारा दिक्कत हो तो बताइएगा।"
+      }
+    ],
+    "audio_file": "audio/hi_benign_telecom_support_02.wav"
+  },
+  {
+    "id": "hi_benign_telecom_support_03",
+    "language": "hi",
+    "label": "benign",
+    "category": "telecom_support",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "नमस्ते, यह StreamTel सपोर्ट से कॉल है, आपने इंटरनेट की स्पीड धीमी होने की शिकायत दर्ज की थी।"
+      },
+      {
+        "speaker": "callee",
+        "text": "हां, कल से बहुत धीमा चल रहा है।"
+      },
+      {
+        "speaker": "caller",
+        "text": "मैंने जांच की, आपके इलाके में टावर से जुड़ी एक समस्या थी जो अब ठीक हो गई है। एक बार राउटर रीस्टार्ट करके देखिए।"
+      },
+      {
+        "speaker": "callee",
+        "text": "ठीक है एक सेकंड... हां अब काफी बेहतर है।"
+      },
+      {
+        "speaker": "caller",
+        "text": "बढ़िया, अगर दोबारा दिक्कत हो तो बताइएगा।"
+      }
+    ],
+    "audio_file": "audio/hi_benign_telecom_support_03.wav"
+  },
+  {
+    "id": "hi_benign_telecom_support_04",
+    "language": "hi",
+    "label": "benign",
+    "category": "telecom_support",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "नमस्ते, यह ConnectPlus सपोर्ट से कॉल है, आपने इंटरनेट की स्पीड धीमी होने की शिकायत दर्ज की थी।"
+      },
+      {
+        "speaker": "callee",
+        "text": "हां, कल से बहुत धीमा चल रहा है।"
+      },
+      {
+        "speaker": "caller",
+        "text": "मैंने जांच की, आपके इलाके में टावर से जुड़ी एक समस्या थी जो अब ठीक हो गई है। एक बार राउटर रीस्टार्ट करके देखिए।"
+      },
+      {
+        "speaker": "callee",
+        "text": "ठीक है एक सेकंड... हां अब काफी बेहतर है।"
+      },
+      {
+        "speaker": "caller",
+        "text": "बढ़िया, अगर दोबारा दिक्कत हो तो बताइएगा।"
+      }
+    ],
+    "audio_file": "audio/hi_benign_telecom_support_04.wav"
+  },
+  {
+    "id": "hi_benign_telecom_support_05",
+    "language": "hi",
+    "label": "benign",
+    "category": "telecom_support",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "नमस्ते, यह FastNet Broadband सपोर्ट से कॉल है, आपने इंटरनेट की स्पीड धीमी होने की शिकायत दर्ज की थी।"
+      },
+      {
+        "speaker": "callee",
+        "text": "हां, कल से बहुत धीमा चल रहा है।"
+      },
+      {
+        "speaker": "caller",
+        "text": "मैंने जांच की, आपके इलाके में टावर से जुड़ी एक समस्या थी जो अब ठीक हो गई है। एक बार राउटर रीस्टार्ट करके देखिए।"
+      },
+      {
+        "speaker": "callee",
+        "text": "ठीक है एक सेकंड... हां अब काफी बेहतर है।"
+      },
+      {
+        "speaker": "caller",
+        "text": "बढ़िया, अगर दोबारा दिक्कत हो तो बताइएगा।"
+      }
+    ],
+    "audio_file": "audio/hi_benign_telecom_support_05.wav"
+  },
+  {
+    "id": "hi_benign_personal_family_call_01",
+    "language": "hi",
+    "label": "benign",
+    "category": "personal_family_call",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "हाय, मैं Riya बोल रही हूं, इस वीकेंड फ्री हो?"
+      },
+      {
+        "speaker": "callee",
+        "text": "हां, क्या प्लान है?"
+      },
+      {
+        "speaker": "caller",
+        "text": "सोच रही थी मम्मी के बर्थडे पर 10:30 AM को उनसे मिलने चलें, तुम भी चलोगे?"
+      },
+      {
+        "speaker": "callee",
+        "text": "हां बिल्कुल, मुझे भी शामिल कर लो।"
+      },
+      {
+        "speaker": "caller",
+        "text": "बढ़िया, फिर मैं टिकट बुक कर लेती हूं।"
+      }
+    ],
+    "audio_file": "audio/hi_benign_personal_family_call_01.wav"
+  },
+  {
+    "id": "hi_benign_personal_family_call_02",
+    "language": "hi",
+    "label": "benign",
+    "category": "personal_family_call",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "हाय, मैं Karan बोल रही हूं, इस वीकेंड फ्री हो?"
+      },
+      {
+        "speaker": "callee",
+        "text": "हां, क्या प्लान है?"
+      },
+      {
+        "speaker": "caller",
+        "text": "सोच रही थी मम्मी के बर्थडे पर 4:00 PM को उनसे मिलने चलें, तुम भी चलोगे?"
+      },
+      {
+        "speaker": "callee",
+        "text": "हां बिल्कुल, मुझे भी शामिल कर लो।"
+      },
+      {
+        "speaker": "caller",
+        "text": "बढ़िया, फिर मैं टिकट बुक कर लेती हूं।"
+      }
+    ],
+    "audio_file": "audio/hi_benign_personal_family_call_02.wav"
+  },
+  {
+    "id": "hi_benign_personal_family_call_03",
+    "language": "hi",
+    "label": "benign",
+    "category": "personal_family_call",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "हाय, मैं Ananya बोल रही हूं, इस वीकेंड फ्री हो?"
+      },
+      {
+        "speaker": "callee",
+        "text": "हां, क्या प्लान है?"
+      },
+      {
+        "speaker": "caller",
+        "text": "सोच रही थी मम्मी के बर्थडे पर 11:00 AM को उनसे मिलने चलें, तुम भी चलोगे?"
+      },
+      {
+        "speaker": "callee",
+        "text": "हां बिल्कुल, मुझे भी शामिल कर लो।"
+      },
+      {
+        "speaker": "caller",
+        "text": "बढ़िया, फिर मैं टिकट बुक कर लेती हूं।"
+      }
+    ],
+    "audio_file": "audio/hi_benign_personal_family_call_03.wav"
+  },
+  {
+    "id": "hi_benign_personal_family_call_04",
+    "language": "hi",
+    "label": "benign",
+    "category": "personal_family_call",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "हाय, मैं Vikram बोल रही हूं, इस वीकेंड फ्री हो?"
+      },
+      {
+        "speaker": "callee",
+        "text": "हां, क्या प्लान है?"
+      },
+      {
+        "speaker": "caller",
+        "text": "सोच रही थी मम्मी के बर्थडे पर 6:30 PM को उनसे मिलने चलें, तुम भी चलोगे?"
+      },
+      {
+        "speaker": "callee",
+        "text": "हां बिल्कुल, मुझे भी शामिल कर लो।"
+      },
+      {
+        "speaker": "caller",
+        "text": "बढ़िया, फिर मैं टिकट बुक कर लेती हूं।"
+      }
+    ],
+    "audio_file": "audio/hi_benign_personal_family_call_04.wav"
+  },
+  {
+    "id": "hi_benign_personal_family_call_05",
+    "language": "hi",
+    "label": "benign",
+    "category": "personal_family_call",
+    "critical_turn_index": null,
+    "turns": [
+      {
+        "speaker": "caller",
+        "text": "हाय, मैं Priya बोल रही हूं, इस वीकेंड फ्री हो?"
+      },
+      {
+        "speaker": "callee",
+        "text": "हां, क्या प्लान है?"
+      },
+      {
+        "speaker": "caller",
+        "text": "सोच रही थी मम्मी के बर्थडे पर 3:15 PM को उनसे मिलने चलें, तुम भी चलोगे?"
+      },
+      {
+        "speaker": "callee",
+        "text": "हां बिल्कुल, मुझे भी शामिल कर लो।"
+      },
+      {
+        "speaker": "caller",
+        "text": "बढ़िया, फिर मैं टिकट बुक कर लेती हूं।"
+      }
+    ],
+    "audio_file": "audio/hi_benign_personal_family_call_05.wav"
+  }
+]

@@ -44,7 +44,8 @@ class CallHistoryManager(private val context: Context) {
                         riskScorePercent = obj.getInt("riskScorePercent"),
                         action = action,
                         transcriptSnippet = obj.optString("transcriptSnippet", ""),
-                        bytesSent = obj.optLong("bytesSent", 0L)
+                        bytesSent = obj.optLong("bytesSent", 0L),
+                        transcript = if (obj.has("transcript") && !obj.isNull("transcript")) obj.getString("transcript") else null,
                     )
                 )
             }
@@ -67,6 +68,7 @@ class CallHistoryManager(private val context: Context) {
                     put("action", log.action.name)
                     put("transcriptSnippet", log.transcriptSnippet)
                     put("bytesSent", log.bytesSent)
+                    log.transcript?.let { put("transcript", it) }
                 }
                 jsonArray.put(obj)
             }
@@ -78,7 +80,7 @@ class CallHistoryManager(private val context: Context) {
 
     fun addLog(log: CallLog) {
         val currentList = _history.value.toMutableList()
-        currentList.add(0, log) // Add to top
+        currentList.add(0, log)
         _history.value = currentList
         saveHistory(currentList)
     }

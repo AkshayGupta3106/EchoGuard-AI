@@ -10,9 +10,18 @@
 <style>
   :root{
     --bg:#0B0F12; --panel:#12181C; --panel-2:#161D22; --line:#24313766;
-    --text:#E8EDEC; --muted:#7C8B90; --signal:#FFB347;
+    color-scheme:dark; --text:#E8EDEC; --muted:#A2AFB3; --signal:#FFB347; --btn-text:#1A1206;
     --safe:#2DD4BF; --warn:#F5A623; --block:#E5484D;
   }
+  :root[data-theme="light"]{color-scheme:light;--bg:#F8F6F0;--panel:#FFFFFF;--panel-2:#F0EFEB;--line:#CCC8BE;--text:#1E1E1E;--muted:#65635D;--signal:#865300;--safe:#155A38;--warn:#9A5400;--block:#B83A35;--btn-text:#FFFFFF;}
+  .header-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+  .history-entry{border-top:1px solid var(--line);padding:16px 0;}
+  .history-entry:first-child{border-top:0;}
+  .history-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+  .history-preview{white-space:pre-wrap;overflow-wrap:anywhere;font-size:14px;}
+  dialog{background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:12px;width:min(700px,calc(100% - 32px));max-height:85vh;padding:24px;}
+  dialog::backdrop{background:#0009;}
+  .full-transcript{white-space:pre-wrap;overflow-wrap:anywhere;max-height:55vh;overflow:auto;font:inherit;user-select:text;}
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
   body{
@@ -55,10 +64,10 @@
   .file-btn:hover{color:var(--text);border-color:var(--muted);}
   #audioName{font-size:12px;color:var(--muted);font-family:'IBM Plex Mono',monospace;}
 
-  .btn{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:14px;background:var(--signal);color:#1a1206;border:none;border-radius:8px;padding:11px 20px;cursor:pointer;letter-spacing:.02em;box-shadow:0 0 0 rgba(255,179,71,0);transition:.15s;}
+  .btn{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:14px;background:var(--signal);color:var(--btn-text);border:none;border-radius:8px;padding:11px 20px;cursor:pointer;letter-spacing:.02em;box-shadow:0 0 0 rgba(255,179,71,0);transition:.15s;}
   .btn:hover{box-shadow:0 0 20px #ffb34755;}
   .btn:disabled{opacity:.5;cursor:default;box-shadow:none;}
-  .btn.stop{background:var(--block);color:#2a0d0e;}
+  .btn.stop{background:var(--block);color:var(--btn-text);}
   .btn.stop:hover{box-shadow:0 0 20px #e5484d55;}
 
   .live-transcript{min-height:110px;max-height:220px;overflow-y:auto;background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:12px;font-size:14px;color:var(--text);}
@@ -107,32 +116,33 @@
 <div class="wrap">
   <header>
     <div class="brand"><span class="dot"></span> EchoGuard-AI</div>
-    <div class="status">live demo · <a href="https://github.com/Chirag514/EchoGuard-AI" target="_blank">source</a></div>
+    <div class="header-actions"><button class="chip" id="themeToggle" type="button">Light theme</button><div class="status">live demo · <a href="https://github.com/Chirag514/EchoGuard-AI" target="_blank" rel="noopener">source</a></div></div>
   </header>
 
   <div class="hero">
     <div class="eyebrow">Agentic voice-scam detection</div>
     <h1>Talk to it. Watch it reason. Get a verdict.</h1>
-    <p>Runs the real pipeline server-side — rule + semantic scam-intent scoring, real-time acoustic spoof detection (AASIST-L), and a supervisor agent that escalates the same way it would on a live call.</p>
+    <p>Analyze scam intent, voice authenticity, and risk signals with explanations.</p>
   </div>
 
   <div class="tabs">
-    <button class="tab active" data-tab="live">Live call</button>
+    <button class="tab active" data-tab="live">Microphone</button>
     <button class="tab" data-tab="paste">Paste transcript</button>
+    <button class="tab" data-tab="history">History</button>
   </div>
 
-  <!-- ============ LIVE CALL TAB ============ -->
+  <!-- ============ MICROPHONE TAB ============ -->
   <div class="tabpanel active" id="tab-live">
     <div class="browser-warn" id="browserWarn">Live transcription needs the Web Speech API — supported in Chrome/Edge. Your browser may not support it; use the "Paste transcript" tab instead, or attach a recording there.</div>
     <div class="grid">
       <div class="panel">
-        <h2>Live call</h2>
+        <h2>Microphone analysis</h2>
         <div class="lang-select">
           <button class="lang-btn active" data-lang="en-US">English</button>
           <button class="lang-btn" data-lang="hi-IN">हिन्दी (Hindi)</button>
         </div>
         <div class="row" style="margin-top:16px;">
-          <button class="btn" id="startBtn">Start live call</button>
+          <button class="btn" id="startBtn">Start microphone</button>
           <button class="btn stop" id="stopBtn" style="display:none;">Stop</button>
         </div>
         <div class="mic-row">
@@ -142,7 +152,7 @@
 
         <div style="margin-top:16px;">
           <h2 style="margin-bottom:8px;">Live transcript</h2>
-          <div class="live-transcript" id="liveTranscript"><span class="empty">Click "Start live call" and speak — your mic audio is analyzed on the server as you talk, nothing is stored after you stop.</span></div>
+          <div class="live-transcript" id="liveTranscript"><span class="empty">Click "Start microphone" and speak.</span></div>
         </div>
       </div>
 
@@ -161,7 +171,7 @@
 
     <div class="panel" style="margin-top:18px;">
       <h2>Agent reasoning log</h2>
-      <div class="log" id="logLive"><div class="empty">Start a live call to see the supervisor agent reason turn by turn.</div></div>
+      <div class="log" id="logLive"><div class="empty">Start analysis to see the supervisor agent reason turn by turn.</div></div>
     </div>
   </div>
 
@@ -179,7 +189,7 @@
           <label class="file-btn">Attach audio (optional, WAV)<input type="file" id="audioInput" accept="audio/*" style="display:none"></label>
           <span id="audioName"></span>
         </div>
-        <div class="row"><button class="btn" id="analyzeBtn">Analyze call</button></div>
+        <div class="row"><button class="btn" id="analyzeBtn">Analyze</button></div>
         <div class="note">No audio attached, the acoustic layer is skipped and the verdict runs on conversation content alone.</div>
       </div>
 
@@ -201,8 +211,24 @@
     </div>
   </div>
 
+  <div class="tabpanel" id="tab-history">
+    <div class="panel">
+      <h2>Session history</h2>
+      <p class="note">Up to 25 sessions are saved in this browser, including full transcripts. Delete entries or clear history on shared devices.</p>
+      <button class="chip" id="clearHistory" type="button">Clear history</button>
+      <p class="note" id="historyStatus" role="status"></p>
+      <div id="historyList"></div>
+    </div>
+  </div>
+  <dialog id="historyDialog" aria-labelledby="historyTitle">
+    <h2 id="historyTitle">Full transcript</h2>
+    <p class="note" id="historyDetail"></p>
+    <pre class="full-transcript" id="historyTranscript"></pre>
+    <button class="chip" id="closeHistoryDialog" type="button">Close</button>
+  </dialog>
+
   <footer>
-    <span>Detection runs on-device in the real app; this demo runs the same models server-side.</span>
+    <span>Voice authenticity and scam-intent analysis.</span>
     <span id="apiNote"></span>
   </footer>
 </div>
@@ -213,13 +239,23 @@ function verdictClass(a){ return a==='block'?'v-block':a==='warn'?'v-warn':'v-mo
 function meterColor(a){ return a==='block'?'var(--block)':a==='warn'?'var(--warn)':'var(--safe)'; }
 
 function appendLogEntry(logEl, entry, idx){
-  if(logEl.querySelector('.empty')) logEl.innerHTML = '';
+  if(logEl.querySelector('.empty')) logEl.replaceChildren();
   const row = document.createElement('div');
   row.className = 'log-entry';
   row.style.animationDelay = (idx*60)+'ms';
-  row.innerHTML = `<span class="log-time">${entry.time}</span><span class="log-action" style="color:${meterColor(entry.action)}">${entry.action}</span><span class="log-text">${entry.text}</span>`;
+  for(const [className, value] of [['log-time',entry.time], ['log-action',entry.action], ['log-text',entry.text]]){
+    const span = document.createElement('span');
+    span.className = className; span.textContent = String(value ?? '');
+    if(className==='log-action') span.style.color = meterColor(entry.action);
+    row.appendChild(span);
+  }
   logEl.appendChild(row);
   logEl.scrollTop = logEl.scrollHeight;
+}
+function showEmpty(element, text){
+  const message = document.createElement('div');
+  message.className = 'empty'; message.textContent = text;
+  element.replaceChildren(message);
 }
 function updateMeter(prefix, risk, action){
   const pct = Math.round(risk*100);
@@ -229,6 +265,93 @@ function updateMeter(prefix, risk, action){
   const badge = document.getElementById('verdictBadge'+prefix);
   badge.textContent = action; badge.className = 'verdict '+verdictClass(action);
 }
+
+/* ---------- browser preferences and local session history ---------- */
+const HISTORY_KEY='echoguard.history.v1', THEME_KEY='echoguard.theme.v1';
+const MAX_HISTORY=25, MAX_HISTORY_TRANSCRIPT=50000;
+let historyEntries=[], historyStorageWritable=true;
+function setTheme(theme){
+  document.documentElement.dataset.theme=theme;
+  document.getElementById('themeToggle').textContent=theme==='dark'?'Light theme':'Dark theme';
+  try{localStorage.setItem(THEME_KEY,theme);}catch(e){}
+}
+let initialTheme='dark';
+try{initialTheme=localStorage.getItem(THEME_KEY)==='light'?'light':'dark';}catch(e){}
+setTheme(initialTheme);
+document.getElementById('themeToggle').addEventListener('click',()=>setTheme(document.documentElement.dataset.theme==='dark'?'light':'dark'));
+function validHistoryEntry(entry){
+  return entry && typeof entry.id==='string' && entry.id.length<=100 && Number.isFinite(entry.timestamp) &&
+    ['microphone','transcript'].includes(entry.mode) && typeof entry.transcript==='string' && entry.transcript.length<=MAX_HISTORY_TRANSCRIPT &&
+    (entry.risk===null || (Number.isFinite(entry.risk) && entry.risk>=0 && entry.risk<=1)) &&
+    ['monitor','warn','block'].includes(entry.action) && typeof entry.unconfirmed==='boolean';
+}
+function loadHistory(){
+  try{
+    const raw=localStorage.getItem(HISTORY_KEY);
+    if(!raw) return;
+    if(raw.length>4*1024*1024) throw new Error('Saved history is too large');
+    const parsed=JSON.parse(raw);
+    if(!Array.isArray(parsed) || !parsed.every(validHistoryEntry)) throw new Error('Invalid saved history');
+    historyEntries=parsed.slice(0,MAX_HISTORY);
+  }catch(e){historyStorageWritable=false;document.getElementById('historyStatus').textContent='Saved history could not be loaded. New entries will remain available on this page. Clear history to reset browser storage.';}
+}
+function persistHistory(){
+  if(!historyStorageWritable) return;
+  try{
+    localStorage.setItem(HISTORY_KEY,JSON.stringify(historyEntries));
+    document.getElementById('historyStatus').textContent='';
+  }catch(e){document.getElementById('historyStatus').textContent='Browser storage is unavailable or full. History changes are only available on this page.';}
+}
+function historyLabel(entry){return (entry.mode==='microphone'?'Microphone session':'Transcript analysis')+' · '+new Date(entry.timestamp).toLocaleString();}
+function openHistory(id){
+  const entry=historyEntries.find(item=>item.id===id); if(!entry) return;
+  document.getElementById('historyTitle').textContent=historyLabel(entry);
+  document.getElementById('historyDetail').textContent=entry.unconfirmed?
+    (entry.risk===null?'Some text was not confirmed scored. No confirmed risk is available.':'Some text was not confirmed scored. The displayed risk applies to the last confirmed analysis.'):'Full transcript';
+  document.getElementById('historyTranscript').textContent=entry.transcript || 'No transcript was captured.';
+  document.getElementById('historyDialog').showModal();
+}
+function deleteHistory(id){
+  historyEntries=historyEntries.filter(entry=>entry.id!==id); persistHistory(); renderHistory();
+}
+function renderHistory(){
+  const list=document.getElementById('historyList'); list.replaceChildren();
+  if(!historyEntries.length){showEmpty(list,'No saved sessions yet.'); return;}
+  for(const entry of historyEntries){
+    const row=document.createElement('div'); row.className='history-entry';
+    const title=document.createElement('h3'); title.textContent=historyLabel(entry); row.appendChild(title);
+    const detail=document.createElement('p'); detail.className='note';
+    detail.textContent=entry.risk===null?'No confirmed analysis':Math.round(entry.risk*100)+'% risk · '+entry.action;
+    if(entry.unconfirmed) detail.textContent+=' · some text not confirmed scored';
+    row.appendChild(detail);
+    const preview=document.createElement('p'); preview.className='history-preview';
+    preview.textContent=entry.transcript.slice(0,100)+(entry.transcript.length>100?'…':''); row.appendChild(preview);
+    const actions=document.createElement('div'); actions.className='history-actions';
+    for(const [label,handler] of [['View full transcript',()=>openHistory(entry.id)],['Delete',()=>deleteHistory(entry.id)]]){
+      const button=document.createElement('button'); button.type='button'; button.className='chip'; button.textContent=label;
+      button.addEventListener('click',handler); actions.appendChild(button);
+    }
+    row.appendChild(actions); list.appendChild(row);
+  }
+}
+function saveHistory(entry){
+  if(entry.transcript.length>MAX_HISTORY_TRANSCRIPT){
+    document.getElementById('historyStatus').textContent='Transcript exceeds the history limit and was not saved. Text remains visible in the analysis tab.'; return;
+  }
+  if(!validHistoryEntry(entry)) return;
+  historyEntries=[entry,...historyEntries.filter(item=>item.id!==entry.id)].slice(0,MAX_HISTORY);
+  persistHistory(); renderHistory();
+}
+loadHistory(); renderHistory();
+document.getElementById('closeHistoryDialog').addEventListener('click',()=>document.getElementById('historyDialog').close());
+document.getElementById('clearHistory').addEventListener('click',()=>{
+  if(!window.confirm('Clear all saved session history?')) return;
+  historyEntries=[];
+  try{localStorage.removeItem(HISTORY_KEY);historyStorageWritable=true;document.getElementById('historyStatus').textContent='';}
+  catch(e){document.getElementById('historyStatus').textContent='Saved browser history could not be removed. Clear site data in browser settings.';}
+  document.getElementById('historyDialog').close();
+  document.getElementById('historyTranscript').textContent=''; renderHistory();
+});
 
 /* ---------- tabs ---------- */
 document.querySelectorAll('.tab').forEach(t=>{
@@ -245,7 +368,7 @@ const EXAMPLES = {
   scam: "Good afternoon, I am calling from your bank's security department regarding a suspicious transaction on your account. Someone tried to withdraw a large amount from your account just now. To block this, I need to verify your identity. You will receive a 6 digit OTP on your registered mobile number, please read it out to me so I can cancel the transaction before the money is deducted.",
   benign: "Hi, this is the clinic calling to remind you about your appointment tomorrow at 4pm. Would you like to reschedule or confirm? Great, we'll see you then, have a good day."
 };
-document.querySelectorAll('.chip').forEach(btn=>{
+document.querySelectorAll('.chip[data-example]').forEach(btn=>{
   btn.addEventListener('click', ()=>{ document.getElementById('transcript').value = EXAMPLES[btn.dataset.example]; });
 });
 const audioInput = document.getElementById('audioInput');
@@ -266,20 +389,22 @@ document.getElementById('analyzeBtn').addEventListener('click', async ()=>{
     updateMeter('', data.risk_score, data.action);
     document.getElementById('scamScore').textContent = data.scam_score.toFixed(2);
     document.getElementById('spoofScore').textContent = data.spoof_used ? data.spoof_score.toFixed(2) : 'no audio provided';
-    const log = document.getElementById('log'); log.innerHTML='';
+    const log = document.getElementById('log'); log.replaceChildren();
     data.reasoning_log.forEach((e,i)=>appendLogEntry(log,e,i));
+    saveHistory({id:crypto.randomUUID(),timestamp:Date.now(),mode:'transcript',transcript,
+      risk:data.risk_score,action:data.action,unconfirmed:false});
   }catch(e){
-    document.getElementById('log').innerHTML = `<div class="empty">Error: ${e.message}</div>`;
+    showEmpty(document.getElementById('log'), 'Error: '+e.message);
   }finally{
-    btn.disabled=false; btn.textContent='Analyze call';
+    btn.disabled=false; btn.textContent='Analyze';
   }
 });
 
-/* ================= LIVE CALL TAB ================= */
+/* ================= MICROPHONE TAB ================= */
 let currentLang = 'en-US';
 document.querySelectorAll('.lang-btn').forEach(b=>{
   b.addEventListener('click', ()=>{
-    if(liveActive) return; // don't switch mid-call
+    if(liveActive) return; // Keep language fixed during analysis.
     document.querySelectorAll('.lang-btn').forEach(x=>x.classList.remove('active'));
     b.classList.add('active');
     currentLang = b.dataset.lang;
@@ -290,44 +415,23 @@ const SpeechRecognitionImpl = window.SpeechRecognition || window.webkitSpeechRec
 if(!SpeechRecognitionImpl){ document.getElementById('browserWarn').style.display='block'; }
 
 let liveActive = false;
-let sessionId = null;
-let recognition = null;
-let audioCtx = null, micStream = null, sourceNode = null, processorNode = null;
-let chunkBuffer = [];
-let chunkSampleRate = 16000;
-// 4s was too aggressive for the free-tier instance (0.1 CPU) - AASIST-L
-// inference on a chunk can take longer than that to run, so chunks piled
-// up faster than the server could process them and crashed it (502/503/429
-// cycling). 8s gives each chunk enough wall-clock time to finish.
+let currentCall = null;
 const CHUNK_SECONDS = 8;
-let logCounter = 0;
-
-// --- backend health tracking -------------------------------------------
-// If the server starts failing repeatedly (crash-looping under load), keep
-// hammering it with more requests only makes recovery slower. Back off for
-// a cooldown window instead, and skip sending chunks/turns during it.
-let consecutiveFailures = 0;
-let cooldownUntil = 0;
-let audioChunkInFlight = false;
 const FAILURE_THRESHOLD = 3;
 const COOLDOWN_MS = 15000;
+const MAX_PENDING_CHARS = 50000;
 
-function inCooldown(){ return Date.now() < cooldownUntil; }
-
-function recordFailure(){
-  consecutiveFailures++;
-  if(consecutiveFailures >= FAILURE_THRESHOLD){
-    cooldownUntil = Date.now() + COOLDOWN_MS;
-    consecutiveFailures = 0;
-    if(liveActive) setMic(true, 'server is busy — pausing briefly…');
-  }
+function isCurrent(call){ return currentCall===call && !call.stopped; }
+function inCooldown(call){ return Date.now() < call.cooldownUntil; }
+function recordFailure(call){
+  if(!isCurrent(call)) return;
+  call.failures++;
+  call.cooldownUntil = Date.now() + (call.failures>=FAILURE_THRESHOLD ? COOLDOWN_MS : 1000);
+  setMic(true, 'server is busy — transcript queued for retry…');
 }
-
-function recordSuccess(){
-  const wasCoolingDown = cooldownUntil > 0;
-  consecutiveFailures = 0;
-  cooldownUntil = 0;
-  if(wasCoolingDown && liveActive) setMic(true, 'listening…');
+function recordSuccess(call){
+  call.failures = 0; call.cooldownUntil = 0;
+  if(isCurrent(call)) setMic(true, 'listening…');
 }
 
 function setMic(on, statusText){
@@ -353,137 +457,212 @@ function floatTo16WavBlob(samples, sampleRate){
   return new Blob([view], {type:'audio/wav'});
 }
 
-async function sendAudioChunk(samples, sampleRate){
-  // Drop this chunk rather than queue it: if the previous chunk is still
-  // being processed or the backend is cooling down, sending more just adds
-  // to the pile-up that caused the crash loop in the first place.
-  if(audioChunkInFlight || inCooldown()) return;
-  audioChunkInFlight = true;
+async function liveRequest(call, route, form){
+  const requestAbort = new AbortController();
+  const cancel = ()=>requestAbort.abort();
+  call.abort.signal.addEventListener('abort',cancel,{once:true});
+  if(call.abort.signal.aborted) cancel();
+  const timeout=setTimeout(cancel,30000);
+  try{
+    const res = await fetch(route, {method:'POST', body:form, signal:requestAbort.signal});
+    const data = await res.json();
+    if(!res.ok){ const error=new Error(data.error || data.detail || 'Request failed'); error.status=res.status; throw error; }
+    return data;
+  }finally{
+    clearTimeout(timeout); call.abort.signal.removeEventListener('abort',cancel);
+  }
+}
+function applyLiveResponse(call, data){
+  if(!isCurrent(call)) return;
+  const revision = data.revision ?? call.revision+1;
+  if(revision>=call.revision){
+    call.revision = revision;
+    call.assessment={risk:data.risk_score,action:data.action || data.new_entry?.action || 'monitor'};
+    if(data.scam_score!=null) document.getElementById('scamScoreLive').textContent = data.scam_score.toFixed(2);
+    if(data.spoof_score!=null) document.getElementById('spoofScoreLive').textContent = data.spoof_score.toFixed(2);
+    updateMeter('Live',data.risk_score,data.action || data.new_entry?.action || 'monitor');
+  }
+  if(data.new_entry) appendLogEntry(document.getElementById('logLive'),data.new_entry,call.logCounter++);
+}
+function handleLiveFailure(call, error){
+  if(!isCurrent(call)) return;
+  if(error.status && error.status<500 && ![408,429].includes(error.status)){
+    stopLiveCall('Analysis stopped: '+error.message); return;
+  }
+  recordFailure(call);
+}
+async function sendAudioChunk(call, samples, sampleRate){
+  // Audio is best-effort and bounded; transcript turns use a reliable ordered queue.
+  if(!isCurrent(call) || call.audioBusy || inCooldown(call)) return;
+  call.audioBusy = true;
   const blob = floatTo16WavBlob(samples, sampleRate);
   const form = new FormData();
-  form.append('session_id', sessionId);
+  form.append('session_id', call.sid);
   form.append('audio', blob, 'chunk.wav');
   try{
-    const res = await fetch('/api/live/audio-chunk', {method:'POST', body:form});
-    const data = await res.json();
-    if(!res.ok){ console.error('[audio-chunk] backend error', res.status, data); recordFailure(); return; }
-    recordSuccess();
-    document.getElementById('spoofScoreLive').textContent = data.spoof_score.toFixed(2);
-    updateMeter('Live', data.risk_score, data.new_entry ? data.new_entry.action : (document.getElementById('verdictBadgeLive').textContent));
-    if(data.new_entry) appendLogEntry(document.getElementById('logLive'), data.new_entry, logCounter++);
-  }catch(e){ console.error('[audio-chunk] request failed', e); recordFailure(); }
-  finally{ audioChunkInFlight = false; }
+    const data = await liveRequest(call,'/api/live/audio-chunk',form);
+    if(!isCurrent(call)) return;
+    recordSuccess(call); applyLiveResponse(call,data);
+  }catch(e){ handleLiveFailure(call,e); }
+  finally{ call.audioBusy = false; }
 }
 
-async function sendTurn(text){
-  if(!text.trim()) return;
+function sendTurn(call, text){
+  if(!isCurrent(call) || !text.trim()) return;
+  call.transcriptParts.push(text);
   const transcriptEl = document.getElementById('liveTranscript');
-  if(transcriptEl.querySelector('.empty')) transcriptEl.innerHTML = '';
+  if(transcriptEl.querySelector('.empty')) transcriptEl.replaceChildren();
   const p = document.createElement('div'); p.textContent = text; transcriptEl.appendChild(p);
   transcriptEl.scrollTop = transcriptEl.scrollHeight;
 
-  // Still show the text locally even during a cooldown - just don't send
-  // it to an already-struggling backend. It'll be part of running_transcript
-  // context server-side once things recover and a later turn comes through
-  // (the server accumulates from session state, not from this one call).
-  if(inCooldown()) return;
-
-  const form = new FormData();
-  form.append('session_id', sessionId);
-  form.append('text', text);
+  if(call.pending.reduce((n,t)=>n+t.text.length,0)+text.length>MAX_PENDING_CHARS){
+    call.unqueuedText=true;
+    stopLiveCall('Analysis stopped: transcript retry queue is full. Unsent text remains visible.'); return;
+  }
+  call.pending.push({text,id:call.token+'-'+call.nextTurn++});
+  flushTurns(call);
+}
+async function flushTurns(call){
+  if(!isCurrent(call) || call.turnBusy || !call.sid || !call.pending.length) return;
+  if(inCooldown(call)){
+    clearTimeout(call.retryTimer);
+    call.retryTimer=setTimeout(()=>flushTurns(call),Math.max(1,call.cooldownUntil-Date.now())); return;
+  }
+  call.turnBusy=true;
   try{
-    const res = await fetch('/api/live/turn', {method:'POST', body:form});
+    while(isCurrent(call) && call.pending.length && !inCooldown(call)){
+      const turn=call.pending[0]; const form=new FormData();
+      form.append('session_id',call.sid); form.append('text',turn.text); form.append('turn_id',turn.id);
+      const data=await liveRequest(call,'/api/live/turn',form);
+      if(!isCurrent(call)) return;
+      call.pending.shift(); recordSuccess(call); applyLiveResponse(call,data);
+    }
+  }catch(e){ handleLiveFailure(call,e); }
+  finally{
+    call.turnBusy=false;
+    if(isCurrent(call) && call.pending.length){
+      clearTimeout(call.retryTimer);
+      call.retryTimer=setTimeout(()=>flushTurns(call),Math.max(1,call.cooldownUntil-Date.now()));
+    }
+  }
+}
+function endSession(sid){
+  if(!sid) return;
+  const form=new FormData(); form.append('session_id',sid);
+  return fetch('/api/live/end',{method:'POST',body:form,keepalive:true}).catch(()=>{});
+}
+function releaseCall(call){
+  if(!call.historySaved){
+    call.historySaved=true;
+    const transcript=[...call.transcriptParts,call.interimText].filter(Boolean).join(' ').trim();
+    if(transcript || call.assessment) saveHistory({id:call.token,timestamp:call.startedAt,mode:'microphone',transcript,
+      risk:call.assessment?.risk ?? null,action:call.assessment?.action || 'monitor',
+      unconfirmed:call.pending.length>0 || !!call.interimText || !!call.unqueuedText});
+  }
+  call.stopped=true; call.abort.abort(); clearTimeout(call.retryTimer);
+  if(call.recognition){ call.recognition.onend=null; call.recognition.onresult=null; try{call.recognition.abort();}catch(e){} }
+  if(call.processor){ call.processor.onaudioprocess=null; call.processor.disconnect(); }
+  if(call.source) call.source.disconnect();
+  if(call.stream) call.stream.getTracks().forEach(t=>t.stop());
+  if(call.ctx) call.ctx.close().catch(()=>{});
+  call.chunks=[];
+  endSession(call.sid);
+}
+
+async function startSession(){
+  // Do not cancel on Stop: a late successful response must still be ended.
+  // A network stall is bounded so startup cannot hold the microphone forever.
+  const abort = new AbortController();
+  const timeout = setTimeout(()=>abort.abort(),30000);
+  try{
+    const res = await fetch('/api/live/start',{method:'POST',signal:abort.signal});
     const data = await res.json();
-    if(!res.ok){ console.error('[live/turn] backend error', res.status, data); recordFailure(); return; }
-    recordSuccess();
-    document.getElementById('scamScoreLive').textContent = data.scam_score.toFixed(2);
-    updateMeter('Live', data.risk_score, data.new_entry ? data.new_entry.action : (document.getElementById('verdictBadgeLive').textContent));
-    if(data.new_entry) appendLogEntry(document.getElementById('logLive'), data.new_entry, logCounter++);
-  }catch(e){ console.error('[live/turn] request failed', e); recordFailure(); }
+    if(!res.ok || !data.session_id) throw new Error(data.error || 'Session startup failed');
+    return data.session_id;
+  }finally{ clearTimeout(timeout); }
 }
 
 async function startLiveCall(){
-  if(!SpeechRecognitionImpl){ return; }
-  logCounter = 0;
-  consecutiveFailures = 0;
-  cooldownUntil = 0;
-  audioChunkInFlight = false;
-  document.getElementById('liveTranscript').innerHTML = '<span class="empty">Listening…</span>';
-  document.getElementById('logLive').innerHTML = '<div class="empty">Listening for signals…</div>';
+  if(!SpeechRecognitionImpl || currentCall) return;
+  const call={token:crypto.randomUUID(),sid:null,stopped:false,abort:new AbortController(),
+    pending:[],nextTurn:0,turnBusy:false,audioBusy:false,failures:0,cooldownUntil:0,
+    retryTimer:null,revision:0,logCounter:0,chunks:[],transcriptParts:[],interimText:'',startedAt:Date.now(),historySaved:false,assessment:null};
+  currentCall=call; liveActive=true;
+  document.getElementById('startBtn').style.display='none';
+  document.getElementById('stopBtn').style.display='inline-block';
+  setMic(false,'starting…');
+  showEmpty(document.getElementById('liveTranscript'),'Listening…');
+  showEmpty(document.getElementById('logLive'),'Listening for signals…');
   updateMeter('Live', 0, 'monitor');
   document.getElementById('scamScoreLive').textContent = '—';
   document.getElementById('spoofScoreLive').textContent = '—';
 
-  const startRes = await fetch('/api/live/start', {method:'POST'});
-  const startData = await startRes.json();
-  sessionId = startData.session_id;
-
   try{
-    micStream = await navigator.mediaDevices.getUserMedia({audio:true});
-  }catch(e){
-    setMic(false, 'microphone permission denied');
-    return;
-  }
-
-  audioCtx = new (window.AudioContext||window.webkitAudioContext)();
-  chunkSampleRate = audioCtx.sampleRate;
-  sourceNode = audioCtx.createMediaStreamSource(micStream);
-  processorNode = audioCtx.createScriptProcessor(4096, 1, 1);
-  chunkBuffer = [];
-  processorNode.onaudioprocess = (e)=>{
+    call.stream=await navigator.mediaDevices.getUserMedia({audio:true});
+    if(!isCurrent(call)){ releaseCall(call); return; }
+    call.sid=await startSession();
+    if(!isCurrent(call)){ releaseCall(call); return; }
+    call.ctx=new (window.AudioContext||window.webkitAudioContext)();
+    await call.ctx.resume();
+    if(!isCurrent(call)){ releaseCall(call); return; }
+    const sampleRate=call.ctx.sampleRate;
+    call.source=call.ctx.createMediaStreamSource(call.stream);
+    call.processor=call.ctx.createScriptProcessor(4096,1,1);
+    call.processor.onaudioprocess=(e)=>{
+    if(!isCurrent(call)) return;
     const input = e.inputBuffer.getChannelData(0);
-    chunkBuffer.push(new Float32Array(input));
-    const totalSamples = chunkBuffer.reduce((a,b)=>a+b.length,0);
-    if(totalSamples >= chunkSampleRate * CHUNK_SECONDS){
+    call.chunks.push(new Float32Array(input));
+    const totalSamples = call.chunks.reduce((a,b)=>a+b.length,0);
+    if(totalSamples >= sampleRate * CHUNK_SECONDS){
       const merged = new Float32Array(totalSamples);
-      let off=0; for(const c of chunkBuffer){ merged.set(c, off); off+=c.length; }
-      chunkBuffer = [];
-      sendAudioChunk(merged, chunkSampleRate);
+      let off=0; for(const c of call.chunks){ merged.set(c, off); off+=c.length; }
+      call.chunks=[];
+      sendAudioChunk(call,merged,sampleRate);
     }
   };
-  sourceNode.connect(processorNode);
-  processorNode.connect(audioCtx.destination);
+  call.source.connect(call.processor);
+  call.processor.connect(call.ctx.destination);
 
-  recognition = new SpeechRecognitionImpl();
+  const recognition = call.recognition = new SpeechRecognitionImpl();
   recognition.continuous = true;
   recognition.interimResults = true;
   recognition.lang = currentLang;
   recognition.onresult = (event)=>{
+    if(!isCurrent(call)) return;
+    call.interimText=Array.from(event.results).filter(result=>!result.isFinal).map(result=>result[0].transcript).join(' ');
     for(let i=event.resultIndex; i<event.results.length; i++){
       if(event.results[i].isFinal){
-        sendTurn(event.results[i][0].transcript);
+        sendTurn(call,event.results[i][0].transcript);
       }
     }
   };
-  recognition.onerror = (e)=>{ if(e.error!=='no-speech') console.warn('speech recognition error', e.error); };
-  recognition.onend = ()=>{ if(liveActive) recognition.start(); }; // browsers auto-stop after silence; restart while still live
+  recognition.onerror = (e)=>{
+    if(isCurrent(call) && ['not-allowed','service-not-allowed','audio-capture'].includes(e.error)) stopLiveCall('Speech recognition failed: '+e.error);
+  };
+  recognition.onend = ()=>{
+    if(isCurrent(call)){ try{recognition.start();}catch(e){stopLiveCall('Speech recognition stopped: '+e.message);} }
+  };
   recognition.start();
 
-  liveActive = true;
   setMic(true, 'listening…');
-  document.getElementById('startBtn').style.display='none';
-  document.getElementById('stopBtn').style.display='inline-block';
+  }catch(e){
+    if(isCurrent(call)) stopLiveCall('Could not start: '+e.message);
+    else releaseCall(call);
+  }
 }
 
-async function stopLiveCall(){
-  liveActive = false;
-  if(recognition){ recognition.onend=null; recognition.stop(); recognition=null; }
-  if(processorNode){ processorNode.disconnect(); processorNode=null; }
-  if(sourceNode){ sourceNode.disconnect(); sourceNode=null; }
-  if(micStream){ micStream.getTracks().forEach(t=>t.stop()); micStream=null; }
-  if(audioCtx){ audioCtx.close(); audioCtx=null; }
-  setMic(false, 'not listening');
+function stopLiveCall(message){
+  const call=currentCall; currentCall=null; liveActive=false;
+  if(call) releaseCall(call);
+  const unsent=call?.pending.length || 0;
+  setMic(false, typeof message==='string' ? message : (unsent ? `Stopped — ${unsent} unsent turn(s) remain visible` : 'not listening'));
   document.getElementById('startBtn').style.display='inline-block';
   document.getElementById('stopBtn').style.display='none';
-  if(sessionId){
-    const form = new FormData(); form.append('session_id', sessionId);
-    fetch('/api/live/end', {method:'POST', body:form}).catch(()=>{});
-    sessionId = null;
-  }
 }
 
 document.getElementById('startBtn').addEventListener('click', startLiveCall);
 document.getElementById('stopBtn').addEventListener('click', stopLiveCall);
+window.addEventListener('pagehide',()=>stopLiveCall());
 </script>
 </body>
 </html>

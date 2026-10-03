@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "echoguard-ai"
+version = "0.1.0"
+description = "Acoustic and semantic voice-scam detection for Android and the web"
+readme = "README.md"
+requires-python = ">=3.10"
+# Runtime environments are intentionally separate. In particular, the deployed
+# web service must not pull in torch or sentence-transformers via this package.
+dependencies = []
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tools/tests"]
+python_files = ["test_*.py"]

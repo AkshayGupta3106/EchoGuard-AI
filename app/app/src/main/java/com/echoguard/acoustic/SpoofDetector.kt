@@ -1,19 +1,12 @@
 /**
- * SpoofDetector.kt
- * Owner: Person A (acoustic stream)
- *
- * Android port of spoof_detector.py's RollingSpoofScorer, using the ONNX
- * export produced by export_onnx.py (aasist_l.onnx) - verified to produce
- * identical output to the original PyTorch checkpoint before export.
- *
- * Same model contract as the Python version:
+ * Rolling on-device AASIST-L ONNX inference with the packaged INT8 asset.
+ * Model contract:
  *   input:  "waveform" [1, 64600] float32, 16kHz mono raw audio
  *           (NOT a spectrogram - AASIST-L has its own SincConv front-end)
  *   output: "embedding" [1, 160], "logits" [1, 2]
  *           logits index 0 = spoof, index 1 = bonafide
  *
- * Setup: bundle aasist_l.onnx as an Android asset,
- *   implementation("com.microsoft.onnxruntime:onnxruntime-android:latest.release")
+ * Asset: models/aasist_l.onnx. Runtime dependency is configured in build.gradle.kts.
  */
 
 package com.echoguard.acoustic
@@ -23,7 +16,6 @@ import ai.onnxruntime.OnnxTensor
 import ai.onnxruntime.OrtEnvironment
 import ai.onnxruntime.OrtSession
 import java.io.File
-import java.io.FileOutputStream
 import java.nio.FloatBuffer
 import kotlin.math.exp
 
@@ -44,6 +36,7 @@ class SpoofDetector(
 
     private var env: OrtEnvironment? = null
     private var session: OrtSession? = null
+    val available: Boolean get() = session != null && env != null
     // Memory-efficient ring buffer of raw audio samples
     private val buffer = FloatArray(WINDOW_SAMPLES)
     private var bufferPos = 0
@@ -68,18 +61,11 @@ class SpoofDetector(
                     setInterOpNumThreads(1)
                     setExecutionMode(OrtSession.SessionOptions.ExecutionMode.SEQUENTIAL)
                 }
-                if (!modelFile.exists() || !dataFile.exists() || modelFile.length() == 0L || dataFile.length() == 0L) {
-                    modelFile.delete()
-                    dataFile.delete()
-                    context.assets.open(modelAssetPath).use { input ->
-                        FileOutputStream(modelFile).use { output -> input.copyTo(output) }
-                    }
-                    context.assets.open("$modelAssetPath.data").use { input ->
-                        FileOutputStream(dataFile).use { output -> input.copyTo(output) }
-                    }
+                opts.use {
+                    copyModelAsset(context, modelAssetPath, "aasist_l.onnx")
+                    session = env?.createSession(modelFile.absolutePath, it)
                 }
-                
-                session = env?.createSession(modelFile.absolutePath, opts)
+                android.util.Log.i("SpoofDetector", "AASIST ONNX session ready")
             }
         } catch (e: Throwable) {
             android.util.Log.e("SpoofDetector", "Failed to load ONNX session", e)
@@ -92,7 +78,7 @@ class SpoofDetector(
         }
     }
 
-    /** Feed small chunks continuously (post-VAD) from your audio capture loop. */
+    /** Append waveform chunks to the rolling acoustic buffer. */
     fun push(samples: FloatArray) = synchronized(lock) {
         for (s in samples) {
             buffer[bufferPos] = s
@@ -103,16 +89,12 @@ class SpoofDetector(
 
     data class Result(val spoofScore: Float, val bonafideScore: Float, val inferenceMs: Long)
 
-    /** Call every 1-2 seconds. If less than ~4s has been buffered yet, the
-     * buffer is tiled to fill the window - same behavior as the Python
-     * reference implementation (matches the original AASIST eval recipe). */
+    /** Score the rolling buffer on demand, tiling short input to the model window. */
     fun score(): Result {
         val currentEnv = env ?: return Result(0f, 1f, 0)
         val currentSession = session ?: return Result(0f, 1f, 0)
 
-        // Take a snapshot of the buffer under the lock, then release immediately
-        // so the audio capture loop's push() calls aren't blocked for the
-        // entire ~750ms ONNX inference window.
+        // Snapshot under the buffer lock so inference does not block audio appends.
         val raw: FloatArray = synchronized(lock) {
             if (bufferFilled == 0) return Result(0f, 1f, 0)
             
@@ -184,20 +166,3 @@ class SpoofDetector(
         env = null
     }
 }
-
-/**
- * --- Day-1 test harness ---
- * This is the single most important test in the whole plan: run this
- * against your actual demo clone clip, not synthetic audio.
- *
- * val detector = SpoofDetector(assets)
- * val clipSamples: FloatArray = loadWavAsFloatArray(demoClipFile)  // 16kHz mono
- * detector.push(clipSamples)
- * val result = detector.score()
- * Log.d("AasistTest", "spoof=${result.spoofScore} bonafide=${result.bonafideScore} " +
- *       "took ${result.inferenceMs}ms")
- * // On this dev sandbox's CPU, the equivalent PyTorch inference took
- * // ~750-1000ms per 4s window - expect Android CPU inference to be in a
- * // similar ballpark or slower; confirm it's acceptable for a score that
- * // updates every 1-2s, and profile on your actual target phone.
- */

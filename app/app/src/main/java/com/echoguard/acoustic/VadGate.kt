@@ -1,20 +1,13 @@
 /**
- * VadGate.kt
- * Owner: Person A (acoustic stream)
- *
- * Android port of vad_gate.py - same model (silero_vad.onnx), same I/O
- * contract, confirmed against the actual model file:
+ * Silero ONNX speech-probability inference with carried recurrent state.
+ * Model contract:
  *   inputs:  "input" [1, N] float32, "state" [2,1,128] float32,
  *            "sr" scalar int64
  *   outputs: "output" [1,1] float32 speech probability, "stateN" new state
  *
- * The recurrent state MUST be carried between calls (assign the returned
- * stateN back into the next call's state input) - this is the detail
- * that's easy to miss and silently degrades VAD accuracy if skipped.
+ * Each inference updates state from stateN; reset between audio sessions.
  *
- * Setup: bundle silero_vad.onnx (from aasist_model/) as an Android asset,
- * add the ONNX Runtime Mobile dependency:
- *   implementation("com.microsoft.onnxruntime:onnxruntime-android:latest.release")
+ * Gradle stages models/silero_vad.onnx from the acoustic model directory.
  */
 
 package com.echoguard.acoustic
@@ -37,6 +30,7 @@ class VadGate(
 
     private var env: OrtEnvironment? = null
     private var session: OrtSession? = null
+    val available: Boolean get() = session != null && env != null
     private var state = FloatArray(2 * 1 * 128)  // zeroed recurrent state
 
     init {
@@ -46,8 +40,11 @@ class VadGate(
                 setIntraOpNumThreads(1)
                 setInterOpNumThreads(1)
             }
-            val modelBytes = assetManager.open(modelAssetPath).readBytes()
-            session = env?.createSession(modelBytes, opts)
+            opts.use {
+                val modelBytes = assetManager.open(modelAssetPath).use { it.readBytes() }
+                session = env?.createSession(modelBytes, it)
+            }
+            android.util.Log.i("VadGate", "VAD ONNX session ready")
         } catch (e: Throwable) {
             android.util.Log.e("VadGate", "Failed to load ONNX session", e)
             env = null
@@ -55,8 +52,7 @@ class VadGate(
         }
     }
 
-    /** Call at the start of each new call/session - stale state from a
-     * previous call skews the first few predictions. */
+    /** Clear recurrent state between independent audio sessions. */
     fun reset() {
         state = FloatArray(2 * 1 * 128)
     }
@@ -75,20 +71,27 @@ class VadGate(
             val inputTensor = OnnxTensor.createTensor(
                 currentEnv, FloatBuffer.wrap(padded), longArrayOf(1, CHUNK_SAMPLES.toLong())
             )
-            val stateTensor = OnnxTensor.createTensor(
-                currentEnv, FloatBuffer.wrap(state), longArrayOf(2, 1, 128)
-            )
-            val srTensor = OnnxTensor.createTensor(
-                currentEnv, LongBuffer.wrap(longArrayOf(SAMPLE_RATE)), longArrayOf()
-            )
-
-            val inputs = mapOf("input" to inputTensor, "state" to stateTensor, "sr" to srTensor)
-            currentSession.run(inputs).use { results ->
-                val prob = (results.get(0).value as Array<FloatArray>)[0][0]
-                val newState = results.get(1).value as Array<Array<FloatArray>>
-                // Flatten [2,1,128] back into our stored FloatArray for the next call.
-                state = FloatArray(2 * 128) { i -> newState[i / 128][0][i % 128] }
-                Result(speechProb = prob, isSpeech = prob >= threshold)
+            inputTensor.use {
+                val stateTensor = OnnxTensor.createTensor(
+                    currentEnv, FloatBuffer.wrap(state), longArrayOf(2, 1, 128)
+                )
+                stateTensor.use {
+                    val srTensor = OnnxTensor.createTensor(
+                        currentEnv, LongBuffer.wrap(longArrayOf(SAMPLE_RATE)), longArrayOf()
+                    )
+                    srTensor.use {
+                        val inputs = mapOf("input" to inputTensor, "state" to stateTensor, "sr" to srTensor)
+                        currentSession.run(inputs).use { results ->
+                            @Suppress("UNCHECKED_CAST")
+                            val prob = (results.get(0).value as Array<FloatArray>)[0][0]
+                            @Suppress("UNCHECKED_CAST")
+                            val newState = results.get(1).value as Array<Array<FloatArray>>
+                            // Flatten [2,1,128] back into our stored FloatArray for the next call.
+                            state = FloatArray(2 * 128) { i -> newState[i / 128][0][i % 128] }
+                            Result(speechProb = prob, isSpeech = prob >= threshold)
+                        }
+                    }
+                }
             }
         } catch (e: Throwable) {
             android.util.Log.e("VadGate", "isSpeech inference failed", e)

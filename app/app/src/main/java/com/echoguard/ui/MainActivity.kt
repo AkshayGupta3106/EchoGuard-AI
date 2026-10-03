@@ -4,6 +4,9 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.enableEdgeToEdge
+import androidx.activity.SystemBarStyle
+import androidx.activity.viewModels
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.*
@@ -16,6 +19,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -26,6 +30,7 @@ import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.PhoneInTalk
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -47,7 +52,7 @@ import java.util.Date
 import java.util.Locale
 
 // ──────────────────────────────────────────────────────────────────────────────
-// Design tokens - Minimalist Light Beige (Lovable style) + Dark Mode
+// Light/dark design tokens.
 // ──────────────────────────────────────────────────────────────────────────────
 
 val LocalThemeIsDark = compositionLocalOf { false }
@@ -57,18 +62,20 @@ private val SurfaceWhite: Color @Composable get() = if (LocalThemeIsDark.current
 private val DividerColor: Color @Composable get() = if (LocalThemeIsDark.current) Color(0xFF333333) else Color(0xFFE2E0D8)
 
 private val TextDark: Color @Composable get() = if (LocalThemeIsDark.current) Color(0xFFF5F5F5) else Color(0xFF1E1E1E)
-private val TextMuted: Color @Composable get() = if (LocalThemeIsDark.current) Color(0xFFAAAAAA) else Color(0xFF888888)
-private val TextMutedLight: Color @Composable get() = if (LocalThemeIsDark.current) Color(0xFF777777) else Color(0xFFAAAAAA)
+private val TextMuted: Color @Composable get() = if (LocalThemeIsDark.current) Color(0xFFBBBBBB) else Color(0xFF65635D)
+private val TextMutedLight: Color @Composable get() = if (LocalThemeIsDark.current) Color(0xFFAAAAAA) else Color(0xFF716D63)
 
 private val AccentRed: Color @Composable get() = if (LocalThemeIsDark.current) Color(0xFFE57373) else Color(0xFFB83A35)
 private val AccentGreen: Color @Composable get() = if (LocalThemeIsDark.current) Color(0xFF81C784) else Color(0xFF155A38)
-private val AccentAmber: Color @Composable get() = if (LocalThemeIsDark.current) Color(0xFFFFB74D) else Color(0xFFD97706)
+private val AccentAmber: Color @Composable get() = if (LocalThemeIsDark.current) Color(0xFFFFB74D) else Color(0xFF9A5400)
 
 // ──────────────────────────────────────────────────────────────────────────────
 // Activity
 // ──────────────────────────────────────────────────────────────────────────────
 
 class MainActivity : ComponentActivity() {
+
+    private val pipelineViewModel: PipelineViewModel by viewModels()
 
     private var pendingAction: (() -> Unit)? = null
 
@@ -77,6 +84,8 @@ class MainActivity : ComponentActivity() {
     ) { result ->
         if (result.values.all { it }) {
             pendingAction?.invoke()
+        } else {
+            android.widget.Toast.makeText(this, "Microphone permission is needed for audio analysis. Enable it in Settings and try again.", android.widget.Toast.LENGTH_LONG).show()
         }
         pendingAction = null
     }
@@ -92,6 +101,11 @@ class MainActivity : ComponentActivity() {
                 ThemeMode.DARK -> true
                 ThemeMode.SYSTEM -> isSystemDark
             }
+            SideEffect {
+                val style = SystemBarStyle.auto(android.graphics.Color.TRANSPARENT, android.graphics.Color.TRANSPARENT) { isDark }
+                val navigationStyle = SystemBarStyle.auto(android.graphics.Color.TRANSPARENT, android.graphics.Color.rgb(18, 18, 18)) { isDark }
+                enableEdgeToEdge(statusBarStyle = style, navigationBarStyle = navigationStyle)
+            }
             CompositionLocalProvider(LocalThemeIsDark provides isDark) {
                 EchoGuardTheme {
                     EchoGuardScreen(onRequestPermissions = ::requestPermissionsAndCheck, viewModel = viewModel)
@@ -100,14 +114,16 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    override fun onStop() {
+        // Foreground-only capture: save the session and release the microphone.
+        pipelineViewModel.stopDemo()
+        super.onStop()
+    }
+
     private fun requestPermissionsAndCheck(onGranted: () -> Unit) {
         val perms = mutableListOf(
             Manifest.permission.RECORD_AUDIO,
-            Manifest.permission.READ_PHONE_STATE,
         )
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
-            perms.add(Manifest.permission.POST_NOTIFICATIONS)
-        }
         val needed = perms.filter {
             ContextCompat.checkSelfPermission(this, it) != PackageManager.PERMISSION_GRANTED
         }
@@ -126,20 +142,25 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun EchoGuardTheme(content: @Composable () -> Unit) {
-    val scheme = lightColorScheme(
-        background        = BgBeige,
-        surface           = SurfaceWhite,
-        primary           = TextDark,
-        secondary         = AccentGreen,
-        error             = AccentRed,
-        onBackground      = TextDark,
-        onSurface         = TextDark,
-        surfaceVariant    = Color(0xFFF0EFEB),
-        onSurfaceVariant  = TextMuted,
-        outline           = DividerColor,
-    )
+    val scheme = echoGuardColorScheme(LocalThemeIsDark.current)
     MaterialTheme(colorScheme = scheme, content = content)
 }
+
+internal fun echoGuardColorScheme(isDark: Boolean): ColorScheme = if (isDark) darkColorScheme(
+    background = Color(0xFF121212), surface = Color(0xFF1E1E1E),
+    primary = Color(0xFFF5F5F5), onPrimary = Color(0xFF121212),
+    secondary = Color(0xFF81C784), onSecondary = Color(0xFF121212),
+    error = Color(0xFFE57373), onError = Color(0xFF121212),
+    onBackground = Color(0xFFF5F5F5), onSurface = Color(0xFFF5F5F5),
+    surfaceVariant = Color(0xFF2B2B2B), onSurfaceVariant = Color(0xFFBBBBBB), outline = Color(0xFF777777),
+) else lightColorScheme(
+    background = Color(0xFFF8F6F0), surface = Color.White,
+    primary = Color(0xFF1E1E1E), onPrimary = Color.White,
+    secondary = Color(0xFF155A38), onSecondary = Color.White,
+    error = Color(0xFFB83A35), onError = Color.White,
+    onBackground = Color(0xFF1E1E1E), onSurface = Color(0xFF1E1E1E),
+    surfaceVariant = Color(0xFFF0EFEB), onSurfaceVariant = Color(0xFF65635D), outline = Color(0xFF716D63),
+)
 
 // ──────────────────────────────────────────────────────────────────────────────
 // Root screen - Scaffold with Bottom Nav
@@ -162,7 +183,7 @@ fun EchoGuardScreen(
                     tonalElevation = 0.dp,
                     modifier = Modifier.height(60.dp)
                 ) {
-                    val tabs = listOf("HOME", "LIVE", "HISTORY")
+                    val tabs = listOf("HOME", "MICROPHONE", "HISTORY")
                     tabs.forEachIndexed { index, title ->
                         NavigationBarItem(
                             icon = { }, // Text-only bottom nav
@@ -197,7 +218,7 @@ fun EchoGuardScreen(
 }
 
 // ──────────────────────────────────────────────────────────────────────────────
-// Home Tab (The new beautiful UI)
+// Home tab: microphone controls, risk summary, and recent history.
 // ──────────────────────────────────────────────────────────────────────────────
 
 @Composable
@@ -208,13 +229,13 @@ fun HomeTab(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val history by viewModel.history.collectAsState()
+    val switching by viewModel.isSwitching.collectAsState()
     
     val isActive = uiState.status != MonitorStatus.Idle && !uiState.isInitializing
     val risk = uiState.currentRiskPercent
 
     val totalScreened = history.size
     val totalScams = history.count { it.action == Action.BLOCK }
-    val totalBytes = history.sumOf { it.bytesSent }
 
     Column(
         modifier = Modifier
@@ -224,7 +245,6 @@ fun HomeTab(
     ) {
         Spacer(modifier = Modifier.height(24.dp))
         
-        // Top Bar
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -242,7 +262,6 @@ fun HomeTab(
                 )
             }
 
-            // Theme Toggle
             val themeMode by viewModel.themeMode.collectAsState()
             val themeText = when (themeMode) { 
                 ThemeMode.LIGHT -> "LIGHT" 
@@ -271,9 +290,8 @@ fun HomeTab(
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        // Headline
         Text(
-            "PROTECTION ACTIVE",
+            if (isActive) "ANALYSIS ACTIVE" else "ANALYSIS OFF",
             fontSize = 10.sp,
             fontWeight = FontWeight.Bold,
             letterSpacing = 1.5.sp,
@@ -290,7 +308,7 @@ fun HomeTab(
         )
         Spacer(modifier = Modifier.height(24.dp))
         Text(
-            "Every call is analyzed on this phone for cloned voices, scam intent and unfamiliar context.",
+            "Analyze speech for cloned voices and scam intent.",
             fontSize = 13.sp,
             color = TextMuted,
             lineHeight = 20.sp,
@@ -301,7 +319,6 @@ fun HomeTab(
         HorizontalDivider(color = DividerColor)
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Stats Row
         Row(
             modifier = Modifier.fillMaxWidth().padding(end = 48.dp),
             horizontalArrangement = Arrangement.SpaceBetween
@@ -314,7 +331,9 @@ fun HomeTab(
         HorizontalDivider(color = DividerColor)
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Active Call Card / Start Demo Button
+        // Microphone controls and current risk.
+        PipelineDiagnostics(viewModel)
+        Spacer(modifier = Modifier.height(16.dp))
         if (isActive) {
             Box(
                 modifier = Modifier
@@ -326,11 +345,11 @@ fun HomeTab(
             ) {
                 Column {
                     Text(
-                        "CALL IN PROGRESS",
+                        "MICROPHONE ACTIVE — TAP TO STOP",
                         fontSize = 10.sp,
                         fontWeight = FontWeight.Bold,
                         letterSpacing = 1.sp,
-                        color = Color.White.copy(alpha = 0.8f)
+                        color = MaterialTheme.colorScheme.onError
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Row(
@@ -339,15 +358,15 @@ fun HomeTab(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            "Active Call Analysis - risk $risk",
+                            "Microphone Analysis - risk $risk",
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Medium,
-                            color = Color.White
+                            color = MaterialTheme.colorScheme.onError
                         )
                         Icon(
                             Icons.Default.PhoneInTalk,
                             contentDescription = null,
-                            tint = Color.White.copy(alpha = 0.8f),
+                            tint = MaterialTheme.colorScheme.onError,
                             modifier = Modifier.size(16.dp)
                         )
                     }
@@ -361,13 +380,13 @@ fun HomeTab(
                     .background(SurfaceWhite)
                     .border(1.dp, DividerColor, RoundedCornerShape(4.dp))
                     .clickable {
-                        onRequestPermissions { viewModel.startDemo() }
+                        if (!switching) onRequestPermissions { viewModel.startDemo() }
                     }
                     .padding(20.dp),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    if (uiState.isInitializing) "INITIALIZING MODELS..." else "START DEMO CALL",
+                    if (uiState.isInitializing) "INITIALIZING MODELS..." else "START MICROPHONE",
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Bold,
                     letterSpacing = 1.sp,
@@ -378,7 +397,7 @@ fun HomeTab(
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        // Recent Calls List
+        // Recent session previews.
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -414,9 +433,9 @@ fun HomeTab(
             history.take(3).forEach { log ->
                 val timeStr = SimpleDateFormat("MMM dd, HH:mm", Locale.getDefault()).format(Date(log.timestamp))
                 val statusStr = when (log.action) {
-                    Action.BLOCK -> "Scam - Blocked"
+                    Action.BLOCK -> "High risk - Stop recommended"
                     Action.WARN -> "Suspicious - Warned"
-                    Action.MONITOR -> "Safe"
+                    Action.MONITOR -> "No warning"
                 }
                 val riskColor = when (log.action) {
                     Action.BLOCK -> AccentRed
@@ -435,14 +454,16 @@ fun HomeTab(
 
         Spacer(modifier = Modifier.weight(1f))
         
-        Text(
-            "No audio, transcript or score ever leaves this device.",
-            fontSize = 10.sp,
-            color = TextMutedLight,
-            modifier = Modifier.fillMaxWidth(),
-            textAlign = TextAlign.Center
-        )
         Spacer(modifier = Modifier.height(24.dp))
+    }
+}
+
+@Composable
+fun PipelineDiagnostics(viewModel: PipelineViewModel) {
+    val state by viewModel.uiState.collectAsState()
+    Column(modifier = Modifier.fillMaxWidth()) {
+        state.errorMessage?.let { Text(it, fontSize = 12.sp, color = AccentRed, modifier = Modifier.padding(top = 8.dp)) }
+        state.warningMessage?.let { Text(it, fontSize = 12.sp, color = AccentAmber, modifier = Modifier.padding(top = 8.dp)) }
     }
 }
 
@@ -513,7 +534,7 @@ fun HistoryTab(viewModel: PipelineViewModel) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                "CALL HISTORY",
+                "SESSION HISTORY",
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
                 color = TextDark,
@@ -539,11 +560,11 @@ fun HistoryTab(viewModel: PipelineViewModel) {
             if (history.isEmpty()) {
                 item {
                     Box(modifier = Modifier.fillMaxWidth().padding(48.dp), contentAlignment = Alignment.Center) {
-                        Text("No call history available.", color = TextMuted)
+                        Text("No microphone sessions yet.", color = TextMuted)
                     }
                 }
             } else {
-                items(history) { log ->
+                items(history, key = { it.id }) { log ->
                     HistoryItem(
                         log = log, 
                         onDelete = { viewModel.callHistoryManager.deleteLog(log.id) }
@@ -557,11 +578,12 @@ fun HistoryTab(viewModel: PipelineViewModel) {
 
 @Composable
 fun HistoryItem(log: CallLog, onDelete: () -> Unit) {
+    var showTranscript by rememberSaveable(log.id) { mutableStateOf(false) }
     val timeStr = SimpleDateFormat("MMM dd, yyyy • HH:mm:ss", Locale.getDefault()).format(Date(log.timestamp))
     val statusStr = when (log.action) {
-        Action.BLOCK -> "Blocked"
+        Action.BLOCK -> "Stop recommended"
         Action.WARN -> "Warned"
-        Action.MONITOR -> "Safe"
+        Action.MONITOR -> "No warning"
     }
     val riskColor = when (log.action) {
         Action.BLOCK -> AccentRed
@@ -585,31 +607,62 @@ fun HistoryItem(log: CallLog, onDelete: () -> Unit) {
                 }
             }
             Spacer(modifier = Modifier.height(4.dp))
-            Text(timeStr, fontSize = 12.sp, color = TextMuted)
+            Text("$statusStr · $timeStr", fontSize = 12.sp, color = TextMuted)
             if (log.transcriptSnippet.isNotBlank()) {
                 Spacer(modifier = Modifier.height(6.dp))
                 Text(
-                    "\"${log.transcriptSnippet}...\"",
+                    log.transcriptSnippet + if (log.transcript == null || log.transcript.length > log.transcriptSnippet.length) "…" else "",
                     fontSize = 13.sp,
                     color = TextMutedLight,
                     fontStyle = androidx.compose.ui.text.font.FontStyle.Italic
                 )
+            }
+            if (!log.transcript.isNullOrBlank() || log.transcriptSnippet.isNotBlank()) {
+                TextButton(onClick = { showTranscript = true }) {
+                    Text(if (log.transcript != null) "VIEW FULL TRANSCRIPT" else "VIEW SAVED SNIPPET")
+                }
             }
         }
         IconButton(onClick = onDelete) {
             Icon(Icons.Default.Delete, contentDescription = "Delete", tint = TextMutedLight)
         }
     }
+    if (showTranscript) HistoryTranscriptDialog(log) { showTranscript = false }
+}
+
+@Composable
+fun HistoryTranscriptDialog(log: CallLog, onDismiss: () -> Unit) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(log.title) },
+        text = {
+            Column(modifier = Modifier.heightIn(max = 420.dp).verticalScroll(rememberScrollState())) {
+                Text(if (log.transcript == null) "SAVED SNIPPET" else "FULL TRANSCRIPT", fontWeight = FontWeight.Bold)
+                if (log.transcript == null) {
+                    Spacer(Modifier.height(12.dp))
+                    Text("Only a preview was saved for this entry. The full transcript is unavailable.")
+                }
+                Spacer(Modifier.height(16.dp))
+                SelectionContainer {
+                    Text(log.transcript ?: log.transcriptSnippet, color = MaterialTheme.colorScheme.onSurface,
+                        fontSize = 15.sp, lineHeight = 24.sp)
+                }
+            }
+        },
+        confirmButton = { TextButton(onClick = onDismiss) { Text("CLOSE") } },
+        containerColor = MaterialTheme.colorScheme.surface,
+    )
 }
 
 // ──────────────────────────────────────────────────────────────────────────────
-// Live Tab (The old Timeline/Transcript UI styled in Light mode)
+// Live analysis tab: transcript, risk, and timeline.
 // ──────────────────────────────────────────────────────────────────────────────
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LiveTab(viewModel: PipelineViewModel, onRequestPermissions: (onGranted: () -> Unit) -> Unit) {
     val uiState by viewModel.uiState.collectAsState()
+    val switching by viewModel.isSwitching.collectAsState()
     val isHindi = uiState.uiLanguage == AppLanguage.HINDI
     val isActive = uiState.status != MonitorStatus.Idle && !uiState.isInitializing
     val listState = rememberLazyListState()
@@ -619,14 +672,13 @@ fun LiveTab(viewModel: PipelineViewModel, onRequestPermissions: (onGranted: () -
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
-        // Simple Top bar
         Row(
             modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 16.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                "LIVE ANALYSIS",
+                "MICROPHONE ANALYSIS",
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
                 color = TextDark,
@@ -634,7 +686,7 @@ fun LiveTab(viewModel: PipelineViewModel, onRequestPermissions: (onGranted: () -
             )
             LanguageToggle(
                 selected = uiState.uiLanguage,
-                enabled = !isActive && !uiState.isInitializing,
+                enabled = !isActive && !uiState.isInitializing && !switching,
                 onLanguageSelected = { viewModel.setLanguage(it) }
             )
         }
@@ -656,6 +708,10 @@ fun LiveTab(viewModel: PipelineViewModel, onRequestPermissions: (onGranted: () -
             }
 
             item {
+                PipelineDiagnostics(viewModel)
+            }
+
+            item {
                 if (isActive) {
                     Box(
                         modifier = Modifier
@@ -667,7 +723,7 @@ fun LiveTab(viewModel: PipelineViewModel, onRequestPermissions: (onGranted: () -
                             .padding(16.dp),
                         contentAlignment = Alignment.Center
                     ) {
-                        Text("STOP DEMO", color = AccentRed, fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                        Text("STOP MICROPHONE", color = AccentRed, fontWeight = FontWeight.Bold, fontSize = 13.sp)
                     }
                 } else {
                     Box(
@@ -675,12 +731,12 @@ fun LiveTab(viewModel: PipelineViewModel, onRequestPermissions: (onGranted: () -
                             .fillMaxWidth()
                             .clip(RoundedCornerShape(8.dp))
                             .background(TextDark)
-                            .clickable { onRequestPermissions { viewModel.startDemo() } }
+                            .clickable { if (!switching) onRequestPermissions { viewModel.startDemo() } }
                             .padding(16.dp),
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            if (uiState.isInitializing) "INITIALIZING..." else "START DEMO", 
+                            if (uiState.isInitializing) "INITIALIZING..." else "START MICROPHONE",
                             color = SurfaceWhite, 
                             fontWeight = FontWeight.Bold, 
                             fontSize = 13.sp
@@ -708,7 +764,7 @@ fun LiveTab(viewModel: PipelineViewModel, onRequestPermissions: (onGranted: () -
                     )
                 }
                 items(uiState.timeline.reversed()) { entry ->
-                    TimelineRow(entry, isHindi)
+                    TimelineRow(entry)
                 }
             }
 
@@ -728,12 +784,12 @@ fun RiskBanner(riskPercent: Int, action: Action, isHindi: Boolean) {
     }
     
     val statusTextEn = when (action) {
-        Action.MONITOR -> "PROTECTED"
+        Action.MONITOR -> "NO WARNING"
         Action.WARN -> "SUSPICIOUS"
         Action.BLOCK -> "FRAUD DETECTED"
     }
     val statusTextHi = when (action) {
-        Action.MONITOR -> "सुरक्षित"
+        Action.MONITOR -> "कोई चेतावनी नहीं"
         Action.WARN -> "संदिग्ध"
         Action.BLOCK -> "धोखाधड़ी"
     }
@@ -814,7 +870,7 @@ fun LiveTranscriptCard(transcript: String, isHindi: Boolean) {
 }
 
 @Composable
-fun TimelineRow(entry: TimelineUiEntry, isHindi: Boolean) {
+fun TimelineRow(entry: TimelineUiEntry) {
     val dotColor = when {
         entry.riskScorePercent >= 65 -> AccentRed
         entry.riskScorePercent >= 35 -> AccentAmber
@@ -852,7 +908,7 @@ fun InfoCard(isHindi: Boolean) {
         Icon(Icons.Default.Info, contentDescription = null, tint = TextMuted, modifier = Modifier.size(16.dp).padding(top = 2.dp))
         Spacer(Modifier.width(12.dp))
         Text(
-            if (isHindi) "डेमो सीधे माइक का उपयोग करता है।" else "Demo uses mic directly. For real calls, switch to Speaker mode.",
+            if (isHindi) "माइक्रोफ़ोन शुरू करें और बोलें।" else "Start the microphone and speak.",
             fontSize = 13.sp, color = TextMuted, lineHeight = 20.sp
         )
     }
@@ -863,7 +919,7 @@ fun LanguageToggle(selected: AppLanguage, enabled: Boolean = true, onLanguageSel
     Row(
         modifier = Modifier
             .clip(RoundedCornerShape(6.dp))
-            .background(Color(0xFFEBE9E2))
+            .background(MaterialTheme.colorScheme.surfaceVariant)
             .padding(2.dp),
         horizontalArrangement = Arrangement.spacedBy(2.dp),
     ) {
