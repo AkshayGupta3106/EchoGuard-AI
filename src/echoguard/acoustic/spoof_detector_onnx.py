@@ -57,6 +57,9 @@ class SpoofDetector:
         opts = ort.SessionOptions()
         opts.intra_op_num_threads = 1
         opts.inter_op_num_threads = 1
+        # Release inference buffers instead of holding an arena: keeps the
+        # container inside small-instance RAM limits at a small speed cost.
+        opts.enable_cpu_mem_arena = False
         self.session = ort.InferenceSession(
             str(onnx_path), sess_options=opts, providers=["CPUExecutionProvider"]
         )

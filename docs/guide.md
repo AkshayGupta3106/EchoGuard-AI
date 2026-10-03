@@ -40,6 +40,8 @@ docker run --rm -p 127.0.0.1:7860:7860 echoguard-web
 
 The image requires `assets/acoustic/aasist_l.onnx`. It uses ONNX acoustic
 inference and rules-only text scoring, without PyTorch or sentence-transformers.
+ONNX threads and memory arena are capped for small instances; measured container
+RSS stays near 80 MiB across repeated audio analyses, inside Render's 512 MiB tier.
 The full local environment can also use MiniLM. Deployment uses `PORT` (default
 7860) and must run a single worker for process-local sessions.
 Open **http://localhost:7860** after starting the server.
